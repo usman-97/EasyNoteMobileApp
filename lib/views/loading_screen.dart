@@ -22,12 +22,12 @@ class _LoadingScreenState extends State<LoadingScreen> {
                 'EasyNote',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 60.0,
+                  fontSize: 70.0,
                 ),
               ),
             ),
             SizedBox(
-              height: 20.0,
+              height: 30.0,
               width: 50.0,
               child: Center(
                 child: Divider(
