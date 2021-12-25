@@ -10,10 +10,16 @@ class LoadingScreen extends StatefulWidget {
 class _LoadingScreenState extends State<LoadingScreen> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: const <Widget>[
-        Text('EasyNote'),
-      ],
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const <Widget>[
+            Text('EasyNote'),
+          ],
+        ),
+      ),
     );
   }
 }
