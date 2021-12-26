@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_taking_app/components/linear_progress_bar.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({Key? key}) : super(key: key);
@@ -25,7 +26,7 @@ class _LoadingScreenState extends State<LoadingScreen>
 
     controller.addListener(() {
       setState(() {});
-      print(controller.value);
+      // print(controller.value);
     });
   }
 
@@ -51,22 +52,7 @@ class _LoadingScreenState extends State<LoadingScreen>
               height: 30.0,
               width: 50.0,
             ),
-            Stack(
-              children: <Widget>[
-                Container(
-                  width: 300.0,
-                  height: 10.0,
-                  margin: const EdgeInsets.symmetric(horizontal: 50.0),
-                  color: const Color(0xFF4CAF50),
-                ),
-                Container(
-                  width: controller.value,
-                  height: 10.0,
-                  margin: const EdgeInsets.symmetric(horizontal: 50.0),
-                  color: const Color(0xFFC8E6C9),
-                ),
-              ],
-            ),
+            LinearProgressBar(controller: controller),
             const SizedBox(
               height: 30.0,
               width: 50.0,
