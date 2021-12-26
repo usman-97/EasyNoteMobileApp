@@ -8,26 +8,23 @@ class LoadingScreen extends StatefulWidget {
   _LoadingScreenState createState() => _LoadingScreenState();
 }
 
-class _LoadingScreenState extends State<LoadingScreen>
-    with SingleTickerProviderStateMixin {
-  late AnimationController controller;
-
+class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void initState() {
     super.initState();
 
-    controller = AnimationController(
-      duration: const Duration(seconds: 2),
-      vsync: this,
-      upperBound: 300,
-    );
+    // controller = AnimationController(
+    //   duration: const Duration(seconds: 2),
+    //   vsync: this,
+    //   upperBound: 300,
+    // );
 
-    controller.forward();
-
-    controller.addListener(() {
-      setState(() {});
-      // print(controller.value);
-    });
+    // controller.forward();
+    //
+    // controller.addListener(() {
+    //   setState(() {});
+    //   // print(controller.value);
+    // });
   }
 
   @override
@@ -38,8 +35,8 @@ class _LoadingScreenState extends State<LoadingScreen>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Center(
+          children: const <Widget>[
+            Center(
               child: Text(
                 'EasyNote',
                 style: TextStyle(
@@ -48,16 +45,16 @@ class _LoadingScreenState extends State<LoadingScreen>
                 ),
               ),
             ),
-            const SizedBox(
+            SizedBox(
               height: 30.0,
               width: 50.0,
             ),
-            LinearProgressBar(controller: controller),
-            const SizedBox(
+            LinearProgressBar(),
+            SizedBox(
               height: 30.0,
               width: 50.0,
             ),
-            const Center(
+            Center(
               child: Text(
                 'Capture your ideas',
                 style: TextStyle(

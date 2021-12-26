@@ -1,12 +1,32 @@
 import 'package:flutter/material.dart';
 
-class LinearProgressBar extends StatelessWidget {
-  const LinearProgressBar({
-    Key? key,
-    required this.controller,
-  }) : super(key: key);
+class LinearProgressBar extends StatefulWidget {
+  const LinearProgressBar({Key? key}) : super(key: key);
 
-  final AnimationController controller;
+  @override
+  _LinearProgressBarState createState() => _LinearProgressBarState();
+}
+
+class _LinearProgressBarState extends State<LinearProgressBar>
+    with SingleTickerProviderStateMixin {
+  late AnimationController controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+      upperBound: 300,
+    );
+
+    controller.forward();
+
+    controller.addListener(() {
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
