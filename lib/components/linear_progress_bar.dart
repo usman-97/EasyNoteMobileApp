@@ -9,28 +9,28 @@ class LinearProgressBar extends StatefulWidget {
 
 class _LinearProgressBarState extends State<LinearProgressBar>
     with SingleTickerProviderStateMixin {
-  late AnimationController controller;
+  late AnimationController _controller;
 
   @override
   void initState() {
     super.initState();
 
-    controller = AnimationController(
+    _controller = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: this,
       upperBound: 300,
     );
 
-    controller.forward();
+    _controller.forward();
 
-    controller.addListener(() {
+    _controller.addListener(() {
       setState(() {});
     });
   }
 
   @override
   void dispose() {
-    controller.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -46,7 +46,7 @@ class _LinearProgressBarState extends State<LinearProgressBar>
           color: const Color(0xFF4CAF50),
         ),
         Container(
-          width: controller.value,
+          width: _controller.value,
           height: 10.0,
           margin: const EdgeInsets.symmetric(horizontal: 50.0),
           color: const Color(0xFFC8E6C9),

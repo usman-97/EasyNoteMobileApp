@@ -4,7 +4,7 @@ import 'package:note_taking_app/components/linear_progress_bar.dart';
 import 'package:note_taking_app/views/loading_screen.dart';
 
 void main() {
-  testWidgets('LinearProgressBar', (WidgetTester tester) async {
+  testWidgets('LoadingScreen', (WidgetTester tester) async {
     await tester.pumpWidget(const MaterialApp(
       home: LoadingScreen(),
     ));
