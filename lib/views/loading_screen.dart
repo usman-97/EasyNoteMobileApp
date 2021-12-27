@@ -49,7 +49,9 @@ class _LoadingScreenState extends State<LoadingScreen> {
               height: 30.0,
               width: 50.0,
             ),
-            LinearProgressBar(),
+            LinearProgressBar(
+              key: Key('linearProgressBar'),
+            ),
             SizedBox(
               height: 30.0,
               width: 50.0,
