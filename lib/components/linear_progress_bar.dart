@@ -29,10 +29,17 @@ class _LinearProgressBarState extends State<LinearProgressBar>
   }
 
   @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
         Container(
+          key: const Key('fillBar'),
           width: 300.0,
           height: 10.0,
           margin: const EdgeInsets.symmetric(horizontal: 50.0),
