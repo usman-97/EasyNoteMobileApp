@@ -8,7 +8,6 @@ update_flutter:
   only:
     - main
   script:
-    - flutter upgrade
     - flutter clean
     - flutter pub get
   interruptible: true
@@ -38,8 +37,3 @@ widget_test:
     - flutter_runner
   script:
     - flutter test test/widget_test
-  coverage: '/lines\.*: \d+\.\d+\%/'
-  artifacts:
-    name: coverage
-    paths:
-      - $CI_PROJECT_DIR/coverage
