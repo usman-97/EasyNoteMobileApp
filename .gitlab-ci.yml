@@ -8,7 +8,7 @@ update_flutter:
   only:
     - main
   tags:
-    - flutter
+    - flutter_runner
   script:
     - flutter upgrade
     - flutter clean
@@ -21,7 +21,7 @@ code_quality:
   only: 
     - main
   tags:
-    - flutter
+    - flutter_runner
   before_script:
     - pub global activate dart_code_metrics
     - export PATH="$PATH":"$HOME/.pub-cache/bin"
@@ -37,7 +37,7 @@ widget_test:
   only:
     - main
   tags:
-    - flutter
+    - flutter_runner
   script:
     - flutter test test/widget_test
   coverage: '/lines\.*: \d+\.\d+\%/'
