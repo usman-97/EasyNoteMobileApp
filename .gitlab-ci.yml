@@ -5,7 +5,15 @@
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Flutter.gitlab-ci.yml
 
 stages:
+    - update
     - test
+
+update_flutter:
+  stage: update
+  script:
+    - flutter upgrade
+    - flutter clean
+    - flutter pub get
 
 code_quality:
   stage: test
@@ -22,9 +30,6 @@ code_quality:
 widget_test:
   stage: test
   image: "cirrusci/flutter:1.22.5"
-  before_script:
-    - flutter clean
-    - flutter pub get
   script:
     - flutter test test/widget_test
   coverage: '/lines\.*: \d+\.\d+\%/'
