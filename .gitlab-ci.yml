@@ -19,7 +19,7 @@ update_flutter:
     - flutter upgrade
     - flutter clean
     - flutter pub get
-  interuptible: true
+  interruptible: true
 
 code_quality:
   stage: test
