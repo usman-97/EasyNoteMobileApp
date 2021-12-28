@@ -7,8 +7,6 @@ update_flutter:
   image: "cirrusci/flutter:latest"
   only:
     - main
-  tags:
-    - flutter_runner
   script:
     - flutter upgrade
     - flutter clean
