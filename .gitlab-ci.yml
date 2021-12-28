@@ -5,18 +5,29 @@
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Flutter.gitlab-ci.yml
 
 stages:
-    - update
     - test
+    - update
 
 update_flutter:
   stage: update
+  image: "cirrusci/flutter:latest"
+  only:
+    - master
+  tags:
+    - flutter
   script:
+    - flutter upgrade
     - flutter clean
     - flutter pub get
+  interuptible: true
 
 code_quality:
   stage: test
   image: "cirrusci/flutter:latest"
+  only: 
+    - master
+  tags:
+    - flutter
   before_script:
     - pub global activate dart_code_metrics
     - export PATH="$PATH":"$HOME/.pub-cache/bin"
@@ -29,6 +40,10 @@ code_quality:
 widget_test:
   stage: test
   image: "cirrusci/flutter:latest"
+  only:
+    - master
+  tags:
+    - flutter
   script:
     - flutter test test/widget_test
   coverage: '/lines\.*: \d+\.\d+\%/'
