@@ -4,6 +4,9 @@
 # This specific template is located at:
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Flutter.gitlab-ci.yml
 
+stages:
+    - test
+
 code_quality:
   stage: test
   image: "cirrusci/flutter:1.22.5"
@@ -15,9 +18,6 @@ code_quality:
   artifacts:
     reports:
       codequality: gl-code-quality-report.json
-
-stages:
-    - test
 
 widget_test:
   stage: test
