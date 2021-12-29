@@ -8,7 +8,7 @@ update_flutter:
   only:
     - main
   tags:
-    - flutter_runner
+    - flutter_docker_runner
   script:
     - flutter clean
     - flutter pub get
@@ -20,7 +20,7 @@ code_quality:
   only: 
     - main
   tags:
-    - flutter_runner
+    - flutter_docker_runner
   before_script:
     - pub global activate dart_code_metrics
     - export PATH="$PATH":"$HOME/.pub-cache/bin"
@@ -36,6 +36,6 @@ widget_test:
   only:
     - main
   tags:
-    - flutter_runner
+    - flutter_docker_runner
   script:
     - flutter test test/widget_test
