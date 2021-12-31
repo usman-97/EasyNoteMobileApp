@@ -12,19 +12,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void initState() {
     super.initState();
-
-    // controller = AnimationController(
-    //   duration: const Duration(seconds: 2),
-    //   vsync: this,
-    //   upperBound: 300,
-    // );
-
-    // controller.forward();
-    //
-    // controller.addListener(() {
-    //   setState(() {});
-    //   // print(controller.value);
-    // });
   }
 
   @override
@@ -37,6 +24,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: const <Widget>[
             Center(
+              // Main Heading
               child: Text(
                 'EasyNote',
                 style: TextStyle(
@@ -49,6 +37,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
               height: 30.0,
               width: 50.0,
             ),
+            // Loading progress bar
             LinearProgressBar(
               key: Key('linearProgressBar'),
             ),
@@ -57,6 +46,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
               width: 50.0,
             ),
             Center(
+              // Subtitle
               child: Text(
                 'Capture your ideas',
                 style: TextStyle(

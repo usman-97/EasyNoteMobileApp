@@ -15,13 +15,15 @@ class _LinearProgressBarState extends State<LinearProgressBar>
   void initState() {
     super.initState();
 
+    // Control animation with this controller
     _controller = AnimationController(
+      // Time loading progress bar takes to complete
       duration: const Duration(seconds: 2),
       vsync: this,
       upperBound: 300,
     );
 
-    _controller.forward();
+    _controller.forward(); // Start the progress bar
 
     _controller.addListener(() {
       setState(() {});
@@ -30,6 +32,8 @@ class _LinearProgressBarState extends State<LinearProgressBar>
 
   @override
   void dispose() {
+    // Destroy the progress bar when user
+    // is directed to different screen
     _controller.dispose();
     super.dispose();
   }
@@ -38,6 +42,7 @@ class _LinearProgressBarState extends State<LinearProgressBar>
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
+        // bar which will be filled
         Container(
           key: const Key('fillBar'),
           width: 300.0,
@@ -45,6 +50,7 @@ class _LinearProgressBarState extends State<LinearProgressBar>
           margin: const EdgeInsets.symmetric(horizontal: 50.0),
           color: const Color(0xFF4CAF50),
         ),
+        // Filled bar container
         Container(
           width: _controller.value,
           height: 10.0,

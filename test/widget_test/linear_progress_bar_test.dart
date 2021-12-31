@@ -4,7 +4,8 @@ import 'package:note_taking_app/components/linear_progress_bar.dart';
 
 void main() {
   group('linear_progress_bar', () {
-    testWidgets('check if bar is empty', (WidgetTester tester) async {
+    testWidgets('check if fill bar fills in 2 seconds',
+        (WidgetTester tester) async {
       await tester.pumpWidget(const MaterialApp(
         home: LinearProgressBar(),
       ));
