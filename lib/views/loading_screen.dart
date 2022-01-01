@@ -29,6 +29,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                 'EasyNote',
                 style: TextStyle(
                   color: Colors.white,
+                  fontFamily: 'Pushster',
                   fontSize: 70.0,
                 ),
               ),
@@ -51,7 +52,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
                 'Capture your ideas',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 20.0,
+                  fontFamily: 'Indie Flower',
+                  fontSize: 25.0,
                   fontStyle: FontStyle.italic,
                 ),
               ),
