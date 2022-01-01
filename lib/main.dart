@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_taking_app/views/login_screen.dart';
 import 'views/loading_screen.dart';
 
 void main() {
@@ -16,7 +17,12 @@ class EasyNote extends StatelessWidget {
           primary: const Color(0xFF388E3c),
         ),
       ),
-      home: const LoadingScreen(),
+      // home: const LoadingScreen(),
+      initialRoute: LoadingScreen.id,
+      routes: {
+        LoadingScreen.id: (context) => const LoadingScreen(),
+        LoginScreen.id: (context) => const LoginScreen(),
+      },
     );
   }
 }
