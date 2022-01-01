@@ -10,7 +10,7 @@ void main() {
         home: LinearProgressBar(),
       ));
 
-      final container = find.byKey(const Key('fillBar'));
+      // final container = find.byKey(const Key('fillBar'));
 
       expect(find.byWidgetPredicate((widget) {
         if (widget is Container) {
