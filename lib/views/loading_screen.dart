@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:note_taking_app/components/linear_progress_bar.dart';
+import 'package:note_taking_app/utilities/constants.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({Key? key}) : super(key: key);
@@ -27,11 +28,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
               // Main Heading
               child: Text(
                 'EasyNote',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'Pushster',
-                  fontSize: 70.0,
-                ),
+                style: kMainHeadingStyle,
               ),
             ),
             SizedBox(
@@ -50,12 +47,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
               // Subtitle
               child: Text(
                 'Capture your ideas',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'Indie Flower',
-                  fontSize: 25.0,
-                  fontStyle: FontStyle.italic,
-                ),
+                style: kMainHeadingSubtitle,
               ),
             ),
           ],
