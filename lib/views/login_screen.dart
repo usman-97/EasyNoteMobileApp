@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:note_taking_app/components/link_button.dart';
+import 'package:note_taking_app/components/round_button.dart';
 import 'package:note_taking_app/utilities/constants.dart';
 import 'package:note_taking_app/viewModels/login_screen_view_model.dart';
 import 'package:note_taking_app/views/register_screen.dart';
@@ -50,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 width: 350.0,
                 child: Padding(
                   padding: const EdgeInsets.only(
-                    top: 50.0,
+                    top: 30.0,
                   ),
                   child: TextField(
                     keyboardType: TextInputType.emailAddress,
@@ -81,28 +82,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  top: 20.0,
-                ),
-                child: Material(
-                  color: kLightPrimaryColour,
-                  borderRadius: const BorderRadius.all(Radius.circular(30.0)),
-                  elevation: 5.0,
-                  child: MaterialButton(
-                    onPressed: () {},
-                    minWidth: 200.0,
-                    height: 42.0,
-                    child: const Text(
-                      'Login',
-                      style: TextStyle(
-                        color: kPrimaryTextColour,
-                        fontSize: 20.0,
-                      ),
-                    ),
-                  ),
-                ),
+            const Center(
+              child: RoundButton(
+                label: 'Login',
               ),
             ),
             const SizedBox(
