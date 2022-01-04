@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:note_taking_app/components/linear_progress_bar.dart';
 import 'package:note_taking_app/utilities/constants.dart';
+import 'package:note_taking_app/viewModels/loading_screen_view_model.dart';
 
 class LoadingScreen extends StatefulWidget {
+  static const String id = "loading_screen";
+
   const LoadingScreen({Key? key}) : super(key: key);
 
   @override
@@ -10,9 +13,13 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
+  final LoadingScreenViewModel loadingScreenViewModel =
+      LoadingScreenViewModel();
+
   @override
   void initState() {
     super.initState();
+    loadingScreenViewModel.navigateToLoginScreen(context);
   }
 
   @override
