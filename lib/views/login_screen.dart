@@ -59,6 +59,24 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
+            Center(
+              child: SizedBox(
+                width: 350.0,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    top: 10.0,
+                  ),
+                  child: TextField(
+                    keyboardType: TextInputType.emailAddress,
+                    textAlign: TextAlign.center,
+                    decoration: kTextFieldInputDecoration.copyWith(
+                      fillColor: kTextIconColour,
+                      hintText: 'Password',
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
