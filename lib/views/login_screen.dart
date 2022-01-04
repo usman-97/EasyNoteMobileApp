@@ -17,14 +17,13 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: kDarkPrimaryColour,
       body: SafeArea(
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            const Center(
-              child: Text(
-                'EasyNote',
-                style: kMainHeadingStyle,
-              ),
+            const Text(
+              'EasyNote',
+              style: kMainHeadingStyle,
+              textAlign: TextAlign.center,
             ),
             const SizedBox(
               height: 20.0,
@@ -35,11 +34,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 endIndent: 50.0,
               ),
             ),
-            const Center(
-              child: Text(
-                'Capture your ideas',
-                style: kMainHeadingSubtitle,
-              ),
+            const Text(
+              'Capture your ideas',
+              style: kMainHeadingSubtitle,
+              textAlign: TextAlign.center,
             ),
             Center(
               child: SizedBox(
@@ -72,6 +70,30 @@ class _LoginScreenState extends State<LoginScreen> {
                     decoration: kTextFieldInputDecoration.copyWith(
                       fillColor: kTextIconColour,
                       hintText: 'Password',
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  top: 20.0,
+                ),
+                child: Material(
+                  color: kLightPrimaryColour,
+                  borderRadius: const BorderRadius.all(Radius.circular(30.0)),
+                  elevation: 5.0,
+                  child: MaterialButton(
+                    onPressed: () {},
+                    minWidth: 200.0,
+                    height: 42.0,
+                    child: const Text(
+                      'Login',
+                      style: TextStyle(
+                        color: kPrimaryTextColour,
+                        fontSize: 20.0,
+                      ),
                     ),
                   ),
                 ),
