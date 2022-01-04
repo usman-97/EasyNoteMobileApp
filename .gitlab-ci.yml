@@ -7,8 +7,6 @@ default:
 
 update_flutter:
   stage: update
-  only:
-    - main
   tags:
     - flutter_runner_windows
   script:
@@ -18,8 +16,6 @@ update_flutter:
 
 code_quality:
   stage: test
-  only: 
-    - main
   tags:
     - flutter_runner_windows
   before_script:
@@ -33,8 +29,6 @@ code_quality:
 
 widget_test:
   stage: test
-  only:
-    - main
   tags:
     - flutter_runner_windows
   script:
