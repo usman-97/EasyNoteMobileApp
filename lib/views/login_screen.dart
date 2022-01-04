@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:note_taking_app/components/link_button.dart';
 import 'package:note_taking_app/utilities/constants.dart';
+import 'package:note_taking_app/viewModels/login_screen_view_model.dart';
+import 'package:note_taking_app/views/register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String id = 'login_screen';
@@ -11,8 +14,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  void onButtonPressed() {}
-
+  final LoginScreenViewModel loginScreenViewModel = LoginScreenViewModel();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,10 +38,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 endIndent: 50.0,
               ),
             ),
-            const Text(
-              'Capture your ideas',
-              style: kMainHeadingSubtitle,
-              textAlign: TextAlign.center,
+            const Flexible(
+              child: Text(
+                'Capture your ideas',
+                style: kMainHeadingSubtitle,
+                textAlign: TextAlign.center,
+              ),
             ),
             Center(
               child: SizedBox(
@@ -116,7 +120,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 LinkButton(
                   text: 'Register here',
-                  onPressed: onButtonPressed,
+                  onPressed: () {
+                    loginScreenViewModel.navigateToRegisterScreen(context);
+                  },
                 ),
               ],
             ),
@@ -124,26 +130,5 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
-  }
-}
-
-class LinkButton extends StatelessWidget {
-  final String text;
-  final Function onPressed;
-
-  const LinkButton({required this.text, required this.onPressed});
-
-  @override
-  Widget build(BuildContext context) {
-    return TextButton(
-        onPressed: onPressed(),
-        child: Text(
-          text,
-          style: const TextStyle(
-            color: kLightPrimaryColour,
-            fontSize: 18.0,
-            fontWeight: FontWeight.bold,
-          ),
-        ));
   }
 }
