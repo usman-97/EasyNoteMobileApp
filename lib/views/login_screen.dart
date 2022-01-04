@@ -11,6 +11,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  void onButtonPressed() {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,9 +101,49 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
+            const SizedBox(
+              height: 20.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Text(
+                  'Not Registered?',
+                  style: TextStyle(
+                    color: kTextIconColour,
+                    fontSize: 18.0,
+                  ),
+                ),
+                LinkButton(
+                  text: 'Register here',
+                  onPressed: onButtonPressed,
+                ),
+              ],
+            ),
           ],
         ),
       ),
     );
+  }
+}
+
+class LinkButton extends StatelessWidget {
+  final String text;
+  final Function onPressed;
+
+  const LinkButton({required this.text, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+        onPressed: onPressed(),
+        child: Text(
+          text,
+          style: const TextStyle(
+            color: kLightPrimaryColour,
+            fontSize: 18.0,
+            fontWeight: FontWeight.bold,
+          ),
+        ));
   }
 }
