@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:note_taking_app/components/link_button.dart';
+import 'package:note_taking_app/components/link_button.dart';
+import 'package:note_taking_app/components/link_button.dart';
 import 'package:note_taking_app/components/round_button.dart';
 import 'package:note_taking_app/utilities/constants.dart';
 import 'package:note_taking_app/viewModels/register_screen_view_model.dart';
