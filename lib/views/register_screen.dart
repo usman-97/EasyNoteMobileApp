@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:note_taking_app/components/link_button.dart';
 import 'package:note_taking_app/components/round_button.dart';
 import 'package:note_taking_app/utilities/constants.dart';
+import 'package:note_taking_app/viewModels/register_screen_view_model.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const id = 'register_screen';
@@ -13,6 +14,9 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  final RegisterScreenViewModel registerScreenViewModel =
+      RegisterScreenViewModel();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,16 +108,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 const Text(
-                  'Not Registered?',
+                  'Already registered?',
                   style: TextStyle(
                     color: kTextIconColour,
                     fontSize: 18.0,
                   ),
                 ),
                 LinkButton(
-                  text: 'Register here',
+                  text: 'Login here',
                   onPressed: () {
-                    // loginScreenViewModel.navigateToRegisterScreen(context);
+                    registerScreenViewModel.navigateToLoginScreen(context);
                   },
                 ),
               ],
