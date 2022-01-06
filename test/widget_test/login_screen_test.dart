@@ -10,9 +10,14 @@ void main() {
       home: LoginScreen(),
     ));
 
-    expect(find.byType(RoundButton), findsOneWidget); // Find login button
-    expect(find.text('EasyNote'), findsOneWidget); // Find main heading
-    expect(find.text('Capture your ideas'), findsOneWidget); // find subtitle
-    expect(find.byType(TextField), findsWidgets); // find textfields
+    final heading = find.text('EasyNote');
+    final subtitle = find.text('Capture your ideas');
+    final loginButton = find.byType(RoundButton);
+    final textField = find.byType(TextField);
+
+    expect(loginButton, findsOneWidget); // Find login button
+    expect(heading, findsOneWidget); // Find main heading
+    expect(subtitle, findsOneWidget); // find subtitle
+    expect(textField, findsNWidgets(2)); // find 2 textfields
   });
 }
