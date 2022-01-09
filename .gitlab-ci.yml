@@ -7,8 +7,6 @@ default:
 
 update_flutter:
   stage: update
-  tags:
-    - flutter_runner_windows
   script:
     - flutter clean
     - flutter pub get
@@ -16,8 +14,6 @@ update_flutter:
 
 code_quality:
   stage: test
-  tags:
-    - flutter_runner_windows
   before_script:
     - pub global activate dart_code_metrics
     - export PATH="$PATH":"$HOME/.pub-cache/bin"
@@ -29,7 +25,5 @@ code_quality:
 
 widget_test:
   stage: test
-  tags:
-    - flutter_runner_windows
   script:
     - flutter test test/widget_test
