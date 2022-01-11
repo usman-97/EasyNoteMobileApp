@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:note_taking_app/views/login_screen.dart';
 import 'package:note_taking_app/views/register_screen.dart';
 import 'views/loading_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const EasyNote());
 }
 
