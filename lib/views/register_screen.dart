@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:note_taking_app/components/link_button.dart';
-import 'package:note_taking_app/components/link_button.dart';
-import 'package:note_taking_app/components/link_button.dart';
 import 'package:note_taking_app/components/round_button.dart';
 import 'package:note_taking_app/utilities/constants.dart';
 import 'package:note_taking_app/viewModels/register_screen_view_model.dart';
 
 class RegisterScreen extends StatefulWidget {
-  static const id = 'register_screen';
+  static const String id = 'register_screen';
 
   const RegisterScreen({Key? key}) : super(key: key);
 
@@ -16,8 +14,15 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final RegisterScreenViewModel registerScreenViewModel =
+  final RegisterScreenViewModel _registerScreenViewModel =
       RegisterScreenViewModel();
+  String _registrationError = '', _email = '', _password = '';
+
+  // void updateError() {
+  //   setState(() {
+  //     _registrationError = _registerScreenViewModel.getRegistrationError();
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +53,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
               textAlign: TextAlign.center,
             ),
             Center(
+              child: Text(
+                _registrationError,
+                style: const TextStyle(
+                  fontSize: 30.0,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            Center(
               child: SizedBox(
                 width: 350.0,
                 child: Padding(
@@ -57,6 +71,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: TextField(
                     keyboardType: TextInputType.emailAddress,
                     textAlign: TextAlign.center,
+                    onChanged: (value) {
+                      _email = value;
+                    },
                     decoration: kTextFieldInputDecoration.copyWith(
                       fillColor: kTextIconColour,
                       hintText: 'Email',
@@ -75,6 +92,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: TextField(
                     keyboardType: TextInputType.emailAddress,
                     textAlign: TextAlign.center,
+                    onChanged: (value) {
+                      _password = value;
+                    },
                     decoration: kTextFieldInputDecoration.copyWith(
                       fillColor: kTextIconColour,
                       hintText: 'Password',
@@ -101,9 +121,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
               ),
             ),
-            const Center(
+            Center(
               child: RoundButton(
                 label: 'Register',
+                onPressed: () {
+                  setState(() async {
+                    await _registerScreenViewModel.registerUser(
+                        email: _email, password: _password);
+                    _registrationError =
+                        _registerScreenViewModel.getRegistrationError();
+                  });
+                },
               ),
             ),
             Row(
@@ -119,7 +147,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 LinkButton(
                   text: 'Login here',
                   onPressed: () {
-                    registerScreenViewModel.navigateToLoginScreen(context);
+                    _registerScreenViewModel.navigateToLoginScreen(context);
                   },
                 ),
               ],
