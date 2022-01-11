@@ -82,9 +82,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-            const Center(
+            Center(
               child: RoundButton(
                 label: 'Login',
+                onPressed: () {},
               ),
             ),
             const SizedBox(
