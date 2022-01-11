@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:note_taking_app/services/firebase_auth.dart';
 
-class UserControl {
+class UserAuthentication {
   final FirebaseAuth _firebaseAuthentication =
       FirebaseAuthentication.firebaseAuthInstance();
 
