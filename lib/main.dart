@@ -3,10 +3,13 @@ import 'package:note_taking_app/views/login_screen.dart';
 import 'package:note_taking_app/views/register_screen.dart';
 import 'views/loading_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_core/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+      // options: DefaultFirebaseOptions.currentPlatform,
+      );
   runApp(const EasyNote());
 }
 
