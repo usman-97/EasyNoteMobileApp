@@ -16,7 +16,10 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final RegisterScreenViewModel _registerScreenViewModel =
       RegisterScreenViewModel();
-  String _registrationError = '', _email = '', _password = '';
+  String _registrationError = '',
+      _email = '',
+      _password = '',
+      _confirmPassword = '';
 
   // void updateError() {
   //   setState(() {
@@ -53,15 +56,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
               textAlign: TextAlign.center,
             ),
             Center(
-              child: Text(
-                _registrationError,
-                style: const TextStyle(
-                  fontSize: 30.0,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-            Center(
               child: SizedBox(
                 width: 350.0,
                 child: Padding(
@@ -90,7 +84,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     top: 10.0,
                   ),
                   child: TextField(
-                    keyboardType: TextInputType.emailAddress,
+                    obscureText: true,
                     textAlign: TextAlign.center,
                     onChanged: (value) {
                       _password = value;
@@ -111,12 +105,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     top: 10.0,
                   ),
                   child: TextField(
-                    keyboardType: TextInputType.emailAddress,
+                    obscureText: true,
                     textAlign: TextAlign.center,
+                    onChanged: (value) {
+                      _confirmPassword = value;
+                    },
                     decoration: kTextFieldInputDecoration.copyWith(
                       fillColor: kTextIconColour,
                       hintText: 'Confirm Password',
                     ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 8.0,
+            ),
+            Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.0),
+                child: Text(
+                  _registrationError,
+                  style: const TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red,
                   ),
                 ),
               ),
@@ -127,7 +140,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 onPressed: () {
                   setState(() async {
                     await _registerScreenViewModel.registerUser(
-                        email: _email, password: _password);
+                        _email, _password, _confirmPassword);
                     _registrationError =
                         _registerScreenViewModel.getRegistrationError();
                   });
