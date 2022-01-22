@@ -33,7 +33,7 @@ void main() async {
       expect(registerScreenViewModel.doesPasswordContainNumber(weakPassword),
           false);
       expect(registerScreenViewModel.doesPasswordContainNumber(strongPassword),
-          false);
+          true);
     });
 
     test('check if password contain a special character', () {
