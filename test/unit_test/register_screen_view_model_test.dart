@@ -44,5 +44,12 @@ void main() async {
       expect(registerScreenViewModel.doesPasswordContainSymbol(strongPassword),
           true);
     });
+
+    test('check if user password is strong', () {
+      const String strongPassword = 'Pass5word@';
+
+      expect(registerScreenViewModel.isPasswordStrong(weakPassword), false);
+      expect(registerScreenViewModel.isPasswordStrong(strongPassword), true);
+    });
   });
 }
