@@ -25,6 +25,8 @@ class RegisterScreenViewModel {
               await _userControl.registerUser(email: email, password: password);
           if (!isUserRegistered) {
             _error = 'Invalid Email/Password';
+          } else {
+            _error = '';
           }
         } else {
           _error = 'Password does not match.';
