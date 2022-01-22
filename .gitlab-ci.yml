@@ -23,6 +23,11 @@ code_quality:
     reports:
       codequality: gl-code-quality-report.json
 
+unit_test:
+  stage: test
+  script:
+    - flutter test test/unit_test
+
 widget_test:
   stage: test
   script:
