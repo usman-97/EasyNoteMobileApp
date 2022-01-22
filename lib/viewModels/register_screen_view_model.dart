@@ -19,8 +19,8 @@ class RegisterScreenViewModel {
   Future<void> registerUser(
       String email, String password, String confirmPassword) async {
     if (email.isNotEmpty) {
-      if (password.isNotEmpty && _isPasswordStrong(password)) {
-        if (_isConfirmPasswordMatch(password, confirmPassword)) {
+      if (password.isNotEmpty && isPasswordStrong(password)) {
+        if (isConfirmPasswordMatch(password, confirmPassword)) {
           bool isUserRegistered =
               await _userControl.registerUser(email: email, password: password);
           if (!isUserRegistered) {
@@ -38,7 +38,7 @@ class RegisterScreenViewModel {
     }
   }
 
-  bool _isConfirmPasswordMatch(String password, String confirmPassword) {
+  bool isConfirmPasswordMatch(String password, String confirmPassword) {
     if (password == confirmPassword) {
       return true;
     } else {
@@ -46,10 +46,10 @@ class RegisterScreenViewModel {
     }
   }
 
-  bool _isPasswordStrong(String password) {
-    if (_doesPasswordContainerUppercase(password) &&
-        _doesPasswordContainNumber(password) &&
-        _doesPasswordContainSymbol(password) &&
+  bool isPasswordStrong(String password) {
+    if (doesPasswordContainerUppercase(password) &&
+        doesPasswordContainNumber(password) &&
+        doesPasswordContainSymbol(password) &&
         password.length >= 8) {
       return true;
     } else {
@@ -57,9 +57,8 @@ class RegisterScreenViewModel {
     }
   }
 
-  bool _doesPasswordContainerUppercase(String password) {
-    RegExp uppercaseMatch =
-        RegExp(r'[A-Z]', caseSensitive: false, multiLine: false);
+  bool doesPasswordContainerUppercase(String password) {
+    RegExp uppercaseMatch = RegExp(r'[A-Z]');
     if (uppercaseMatch.firstMatch(password) != null) {
       return true;
     } else {
@@ -67,7 +66,7 @@ class RegisterScreenViewModel {
     }
   }
 
-  bool _doesPasswordContainNumber(String password) {
+  bool doesPasswordContainNumber(String password) {
     RegExp findNumber = RegExp(r'[0-9]');
     if (findNumber.firstMatch(password) != null) {
       return true;
@@ -76,7 +75,7 @@ class RegisterScreenViewModel {
     }
   }
 
-  bool _doesPasswordContainSymbol(String password) {
+  bool doesPasswordContainSymbol(String password) {
     RegExp findSymbol = RegExp(r'[!£€^&@]');
     if (findSymbol.firstMatch(password) != null) {
       return true;
