@@ -137,12 +137,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
             Center(
               child: RoundButton(
                 label: 'Register',
-                onPressed: () {
-                  setState(() async {
-                    await _registerScreenViewModel.registerUser(
-                        _email, _password, _confirmPassword);
+                onPressed: () async {
+                  await _registerScreenViewModel.registerUser(
+                      _email, _password, _confirmPassword);
+                  setState(() {
                     _registrationError =
                         _registerScreenViewModel.getRegistrationError();
+                    // print(_registrationError);
                   });
                 },
               ),
