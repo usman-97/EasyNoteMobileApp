@@ -8,27 +8,6 @@ import 'package:note_taking_app/views/register_screen.dart';
 import 'package:note_taking_app/services/initialise_firebase_mock.dart';
 
 void main() {
-  // TestWidgetsFlutterBinding.ensureInitialized();
-  //
-  // setUp(() async {
-  //   WidgetsFlutterBinding.ensureInitialized();
-  //   await Firebase.initializeApp();
-  // });
-
-  // MethodChannelFirebase.channel.setMockMethodCallHandler((call) async {
-  //   if (call.method == 'Firebase#initializeCore'){
-  //     return [
-  //       'name': defaultFirebaseAppName,
-  //       'options': {
-  //         'apiKey': '123',
-  //         'appId': '123',
-  //         'messagingSenderId': '123',
-  //         'projectId': '123',
-  //       },
-  //       'pluginConstants': {},
-  //     ];
-  //   }
-  // });
   setupFirebaseAuthMocks();
 
   group('Register Screen', () {
