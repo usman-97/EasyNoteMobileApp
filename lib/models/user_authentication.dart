@@ -16,10 +16,22 @@ class UserAuthentication {
         email: email,
         password: password,
       );
+
+      // final User? newRegisteredUser = getCurrentUser();
       if (newUser != null) {
         isUserRegistered = true;
       }
     } on FirebaseException catch (e) {}
     return isUserRegistered;
+  }
+
+  Future<bool> isUserEmailVerified(String email) async {
+    User? user = _firebaseAuthentication.currentUser;
+    await user?.reload();
+    if (user != null && !user.emailVerified) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }
