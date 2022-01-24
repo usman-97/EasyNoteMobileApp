@@ -89,4 +89,8 @@ class RegisterScreenViewModel {
   String getRegistrationError() {
     return _error;
   }
+
+  // bool getCurrentUser() {
+  //   return _userControl.getCurrentUser();
+  // }
 }
