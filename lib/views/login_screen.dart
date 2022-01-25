@@ -15,7 +15,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final LoginScreenViewModel loginScreenViewModel = LoginScreenViewModel();
+  final LoginScreenViewModel _loginScreenViewModel = LoginScreenViewModel();
+  late String _email, _password;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,6 +58,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: TextField(
                     keyboardType: TextInputType.emailAddress,
                     textAlign: TextAlign.center,
+                    onChanged: (value) {
+                      _email = value;
+                    },
                     decoration: kTextFieldInputDecoration.copyWith(
                       fillColor: kTextIconColour,
                       hintText: 'Email',
@@ -72,8 +77,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     top: 10.0,
                   ),
                   child: TextField(
+                    obscureText: true,
                     keyboardType: TextInputType.emailAddress,
                     textAlign: TextAlign.center,
+                    onChanged: (value) {
+                      _password = value;
+                    },
                     decoration: kTextFieldInputDecoration.copyWith(
                       fillColor: kTextIconColour,
                       hintText: 'Password',
@@ -85,7 +94,10 @@ class _LoginScreenState extends State<LoginScreen> {
             Center(
               child: RoundButton(
                 label: 'Login',
-                onPressed: () {},
+                onPressed: () async {
+                  await _loginScreenViewModel.loginUser(
+                      context, _email, _password);
+                },
               ),
             ),
             const SizedBox(
@@ -104,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 LinkButton(
                   text: 'Register here',
                   onPressed: () {
-                    loginScreenViewModel.navigateToRegisterScreen(context);
+                    _loginScreenViewModel.navigateToRegisterScreen(context);
                   },
                 ),
               ],
