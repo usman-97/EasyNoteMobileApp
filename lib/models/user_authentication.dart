@@ -20,18 +20,40 @@ class UserAuthentication {
       // final User? newRegisteredUser = getCurrentUser();
       if (newUser != null) {
         isUserRegistered = true;
+        signInUser(email, password);
       }
     } on FirebaseException catch (e) {}
     return isUserRegistered;
   }
 
-  Future<bool> isUserEmailVerified(String email) async {
-    User? user = _firebaseAuthentication.currentUser;
-    await user?.reload();
-    if (user != null && !user.emailVerified) {
-      return false;
-    } else {
-      return true;
-    }
+  Future<bool> signInUser(String email, String password) async {
+    bool isUserSignedIn = false;
+    try {
+      UserCredential user = await _firebaseAuthentication
+          .signInWithEmailAndPassword(email: email, password: password);
+      if (user != null) {
+        isUserSignedIn = true;
+      }
+    } on FirebaseAuthentication catch (e) {}
+    return isUserSignedIn;
   }
+
+  // Future<bool> isUserEmailVerified(String email) async {
+  //   User? user = _firebaseAuthentication.currentUser;
+  //   await user?.reload();
+  //   if (user != null && !user.emailVerified) {
+  //     return false;
+  //   } else {
+  //     return true;
+  //   }
+  // }
+  //
+  // User? getCurrentUser() {
+  //   try {
+  //     final User? user = _firebaseAuthentication.currentUser;
+  //     if (user != null) {
+  //       return user;
+  //     }
+  //   } catch (e) {}
+  // }
 }
