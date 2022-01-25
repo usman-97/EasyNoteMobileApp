@@ -20,6 +20,12 @@ const TextStyle kMainHeadingSubtitle = TextStyle(
   fontStyle: FontStyle.italic,
 );
 
+const TextStyle kErrorMessageStyle = TextStyle(
+  fontSize: 18.0,
+  fontWeight: FontWeight.bold,
+  color: Colors.red,
+);
+
 const InputDecoration kTextFieldInputDecoration = InputDecoration(
   filled: true,
   contentPadding: EdgeInsets.symmetric(
