@@ -18,12 +18,23 @@ class LoginScreenViewModel {
 
   Future<void> loginUser(
       BuildContext context, String email, String password) async {
-    bool isUserSignedIn = await _userAuthentication.signInUser(email, password);
-    if (isUserSignedIn) {
-      Navigator.pushNamed(context, VerificationScreen.id);
+    if (email.isNotEmpty) {
+      if (password.isNotEmpty) {
+        bool isUserSignedIn =
+            await _userAuthentication.signInUser(email, password);
+        if (isUserSignedIn) {
+          _error = '';
+          Navigator.pushNamed(context, VerificationScreen.id);
+        } else {
+          _error = 'Invalid email/password.';
+        }
+      } else {
+        _error = 'Password is not correct';
+      }
     } else {
-      print(isUserSignedIn);
+      _error = 'Invalid email';
     }
+    // print(_error);
   }
 
   String getLoginError() {
