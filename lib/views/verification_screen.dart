@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:note_taking_app/utilities/constants.dart';
 
 class VerificationScreen extends StatefulWidget {
+  static const String id = 'verification_screen';
+
   const VerificationScreen({Key? key}) : super(key: key);
 
   @override
