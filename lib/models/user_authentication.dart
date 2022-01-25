@@ -4,6 +4,7 @@ import 'package:note_taking_app/services/firebase_auth.dart';
 class UserAuthentication {
   final FirebaseAuth _firebaseAuthentication =
       FirebaseAuthentication.firebaseAuthInstance();
+  User? _currentUser;
 
   // Register new user using FirebaseAuth
   Future<bool> registerUser(
@@ -17,7 +18,7 @@ class UserAuthentication {
         password: password,
       );
 
-      // final User? newRegisteredUser = getCurrentUser();
+      // user = getCurrentUser();
       if (newUser != null) {
         isUserRegistered = true;
         signInUser(email, password);
@@ -33,6 +34,7 @@ class UserAuthentication {
           .signInWithEmailAndPassword(email: email, password: password);
       if (user != null) {
         isUserSignedIn = true;
+        _currentUser = _firebaseAuthentication.currentUser;
       }
     } on FirebaseAuthentication catch (e) {}
     return isUserSignedIn;
