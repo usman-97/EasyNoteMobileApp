@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:note_taking_app/models/user_authentication.dart';
@@ -27,6 +28,7 @@ class RegisterScreenViewModel {
             _error = 'Invalid Email/Password';
           } else {
             _error = '';
+            // await signInUser(email, password);
           }
         } else {
           _error = 'Password does not match.';
@@ -37,6 +39,14 @@ class RegisterScreenViewModel {
       }
     } else {
       _error = 'Invalid email';
+    }
+  }
+
+  Future<void> signInUser(
+      BuildContext context, String email, String password) async {
+    bool isUserSignedIn = await _userControl.signInUser(email, password);
+    if (isUserSignedIn) {
+      // Navigator.
     }
   }
 
@@ -89,8 +99,4 @@ class RegisterScreenViewModel {
   String getRegistrationError() {
     return _error;
   }
-
-  // bool getCurrentUser() {
-  //   return _userControl.getCurrentUser();
-  // }
 }
