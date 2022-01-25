@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:note_taking_app/models/user_authentication.dart';
 import 'package:note_taking_app/views/login_screen.dart';
+import 'package:note_taking_app/views/verification_screen.dart';
 
 class RegisterScreenViewModel {
   late final UserAuthentication _userControl;
@@ -46,7 +47,7 @@ class RegisterScreenViewModel {
       BuildContext context, String email, String password) async {
     bool isUserSignedIn = await _userControl.signInUser(email, password);
     if (isUserSignedIn) {
-      // Navigator.
+      Navigator.pushNamed(context, VerificationScreen.id);
     }
   }
 
