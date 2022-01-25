@@ -6,11 +6,11 @@ import 'package:note_taking_app/views/login_screen.dart';
 import 'package:note_taking_app/views/verification_screen.dart';
 
 class RegisterScreenViewModel {
-  late final UserAuthentication _userControl;
+  late final UserAuthentication _userAuthentication;
   late String _error;
 
   RegisterScreenViewModel() {
-    _userControl = UserAuthentication();
+    _userAuthentication = UserAuthentication();
     _error = '';
   }
 
@@ -23,8 +23,8 @@ class RegisterScreenViewModel {
     if (email.isNotEmpty) {
       if (password.isNotEmpty && isPasswordStrong(password)) {
         if (isConfirmPasswordMatch(password, confirmPassword)) {
-          bool isUserRegistered =
-              await _userControl.registerUser(email: email, password: password);
+          bool isUserRegistered = await _userAuthentication.registerUser(
+              email: email, password: password);
           if (!isUserRegistered) {
             _error = 'Invalid Email/Password';
           } else {
@@ -40,14 +40,6 @@ class RegisterScreenViewModel {
       }
     } else {
       _error = 'Invalid email';
-    }
-  }
-
-  Future<void> signInUser(
-      BuildContext context, String email, String password) async {
-    bool isUserSignedIn = await _userControl.signInUser(email, password);
-    if (isUserSignedIn) {
-      Navigator.pushNamed(context, VerificationScreen.id);
     }
   }
 
