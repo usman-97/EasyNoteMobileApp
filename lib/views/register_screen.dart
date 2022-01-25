@@ -126,11 +126,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Text(
                   _registrationError,
-                  style: const TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.red,
-                  ),
+                  style: kErrorMessageStyle,
                 ),
               ),
             ),
