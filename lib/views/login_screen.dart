@@ -16,7 +16,9 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final LoginScreenViewModel _loginScreenViewModel = LoginScreenViewModel();
-  late String _email, _password;
+  String _email = '', _password = '';
+  String _loginError = '';
+  bool _isErrorVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -91,12 +93,27 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
+            const SizedBox(
+              height: 8.0,
+            ),
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Text(
+                  _loginError,
+                  style: kErrorMessageStyle,
+                ),
+              ),
+            ),
             Center(
               child: RoundButton(
                 label: 'Login',
                 onPressed: () async {
                   await _loginScreenViewModel.loginUser(
                       context, _email, _password);
+                  setState(() {
+                    _loginError = _loginScreenViewModel.getLoginError();
+                  });
                 },
               ),
             ),
