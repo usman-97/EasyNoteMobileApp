@@ -26,7 +26,7 @@ class RegisterScreenViewModel {
           bool isUserRegistered = await _userAuthentication.registerUser(
               email: email, password: password);
           if (!isUserRegistered) {
-            _error = 'Invalid Email/Password';
+            _error = 'Invalid Email';
           } else {
             _error = '';
             // await signInUser(email, password);
