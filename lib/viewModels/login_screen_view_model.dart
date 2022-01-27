@@ -23,6 +23,14 @@ class LoginScreenViewModel {
         bool isUserSignedIn =
             await _userAuthentication.signInUser(email, password);
         if (isUserSignedIn) {
+          bool isUserEmailVerified =
+              await _userAuthentication.isUserEmailVerified(email);
+          // print(_userAuthentication.getCurrentUser()?.email);
+          // if (isUserEmailVerified) {
+          //   print('Email verified');
+          // } else {
+          //   print('Email not verified');
+          // }
           _error = '';
           Navigator.pushNamed(context, VerificationScreen.id);
         } else {
