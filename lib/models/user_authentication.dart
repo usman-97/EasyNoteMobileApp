@@ -4,7 +4,7 @@ import 'package:note_taking_app/services/firebase_auth.dart';
 class UserAuthentication {
   final FirebaseAuth _firebaseAuthentication =
       FirebaseAuthentication.firebaseAuthInstance();
-  User? _currentUser;
+  // User? _currentUser;
 
   // Register new user using FirebaseAuth
   Future<bool> registerUser(
@@ -34,28 +34,53 @@ class UserAuthentication {
           .signInWithEmailAndPassword(email: email, password: password);
       if (user != null) {
         isUserSignedIn = true;
-        _currentUser = _firebaseAuthentication.currentUser;
+        // try {
+        //   User? currentUser = _firebaseAuthentication.currentUser;
+        //   if (_currentUser != null) {
+        //     _currentUser = _currentUser;
+        //   }
+        // } catch (e) {}
       }
     } on FirebaseAuthentication catch (e) {}
     return isUserSignedIn;
   }
 
-  // Future<bool> isUserEmailVerified(String email) async {
-  //   User? user = _firebaseAuthentication.currentUser;
-  //   await user?.reload();
-  //   if (user != null && !user.emailVerified) {
-  //     return false;
-  //   } else {
-  //     return true;
-  //   }
-  // }
-  //
-  // User? getCurrentUser() {
-  //   try {
-  //     final User? user = _firebaseAuthentication.currentUser;
-  //     if (user != null) {
-  //       return user;
-  //     }
-  //   } catch (e) {}
-  // }
+  Future<bool> isUserEmailVerified(String email) async {
+    bool isEmailVerified = false;
+    User? currentUser = getCurrentUser();
+    await currentUser?.reload();
+    if (currentUser != null) {
+      if (currentUser.emailVerified) {
+        isEmailVerified = true;
+      }
+    }
+    return isEmailVerified;
+  }
+
+  Future<void> sendEmailVerification(String email) async {
+    bool isUserEmailVerified = await this.isUserEmailVerified(email);
+    User? currentUser = getCurrentUser();
+    if (!isUserEmailVerified) {
+      currentUser?.sendEmailVerification();
+    }
+  }
+
+  User? getCurrentUser() {
+    // return _currentUser;
+    try {
+      User? currentUser = _firebaseAuthentication.currentUser;
+      if (currentUser != null) {
+        return currentUser;
+      }
+    } catch (e) {}
+  }
+
+  String getCurrentUserEmail() {
+    var currentUser = getCurrentUser();
+    String userEmail = '';
+    if (currentUser != null) {
+      userEmail = currentUser.email!;
+    }
+    return userEmail;
+  }
 }
