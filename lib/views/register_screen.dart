@@ -139,6 +139,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   setState(() {
                     _registrationError =
                         _registerScreenViewModel.getRegistrationError();
+                    if (_registrationError.isEmpty) {
+                      _registerScreenViewModel
+                          .navigateToVerificationScreen(context);
+                    }
                     // print(_registerScreenViewModel.getCurrentUser());
                   });
                 },
