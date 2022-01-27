@@ -18,6 +18,10 @@ class RegisterScreenViewModel {
     Navigator.pushNamed(context, LoginScreen.id);
   }
 
+  void navigateToVerificationScreen(BuildContext context) {
+    Navigator.pushNamed(context, VerificationScreen.id);
+  }
+
   Future<void> registerUser(
       String email, String password, String confirmPassword) async {
     if (email.isNotEmpty) {
@@ -28,6 +32,7 @@ class RegisterScreenViewModel {
           if (!isUserRegistered) {
             _error = 'Invalid Email';
           } else {
+            await _userAuthentication.sendEmailVerification(email);
             _error = '';
             // await signInUser(email, password);
           }
