@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_taking_app/views/home_screen.dart';
 import 'package:note_taking_app/views/login_screen.dart';
 import 'package:note_taking_app/views/register_screen.dart';
 import 'package:note_taking_app/views/verification_screen.dart';
@@ -31,6 +32,7 @@ class EasyNote extends StatelessWidget {
         LoginScreen.id: (context) => const LoginScreen(),
         RegisterScreen.id: (context) => const RegisterScreen(),
         VerificationScreen.id: (context) => const VerificationScreen(),
+        HomeScreen.id: (context) => const HomeScreen(),
       },
     );
   }
