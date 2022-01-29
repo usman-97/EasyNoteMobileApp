@@ -45,7 +45,7 @@ class UserAuthentication {
     return isUserSignedIn;
   }
 
-  Future<bool> isUserEmailVerified(String email) async {
+  Future<bool> isUserEmailVerified() async {
     bool isEmailVerified = false;
     User? currentUser = getCurrentUser();
     await currentUser?.reload();
@@ -57,8 +57,8 @@ class UserAuthentication {
     return isEmailVerified;
   }
 
-  Future<void> sendEmailVerification(String email) async {
-    bool isUserEmailVerified = await this.isUserEmailVerified(email);
+  Future<void> sendEmailVerification() async {
+    bool isUserEmailVerified = await this.isUserEmailVerified();
     User? currentUser = getCurrentUser();
     if (!isUserEmailVerified) {
       currentUser?.sendEmailVerification();

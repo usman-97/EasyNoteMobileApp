@@ -32,7 +32,7 @@ class RegisterScreenViewModel {
           if (!isUserRegistered) {
             _error = 'Invalid Email';
           } else {
-            await _userAuthentication.sendEmailVerification(email);
+            await _userAuthentication.sendEmailVerification();
             _error = '';
             // await signInUser(email, password);
           }
