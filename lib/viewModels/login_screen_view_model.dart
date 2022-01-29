@@ -3,6 +3,7 @@ import 'package:note_taking_app/models/user_authentication.dart';
 import 'package:note_taking_app/views/home_screen.dart';
 import 'package:note_taking_app/views/register_screen.dart';
 import 'package:note_taking_app/views/verification_screen.dart';
+import 'package:note_taking_app/utilities/navigation.dart';
 
 class LoginScreenViewModel {
   late final UserAuthentication _userAuthentication;
@@ -11,14 +12,6 @@ class LoginScreenViewModel {
   LoginScreenViewModel() {
     _userAuthentication = UserAuthentication();
     _error = '';
-  }
-
-  void navigateToRegisterScreen(BuildContext context) {
-    Navigator.pushNamed(context, RegisterScreen.id);
-  }
-
-  void navigateToHomeScreen(BuildContext context) {
-    Navigator.pushNamed(context, HomeScreen.id);
   }
 
   Future<void> loginUser(
@@ -37,12 +30,11 @@ class LoginScreenViewModel {
           //   print('Email not verified');
           // }
           _error = '';
-          // Navigator.pushNamed(context, VerificationScreen.id);
           if (isUserEmailVerified) {
-            navigateToHomeScreen(context);
+            Navigation.navigateToHome(context);
           } else {
             await _userAuthentication.sendEmailVerification();
-            Navigator.pushNamed(context, VerificationScreen.id);
+            Navigation.navigateToVerification(context);
           }
         } else {
           _error = 'Invalid email/password.';

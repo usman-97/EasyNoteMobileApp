@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:note_taking_app/components/link_button.dart';
 import 'package:note_taking_app/components/round_button.dart';
 import 'package:note_taking_app/utilities/constants.dart';
+import 'package:note_taking_app/utilities/navigation.dart';
 import 'package:note_taking_app/viewModels/register_screen_view_model.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -20,12 +21,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       _email = '',
       _password = '',
       _confirmPassword = '';
-
-  // void updateError() {
-  //   setState(() {
-  //     _registrationError = _registerScreenViewModel.getRegistrationError();
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -140,8 +135,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     _registrationError =
                         _registerScreenViewModel.getRegistrationError();
                     if (_registrationError.isEmpty) {
-                      _registerScreenViewModel
-                          .navigateToVerificationScreen(context);
+                      // _registerScreenViewModel.navigateToVerificationScreen(context);
+                      Navigation.navigateToVerification(context);
                     }
                     // print(_registerScreenViewModel.getCurrentUser());
                   });
@@ -161,7 +156,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 LinkButton(
                   text: 'Login here',
                   onPressed: () {
-                    _registerScreenViewModel.navigateToLoginScreen(context);
+                    // _registerScreenViewModel.navigateToLoginScreen(context);
+                    Navigation.navigateToLogin(context);
                   },
                 ),
               ],

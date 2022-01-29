@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:note_taking_app/components/link_button.dart';
 import 'package:note_taking_app/components/round_button.dart';
 import 'package:note_taking_app/utilities/constants.dart';
+import 'package:note_taking_app/utilities/navigation.dart';
 import 'package:note_taking_app/viewModels/login_screen_view_model.dart';
-import 'package:note_taking_app/views/register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String id = 'login_screen';
@@ -18,7 +18,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final LoginScreenViewModel _loginScreenViewModel = LoginScreenViewModel();
   String _email = '', _password = '';
   String _loginError = '';
-  bool _isErrorVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 LinkButton(
                   text: 'Register here',
                   onPressed: () {
-                    _loginScreenViewModel.navigateToRegisterScreen(context);
+                    Navigation.navigateToRegister(context);
                   },
                 ),
               ],

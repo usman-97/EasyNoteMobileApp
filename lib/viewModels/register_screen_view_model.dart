@@ -1,9 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:note_taking_app/models/user_authentication.dart';
-import 'package:note_taking_app/views/login_screen.dart';
-import 'package:note_taking_app/views/verification_screen.dart';
 
 class RegisterScreenViewModel {
   late final UserAuthentication _userAuthentication;
@@ -12,14 +7,6 @@ class RegisterScreenViewModel {
   RegisterScreenViewModel() {
     _userAuthentication = UserAuthentication();
     _error = '';
-  }
-
-  void navigateToLoginScreen(BuildContext context) {
-    Navigator.pushNamed(context, LoginScreen.id);
-  }
-
-  void navigateToVerificationScreen(BuildContext context) {
-    Navigator.pushNamed(context, VerificationScreen.id);
   }
 
   Future<void> registerUser(
@@ -34,7 +21,6 @@ class RegisterScreenViewModel {
           } else {
             await _userAuthentication.sendEmailVerification();
             _error = '';
-            // await signInUser(email, password);
           }
         } else {
           _error = 'Password does not match.';
