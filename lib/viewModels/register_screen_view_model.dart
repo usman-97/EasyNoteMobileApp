@@ -34,6 +34,8 @@ class RegisterScreenViewModel {
     }
   }
 
+  void addUserData(String email, String firstname, String lastname) {}
+
   bool isConfirmPasswordMatch(String password, String confirmPassword) {
     if (password == confirmPassword) {
       return true;
