@@ -31,7 +31,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
           children: <Widget>[
             Container(
               color: kDarkPrimaryColour,
-              height: 250.0,
+              height: kTopContainerHeight,
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                     vertical: 10.0, horizontal: 10.0),
