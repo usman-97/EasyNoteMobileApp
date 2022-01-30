@@ -16,7 +16,8 @@ void main() {
       await Firebase.initializeApp();
     });
 
-    testWidgets('Register Screen', (WidgetTester tester) async {
+    testWidgets('check screen main heading and subtitle',
+        (WidgetTester tester) async {
       // Build RegisterScreen widget
       await tester.pumpWidget(const MaterialApp(
         home: RegisterScreen(),
@@ -24,13 +25,41 @@ void main() {
 
       final heading = find.text('EasyNote');
       final subtitle = find.text('Capture your ideas');
-      final registerButton = find.byType(RoundButton);
-      final textField = find.byType(TextField);
 
       expect(heading, findsOneWidget); // Find main heading
       expect(subtitle, findsOneWidget); // Find subtitle
-      expect(registerButton, findsOneWidget); // Find register button
-      expect(textField, findsNWidgets(3)); // Find all textfields
+    });
+
+    testWidgets('Test first section of registration',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(const MaterialApp(
+        home: RegisterScreen(),
+      ));
+
+      final nextButton = find.byType(RoundButton);
+      final textField = find.byType(TextField);
+
+      expect(nextButton, findsNWidgets(1)); // Find register button
+      expect(textField, findsNWidgets(2)); // Find all textfields
+    });
+
+    testWidgets('Test second section of registration',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(const MaterialApp(
+        home: RegisterScreen(),
+      ));
+
+      final nextButton = find.byType(RoundButton);
+      final textField = find.byType(TextField);
+
+      await tester.tap(nextButton);
+      await tester.pump();
+
+      final buttons = find.byType(RoundButton);
+      final secondSectionTextFields = find.byType(TextField);
+
+      expect(buttons, findsNWidgets(2)); // Find register button
+      expect(secondSectionTextFields, findsNWidgets(3)); // Find all textfields
     });
   });
 }
