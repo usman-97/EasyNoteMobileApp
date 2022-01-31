@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_taking_app/components/app_menu.dart';
 import 'package:note_taking_app/utilities/constants.dart';
 import 'package:note_taking_app/utilities/navigation.dart';
 
@@ -16,28 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: const <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: kPrimaryColour,
-              ),
-              child: Text('EasyNote'),
-            ),
-            Card(
-              child: ListTile(
-                leading: Icon(
-                  Icons.note_rounded,
-                  color: Colors.black,
-                ),
-                title: Text('Notes'),
-              ),
-            )
-          ],
-        ),
-      ),
+      drawer: const AppMenu(),
       backgroundColor: kLightPrimaryColour,
       body: SafeArea(
         child: Column(
