@@ -9,7 +9,7 @@ const Color kTextIconColour = Color(0xFFFFFFFF);
 const Color kPrimaryTextColour = Color(0xFF212121);
 const Color kAccentColour = Color(0xFF009688);
 
-const double kTopContainerHeight = 250.0;
+const double kTopContainerHeight = 200.0;
 
 const TextStyle kMainHeadingStyle = TextStyle(
   color: Colors.white,
