@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:note_taking_app/utilities/constants.dart';
+import 'package:note_taking_app/utilities/navigation.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String id = 'home_screen';
@@ -13,8 +15,196 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: const <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: kPrimaryColour,
+              ),
+              child: Text('EasyNote'),
+            ),
+            Card(
+              child: ListTile(
+                leading: Icon(
+                  Icons.note_rounded,
+                  color: Colors.black,
+                ),
+                title: Text('Notes'),
+              ),
+            )
+          ],
+        ),
+      ),
+      backgroundColor: kLightPrimaryColour,
       body: SafeArea(
-        child: Column(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Container(
+              height: kTopContainerHeight,
+              color: kPrimaryColour,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    vertical: 10.0, horizontal: 10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    const Text('Hello user'),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigation.navigateToHome(context);
+                          },
+                          child: const Icon(
+                            Icons.home_rounded,
+                            color: kTextIconColour,
+                            size: 50.0,
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {},
+                          child: const Icon(
+                            Icons.brightness_2_rounded,
+                            color: kTextIconColour,
+                            size: 40.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              color: kTextIconColour,
+              height: 70.0,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    vertical: 10.0, horizontal: 10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    IntrinsicWidth(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          const Text(
+                            'Note Board',
+                            style: TextStyle(
+                              fontSize: 22.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Container(
+                            color: kAccentColour,
+                            height: 5.0,
+                          )
+                        ],
+                      ),
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: kPrimaryTextColour,
+                              width: 2.0,
+                            ),
+                            borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(10.0),
+                                bottomLeft: Radius.circular(10.0)),
+                          ),
+                          child: const Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: Text(
+                              'Recent',
+                              style: TextStyle(fontSize: 18.0),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: kPrimaryTextColour,
+                              width: 2.0,
+                            ),
+                            borderRadius: const BorderRadius.only(
+                                topRight: Radius.circular(10.0),
+                                bottomRight: Radius.circular(10.0)),
+                          ),
+                          child: const Padding(
+                            padding: EdgeInsets.all(5.0),
+                            child: Text(
+                              'Categories',
+                              style: TextStyle(fontSize: 18.0),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  Container(
+                    color: kDarkPrimaryColour,
+                    height: 70.0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        TextButton(
+                          onPressed: () {},
+                          child: const Icon(
+                            Icons.menu_rounded,
+                            color: kTextIconColour,
+                            size: 50.0,
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {},
+                          child: const Icon(
+                            Icons.search_rounded,
+                            color: kTextIconColour,
+                            size: 50.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 20.0),
+                    child: RawMaterialButton(
+                      onPressed: () {},
+                      child: const Icon(
+                        Icons.add_rounded,
+                        color: kTextIconColour,
+                        size: 60.0,
+                      ),
+                      elevation: 0.0,
+                      constraints: const BoxConstraints.tightFor(
+                        width: 100.0,
+                        height: 100.0,
+                      ),
+                      shape: const CircleBorder(),
+                      fillColor: kAccentColour,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
