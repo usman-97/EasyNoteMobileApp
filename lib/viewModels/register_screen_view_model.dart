@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:note_taking_app/models/user_authentication.dart';
 import 'package:note_taking_app/models/user_management.dart';
 
@@ -5,11 +6,13 @@ class RegisterScreenViewModel {
   late final UserAuthentication _userAuthentication;
   late final UserManagement _userManagement;
   late String _error;
+  late bool _isRegistered;
 
   RegisterScreenViewModel() {
     _userAuthentication = UserAuthentication();
     _userManagement = UserManagement();
     _error = '';
+    _isRegistered = false;
   }
 
   Future<void> registerUser(
@@ -20,8 +23,9 @@ class RegisterScreenViewModel {
           bool isUserRegistered = await _userAuthentication.registerUser(
               email: email, password: password);
           if (!isUserRegistered) {
-            _error = 'Invalid Email';
+            _error = _userAuthentication.getUserErrorCode();
           } else {
+            _isRegistered = true;
             await _userAuthentication.sendEmailVerification();
             _error = '';
           }
@@ -30,7 +34,7 @@ class RegisterScreenViewModel {
         }
       } else {
         _error =
-            'Your password should contain 8 or more characters including at least an uppercase letter, a number and a special character (!£€^@)';
+            'Your password should contain 8 or more characters including at least one uppercase letter, a number and a special character (!£€^@)';
       }
     } else {
       _error = 'Invalid email';
@@ -90,5 +94,9 @@ class RegisterScreenViewModel {
 
   String getRegistrationError() {
     return _error;
+  }
+
+  bool isUserRegistered() {
+    return _isRegistered;
   }
 }

@@ -4,6 +4,7 @@ import 'package:note_taking_app/services/firebase_auth.dart';
 class UserAuthentication {
   final FirebaseAuth _firebaseAuthentication =
       FirebaseAuthentication.firebaseAuthInstance();
+  String _userErrorCode = '';
   // User? _currentUser;
 
   // Register new user using FirebaseAuth
@@ -18,12 +19,13 @@ class UserAuthentication {
         password: password,
       );
 
-      // user = getCurrentUser();
       if (newUser != null) {
         isUserRegistered = true;
         signInUser(email, password);
       }
-    } on FirebaseException catch (e) {}
+    } on FirebaseException catch (e) {
+      _userErrorCode = e.message!;
+    }
     return isUserRegistered;
   }
 
@@ -34,14 +36,10 @@ class UserAuthentication {
           .signInWithEmailAndPassword(email: email, password: password);
       if (user != null) {
         isUserSignedIn = true;
-        // try {
-        //   User? currentUser = _firebaseAuthentication.currentUser;
-        //   if (_currentUser != null) {
-        //     _currentUser = _currentUser;
-        //   }
-        // } catch (e) {}
       }
-    } on FirebaseAuthentication catch (e) {}
+    } on FirebaseException catch (e) {
+      _userErrorCode = e.message!;
+    }
     return isUserSignedIn;
   }
 
@@ -88,5 +86,9 @@ class UserAuthentication {
     try {
       _firebaseAuthentication.signOut();
     } on FirebaseException catch (e) {}
+  }
+
+  String getUserErrorCode() {
+    return _userErrorCode;
   }
 }
