@@ -83,4 +83,10 @@ class UserAuthentication {
     }
     return userEmail;
   }
+
+  void signOutUser() {
+    try {
+      _firebaseAuthentication.signOut();
+    } on FirebaseException catch (e) {}
+  }
 }
