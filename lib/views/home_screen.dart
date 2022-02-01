@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         ],
       ),
-      drawer: const AppMenu(),
+      drawer: AppMenu(),
       backgroundColor: kLightPrimaryColour,
       body: SafeArea(
         child: Column(
