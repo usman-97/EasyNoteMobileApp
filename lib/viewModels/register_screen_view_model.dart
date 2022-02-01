@@ -92,6 +92,26 @@ class RegisterScreenViewModel {
     }
   }
 
+  bool isFirstNameValid(String firstname) {
+    if (firstname.isNotEmpty) {
+      _error = '';
+      return true;
+    } else {
+      _error = 'Please type your first name.';
+      return false;
+    }
+  }
+
+  bool isLastNameValid(String lastname) {
+    if (lastname.isNotEmpty) {
+      _error = '';
+      return true;
+    } else {
+      _error = 'Please type your last name';
+      return false;
+    }
+  }
+
   String getRegistrationError() {
     return _error;
   }
