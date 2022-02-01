@@ -213,8 +213,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     label: 'Next',
                     onPressed: () {
                       setState(() {
-                        _isNextSectionVisible =
-                            _isNextSectionVisible == true ? false : true;
+                        print(
+                            '${_registerScreenViewModel.isFirstNameValid(_firstname)} ${_registerScreenViewModel.isLastNameValid(_lastname)}');
+                        if (_registerScreenViewModel
+                                .isFirstNameValid(_firstname) ||
+                            _registerScreenViewModel
+                                .isLastNameValid(_lastname)) {
+                          _registrationError = '';
+                          _isNextSectionVisible =
+                              _isNextSectionVisible == true ? false : true;
+                        } else {
+                          _registrationError =
+                              _registerScreenViewModel.getRegistrationError();
+                        }
                       });
                     },
                   ),
@@ -252,6 +263,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       setState(() {
                         _isNextSectionVisible =
                             _isNextSectionVisible == true ? false : true;
+                        _registrationError = '';
                       });
                     },
                   ),
