@@ -16,7 +16,18 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: const <Widget>[
+          Padding(
+            padding: EdgeInsets.only(right: 10.0),
+            child: Icon(
+              Icons.search_rounded,
+              color: kTextIconColour,
+              size: 40.0,
+            ),
+          )
+        ],
+      ),
       drawer: const AppMenu(),
       backgroundColor: kLightPrimaryColour,
       body: SafeArea(
@@ -135,54 +146,64 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Expanded(
               child: Stack(
-                alignment: Alignment.bottomCenter,
-                children: [
-                  Container(
-                    color: kDarkPrimaryColour,
-                    height: 70.0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        TextButton(
-                          onPressed: () {},
-                          child: const Icon(
-                            Icons.menu_rounded,
-                            color: kTextIconColour,
-                            size: 50.0,
-                          ),
+                children: <Widget>[
+                  ListView(),
+                  Align(
+                    alignment: FractionalOffset.bottomCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 20.0),
+                      child: RawMaterialButton(
+                        onPressed: () {},
+                        child: const Icon(
+                          Icons.add_rounded,
+                          color: kTextIconColour,
+                          size: 60.0,
                         ),
-                        TextButton(
-                          onPressed: () {},
-                          child: const Icon(
-                            Icons.search_rounded,
-                            color: kTextIconColour,
-                            size: 50.0,
-                          ),
+                        elevation: 0.0,
+                        constraints: const BoxConstraints.tightFor(
+                          width: 100.0,
+                          height: 100.0,
                         ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 20.0),
-                    child: RawMaterialButton(
-                      onPressed: () {},
-                      child: const Icon(
-                        Icons.add_rounded,
-                        color: kTextIconColour,
-                        size: 60.0,
+                        shape: const CircleBorder(),
+                        fillColor: kAccentColour,
                       ),
-                      elevation: 0.0,
-                      constraints: const BoxConstraints.tightFor(
-                        width: 100.0,
-                        height: 100.0,
-                      ),
-                      shape: const CircleBorder(),
-                      fillColor: kAccentColour,
                     ),
                   ),
                 ],
               ),
             ),
+            // Expanded(
+            //   child: Stack(
+            //     alignment: Alignment.bottomCenter,
+            //     children: [
+            //       Container(
+            //         color: kDarkPrimaryColour,
+            //         height: 70.0,
+            //         child: Row(
+            //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //           children: <Widget>[
+            //             TextButton(
+            //               onPressed: () {},
+            //               child: const Icon(
+            //                 Icons.menu_rounded,
+            //                 color: kTextIconColour,
+            //                 size: 50.0,
+            //               ),
+            //             ),
+            //             TextButton(
+            //               onPressed: () {},
+            //               child: const Icon(
+            //                 Icons.search_rounded,
+            //                 color: kTextIconColour,
+            //                 size: 50.0,
+            //               ),
+            //             ),
+            //           ],
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
           ],
         ),
       ),
