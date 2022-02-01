@@ -208,6 +208,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       _registrationError =
                           _registerScreenViewModel.getRegistrationError();
                       if (_registrationError.isEmpty) {
+                        _registerScreenViewModel.addUserData(
+                            _email, _firstname, _lastname);
                         // _registerScreenViewModel.navigateToVerificationScreen(context);
                         Navigation.navigateToVerification(context);
                       }

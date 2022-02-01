@@ -1,11 +1,14 @@
 import 'package:note_taking_app/models/user_authentication.dart';
+import 'package:note_taking_app/models/user_management.dart';
 
 class RegisterScreenViewModel {
   late final UserAuthentication _userAuthentication;
+  late final UserManagement _userManagement;
   late String _error;
 
   RegisterScreenViewModel() {
     _userAuthentication = UserAuthentication();
+    _userManagement = UserManagement();
     _error = '';
   }
 
@@ -34,7 +37,10 @@ class RegisterScreenViewModel {
     }
   }
 
-  void addUserData(String email, String firstname, String lastname) {}
+  Future<void> addUserData(
+      String email, String firstname, String lastname) async {
+    await _userManagement.addUserData(email, firstname, lastname);
+  }
 
   bool isConfirmPasswordMatch(String password, String confirmPassword) {
     if (password == confirmPassword) {
