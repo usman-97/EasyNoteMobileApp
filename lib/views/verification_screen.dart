@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:note_taking_app/utilities/constants.dart';
+import 'package:note_taking_app/utilities/navigation.dart';
 import 'package:note_taking_app/viewModels/Verification_screen_view_model.dart';
 
 class VerificationScreen extends StatefulWidget {
@@ -30,7 +31,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Container(
-              color: kDarkPrimaryColour,
+              color: kPrimaryColour,
               height: kTopContainerHeight,
               child: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -41,7 +42,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   children: <Widget>[
                     Text('Hello User'),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigation.navigateToLogin(context);
+                      },
                       style: TextButton.styleFrom(
                         backgroundColor: kLightPrimaryColour,
                       ),
@@ -62,13 +65,13 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   padding: const EdgeInsets.symmetric(
                       horizontal: 20.0, vertical: 10.0),
                   color: kPrimaryColour,
-                  height: 200.0,
+                  height: 230.0,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       Flexible(
                         child: Text(
-                          'Verification email has been sent to ${_verificationScreenViewModel.getCurrentUserEmail()}. Please verify your email to complete the registration. If you cannot find verification email in your inbox then please kindly check the junk/spam folder.',
+                          'Verification email has been sent to ${_verificationScreenViewModel.getCurrentUserEmail()}. Please verify your email to complete the registration. \n\nIf you cannot find verification email in your inbox then please kindly check the junk/spam folder.',
                           style: const TextStyle(
                               color: kTextIconColour, fontSize: 20.0),
                         ),
