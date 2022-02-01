@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:note_taking_app/utilities/constants.dart';
 import 'package:note_taking_app/utilities/navigation.dart';
 import 'package:note_taking_app/viewModels/Verification_screen_view_model.dart';
+import 'package:note_taking_app/viewModels/user_view_model.dart';
 
 class VerificationScreen extends StatefulWidget {
   static const String id = 'verification_screen';
@@ -15,6 +16,7 @@ class VerificationScreen extends StatefulWidget {
 class _VerificationScreenState extends State<VerificationScreen> {
   final VerificationScreenViewModel _verificationScreenViewModel =
       VerificationScreenViewModel();
+  final UserViewModel _userViewModel = UserViewModel();
 
   // @override
   // void initState() async {
@@ -43,6 +45,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                     Text('Hello User'),
                     TextButton(
                       onPressed: () {
+                        _userViewModel.signOutUser();
                         Navigation.navigateToLogin(context);
                       },
                       style: TextButton.styleFrom(
