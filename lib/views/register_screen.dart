@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:note_taking_app/components/link_button.dart';
+import 'package:note_taking_app/components/main_logo.dart';
 import 'package:note_taking_app/components/round_button.dart';
 import 'package:note_taking_app/utilities/constants.dart';
 import 'package:note_taking_app/utilities/navigation.dart';
@@ -36,25 +37,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             // mainAxisAlignment: MainAxisAlignment.center,
             // crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              const Text(
-                'EasyNote',
-                style: kMainHeadingStyle,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(
-                height: 10.0,
-                child: Divider(
-                  thickness: 2.0,
-                  color: kTextIconColour,
-                  indent: 70.0,
-                  endIndent: 70.0,
-                ),
-              ),
-              const Text(
-                'Capture your ideas',
-                style: kMainHeadingSubtitle,
-                textAlign: TextAlign.center,
-              ),
+              const MainLogo(),
               Visibility(
                 visible: !_isNextSectionVisible,
                 child: Center(
