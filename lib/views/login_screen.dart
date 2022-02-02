@@ -110,9 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: <Widget>[
                       LinkButton(
                         text: 'Forgot your password?',
-                        onPressed: () {
-                          Navigation.navigateToRegister(context);
-                        },
+                        onPressed: () {},
                       ),
                     ],
                   ),
