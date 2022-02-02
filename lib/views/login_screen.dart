@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:note_taking_app/components/link_button.dart';
+import 'package:note_taking_app/components/main_logo.dart';
 import 'package:note_taking_app/components/round_button.dart';
 import 'package:note_taking_app/utilities/constants.dart';
 import 'package:note_taking_app/utilities/navigation.dart';
@@ -24,120 +25,116 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: kDarkPrimaryColour,
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            const Text(
-              'EasyNote',
-              style: kMainHeadingStyle,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(
-              height: 20.0,
-              child: Divider(
-                thickness: 2.0,
-                color: kTextIconColour,
-                indent: 50.0,
-                endIndent: 50.0,
-              ),
-            ),
-            const Flexible(
-              child: Text(
-                'Capture your ideas',
-                style: kMainHeadingSubtitle,
-                textAlign: TextAlign.center,
-              ),
-            ),
-            Center(
-              child: SizedBox(
-                width: 350.0,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    top: 30.0,
-                  ),
-                  child: TextField(
-                    keyboardType: TextInputType.emailAddress,
-                    textAlign: TextAlign.center,
-                    onChanged: (value) {
-                      _email = value;
-                    },
-                    decoration: kTextFieldInputDecoration.copyWith(
-                      fillColor: kTextIconColour,
-                      hintText: 'Email',
+        child: Padding(
+          padding: const EdgeInsets.only(top: 50.0),
+          child: ListView(
+            children: <Widget>[
+              const MainLogo(),
+              Center(
+                child: SizedBox(
+                  width: 350.0,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      top: 30.0,
+                    ),
+                    child: TextField(
+                      keyboardType: TextInputType.emailAddress,
+                      textAlign: TextAlign.center,
+                      onChanged: (value) {
+                        _email = value;
+                      },
+                      decoration: kTextFieldInputDecoration.copyWith(
+                        fillColor: kTextIconColour,
+                        hintText: 'Email',
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            Center(
-              child: SizedBox(
-                width: 350.0,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    top: 10.0,
-                  ),
-                  child: TextField(
-                    obscureText: true,
-                    keyboardType: TextInputType.emailAddress,
-                    textAlign: TextAlign.center,
-                    onChanged: (value) {
-                      _password = value;
-                    },
-                    decoration: kTextFieldInputDecoration.copyWith(
-                      fillColor: kTextIconColour,
-                      hintText: 'Password',
+              Center(
+                child: SizedBox(
+                  width: 350.0,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      top: 10.0,
+                    ),
+                    child: TextField(
+                      obscureText: true,
+                      keyboardType: TextInputType.emailAddress,
+                      textAlign: TextAlign.center,
+                      onChanged: (value) {
+                        _password = value;
+                      },
+                      decoration: kTextFieldInputDecoration.copyWith(
+                        fillColor: kTextIconColour,
+                        hintText: 'Password',
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 8.0,
-            ),
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Text(
-                  _loginError,
-                  style: kErrorMessageStyle,
-                ),
+              const SizedBox(
+                height: 8.0,
               ),
-            ),
-            Center(
-              child: RoundButton(
-                label: 'Login',
-                onPressed: () async {
-                  await _loginScreenViewModel.loginUser(
-                      context, _email, _password);
-                  setState(() {
-                    _loginError = _loginScreenViewModel.getLoginError();
-                  });
-                },
-              ),
-            ),
-            const SizedBox(
-              height: 20.0,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text(
-                  'Not Registered?',
-                  style: TextStyle(
-                    color: kTextIconColour,
-                    fontSize: 18.0,
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Text(
+                    _loginError,
+                    style: kErrorMessageStyle,
                   ),
                 ),
-                LinkButton(
-                  text: 'Register here',
-                  onPressed: () {
-                    Navigation.navigateToRegister(context);
+              ),
+              Column(
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      const Text(
+                        'Not Registered?',
+                        style: TextStyle(
+                          color: kTextIconColour,
+                          fontSize: 18.0,
+                        ),
+                      ),
+                      LinkButton(
+                        text: 'Register here',
+                        onPressed: () {
+                          Navigation.navigateToRegister(context);
+                        },
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      LinkButton(
+                        text: 'Forgot your password?',
+                        onPressed: () {
+                          Navigation.navigateToRegister(context);
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              Center(
+                child: RoundButton(
+                  label: 'Login',
+                  onPressed: () async {
+                    await _loginScreenViewModel.loginUser(
+                        context, _email, _password);
+                    setState(() {
+                      _loginError = _loginScreenViewModel.getLoginError();
+                    });
                   },
                 ),
-              ],
-            ),
-          ],
+              ),
+              const SizedBox(
+                height: 20.0,
+              ),
+            ],
+          ),
         ),
       ),
     );
