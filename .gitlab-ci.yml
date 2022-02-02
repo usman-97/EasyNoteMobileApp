@@ -27,8 +27,10 @@ unit_test:
   stage: test
   script:
     - flutter test test/unit_test
+  interruptible: true
 
 widget_test:
   stage: test
   script:
     - flutter test test/widget_test
+  interruptible: true
