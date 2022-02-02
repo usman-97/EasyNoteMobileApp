@@ -15,13 +15,12 @@ update_flutter:
 code_quality:
   stage: test
   before_script:
-    - pub global activate dart_code_metrics
-    - export PATH="$PATH":"$HOME/.pub-cache/bin"
+    - flutter pub global activate dart_code_metrics
   script:
-    - metrics lib -r codeclimate  > gl-code-quality-report.json
+    - flutter pub global run dart_code_metrcis:metrics analyze lib -r gitlab > code-quality-report.json
   artifacts:
     reports:
-      codequality: gl-code-quality-report.json
+      codequality: code-quality-report.json
 
 unit_test:
   stage: test
