@@ -8,11 +8,11 @@ class RegisterScreenViewModel {
   late String _error;
   late bool _isRegistered;
 
-  String _email = '',
-      _password = '',
-      _confirmPassword = '',
-      _firstname = '',
-      _lastname = '';
+  String email = '',
+      password = '',
+      confirmPassword = '',
+      firstname = '',
+      lastname = '';
 
   RegisterScreenViewModel() {
     _userAuthentication = UserAuthentication();
@@ -22,11 +22,11 @@ class RegisterScreenViewModel {
   }
 
   Future<void> registerUser() async {
-    if (_email.isNotEmpty) {
-      if (_password.isNotEmpty && isPasswordStrong()) {
+    if (email.isNotEmpty) {
+      if (password.isNotEmpty && isPasswordStrong()) {
         if (isConfirmPasswordMatch()) {
           bool isUserRegistered = await _userAuthentication.registerUser(
-              email: _email, password: _password);
+              email: email, password: password);
           if (!isUserRegistered) {
             _error = _userAuthentication.getUserErrorCode();
           } else {
@@ -47,11 +47,11 @@ class RegisterScreenViewModel {
   }
 
   Future<void> addUserData() async {
-    await _userManagement.addUserData(_email, _firstname, _lastname);
+    await _userManagement.addUserData(email, firstname, lastname);
   }
 
   bool isConfirmPasswordMatch() {
-    if (_password == _confirmPassword) {
+    if (password == confirmPassword) {
       return true;
     } else {
       return false;
@@ -62,7 +62,7 @@ class RegisterScreenViewModel {
     if (doesPasswordContainerUppercase() &&
         doesPasswordContainNumber() &&
         doesPasswordContainSymbol() &&
-        _password.length >= 8) {
+        password.length >= 8) {
       return true;
     } else {
       return false;
@@ -71,7 +71,7 @@ class RegisterScreenViewModel {
 
   bool doesPasswordContainerUppercase() {
     RegExp uppercaseMatch = RegExp(r'[A-Z]');
-    if (uppercaseMatch.firstMatch(_password) != null) {
+    if (uppercaseMatch.firstMatch(password) != null) {
       return true;
     } else {
       return false;
@@ -80,7 +80,7 @@ class RegisterScreenViewModel {
 
   bool doesPasswordContainNumber() {
     RegExp findNumber = RegExp(r'[0-9]');
-    if (findNumber.firstMatch(_password) != null) {
+    if (findNumber.firstMatch(password) != null) {
       return true;
     } else {
       return false;
@@ -89,7 +89,7 @@ class RegisterScreenViewModel {
 
   bool doesPasswordContainSymbol() {
     RegExp findSymbol = RegExp(r'[!£€^&@]');
-    if (findSymbol.firstMatch(_password) != null) {
+    if (findSymbol.firstMatch(password) != null) {
       return true;
     } else {
       return false;
@@ -97,7 +97,7 @@ class RegisterScreenViewModel {
   }
 
   bool isFirstNameValid() {
-    if (_firstname.isNotEmpty) {
+    if (firstname.isNotEmpty) {
       _error = '';
       return true;
     } else {
@@ -107,7 +107,7 @@ class RegisterScreenViewModel {
   }
 
   bool isLastNameValid() {
-    if (_lastname.isNotEmpty) {
+    if (lastname.isNotEmpty) {
       _error = '';
       return true;
     } else {
@@ -122,35 +122,5 @@ class RegisterScreenViewModel {
 
   bool isUserRegistered() {
     return _isRegistered;
-  }
-
-  String get email => _email;
-
-  get password => _password;
-
-  get confirmPassword => _confirmPassword;
-
-  get firstname => _firstname;
-
-  get lastname => _lastname;
-
-  set lastname(value) {
-    _lastname = value;
-  }
-
-  set firstname(value) {
-    _firstname = value;
-  }
-
-  set confirmPassword(value) {
-    _confirmPassword = value;
-  }
-
-  set password(value) {
-    _password = value;
-  }
-
-  set email(String value) {
-    _email = value;
   }
 }
