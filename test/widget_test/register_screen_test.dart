@@ -4,17 +4,20 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:note_taking_app/components/round_button.dart';
+import 'package:note_taking_app/viewModels/register_screen_view_model.dart';
 import 'package:note_taking_app/views/register_screen.dart';
 import 'package:note_taking_app/services/initialise_firebase_mock.dart';
 
-void main() {
+void main() async {
   setupFirebaseAuthMocks();
+  await Firebase.initializeApp();
 
   group('Register Screen', () {
-    setUpAll(() async {
-      // WidgetsFlutterBinding.ensureInitialized();
-      await Firebase.initializeApp();
-    });
+    // await Firebase.initializeApp();
+
+    // setUpAll(() async {
+    //   await Firebase.initializeApp();
+    // });
 
     testWidgets('check screen main heading and subtitle',
         (WidgetTester tester) async {
@@ -50,15 +53,16 @@ void main() {
       ));
 
       final nextButton = find.byType(RoundButton);
-      final textField = find.byType(TextField);
+      final firstSectionTextFields = find.byType(TextField);
 
+      await tester.enterText(firstSectionTextFields, 'text');
       await tester.tap(nextButton);
       await tester.pump();
 
       final buttons = find.byType(RoundButton);
       final secondSectionTextFields = find.byType(TextField);
 
-      expect(buttons, findsNWidgets(2)); // Find register button
+      expect(buttons, findsNWidgets(2)); // Find back and register button
       expect(secondSectionTextFields, findsNWidgets(3)); // Find all textfields
     });
   });
