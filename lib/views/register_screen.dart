@@ -43,6 +43,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         top: 20.0,
                       ),
                       child: TextField(
+                        key: const Key('firstNameRegistration'),
                         keyboardType: TextInputType.emailAddress,
                         textAlign: TextAlign.center,
                         onChanged: (value) {
@@ -67,6 +68,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         top: 20.0,
                       ),
                       child: TextField(
+                        key: const Key('lastNameRegistration'),
                         keyboardType: TextInputType.emailAddress,
                         textAlign: TextAlign.center,
                         onChanged: (value) {
