@@ -18,38 +18,41 @@ void main() async {
     test('check if password contain an uppercase letter', () {
       const String strongPassword = 'Password';
 
-      expect(
-          registerScreenViewModel.doesPasswordContainerUppercase(weakPassword),
-          false);
-      expect(
-          registerScreenViewModel
-              .doesPasswordContainerUppercase(strongPassword),
-          true);
+      registerScreenViewModel.password = weakPassword;
+      expect(registerScreenViewModel.doesPasswordContainerUppercase(), false);
+
+      registerScreenViewModel.password = strongPassword;
+      expect(registerScreenViewModel.doesPasswordContainerUppercase(), true);
     });
 
     test('check if password contain a number', () {
       const String strongPassword = 'pas5word';
 
-      expect(registerScreenViewModel.doesPasswordContainNumber(weakPassword),
-          false);
-      expect(registerScreenViewModel.doesPasswordContainNumber(strongPassword),
-          true);
+      registerScreenViewModel.password = weakPassword;
+      expect(registerScreenViewModel.doesPasswordContainNumber(), false);
+
+      registerScreenViewModel.password = strongPassword;
+      expect(registerScreenViewModel.doesPasswordContainNumber(), true);
     });
 
     test('check if password contain a special character', () {
       const String strongPassword = 'pass!word';
 
-      expect(registerScreenViewModel.doesPasswordContainSymbol(weakPassword),
-          false);
-      expect(registerScreenViewModel.doesPasswordContainSymbol(strongPassword),
-          true);
+      registerScreenViewModel.password = weakPassword;
+      expect(registerScreenViewModel.doesPasswordContainSymbol(), false);
+
+      registerScreenViewModel.password = strongPassword;
+      expect(registerScreenViewModel.doesPasswordContainSymbol(), true);
     });
 
     test('check if user password is strong', () {
       const String strongPassword = 'Pass5word@';
 
-      expect(registerScreenViewModel.isPasswordStrong(weakPassword), false);
-      expect(registerScreenViewModel.isPasswordStrong(strongPassword), true);
+      registerScreenViewModel.password = weakPassword;
+      expect(registerScreenViewModel.isPasswordStrong(), false);
+
+      registerScreenViewModel.password = strongPassword;
+      expect(registerScreenViewModel.isPasswordStrong(), true);
     });
   });
 }
