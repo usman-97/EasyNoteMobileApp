@@ -8,6 +8,12 @@ class RegisterScreenViewModel {
   late String _error;
   late bool _isRegistered;
 
+  String _email = '',
+      _password = '',
+      _confirmPassword = '',
+      _firstname = '',
+      _lastname = '';
+
   RegisterScreenViewModel() {
     _userAuthentication = UserAuthentication();
     _userManagement = UserManagement();
@@ -15,13 +21,12 @@ class RegisterScreenViewModel {
     _isRegistered = false;
   }
 
-  Future<void> registerUser(
-      String email, String password, String confirmPassword) async {
-    if (email.isNotEmpty) {
-      if (password.isNotEmpty && isPasswordStrong(password)) {
-        if (isConfirmPasswordMatch(password, confirmPassword)) {
+  Future<void> registerUser() async {
+    if (_email.isNotEmpty) {
+      if (_password.isNotEmpty && isPasswordStrong()) {
+        if (isConfirmPasswordMatch()) {
           bool isUserRegistered = await _userAuthentication.registerUser(
-              email: email, password: password);
+              email: _email, password: _password);
           if (!isUserRegistered) {
             _error = _userAuthentication.getUserErrorCode();
           } else {
@@ -41,59 +46,58 @@ class RegisterScreenViewModel {
     }
   }
 
-  Future<void> addUserData(
-      String email, String firstname, String lastname) async {
-    await _userManagement.addUserData(email, firstname, lastname);
+  Future<void> addUserData() async {
+    await _userManagement.addUserData(_email, _firstname, _lastname);
   }
 
-  bool isConfirmPasswordMatch(String password, String confirmPassword) {
-    if (password == confirmPassword) {
+  bool isConfirmPasswordMatch() {
+    if (_password == _confirmPassword) {
       return true;
     } else {
       return false;
     }
   }
 
-  bool isPasswordStrong(String password) {
-    if (doesPasswordContainerUppercase(password) &&
-        doesPasswordContainNumber(password) &&
-        doesPasswordContainSymbol(password) &&
-        password.length >= 8) {
+  bool isPasswordStrong() {
+    if (doesPasswordContainerUppercase() &&
+        doesPasswordContainNumber() &&
+        doesPasswordContainSymbol() &&
+        _password.length >= 8) {
       return true;
     } else {
       return false;
     }
   }
 
-  bool doesPasswordContainerUppercase(String password) {
+  bool doesPasswordContainerUppercase() {
     RegExp uppercaseMatch = RegExp(r'[A-Z]');
-    if (uppercaseMatch.firstMatch(password) != null) {
+    if (uppercaseMatch.firstMatch(_password) != null) {
       return true;
     } else {
       return false;
     }
   }
 
-  bool doesPasswordContainNumber(String password) {
+  bool doesPasswordContainNumber() {
     RegExp findNumber = RegExp(r'[0-9]');
-    if (findNumber.firstMatch(password) != null) {
+    if (findNumber.firstMatch(_password) != null) {
       return true;
     } else {
       return false;
     }
   }
 
-  bool doesPasswordContainSymbol(String password) {
+  bool doesPasswordContainSymbol() {
     RegExp findSymbol = RegExp(r'[!£€^&@]');
-    if (findSymbol.firstMatch(password) != null) {
+    if (findSymbol.firstMatch(_password) != null) {
       return true;
     } else {
       return false;
     }
   }
 
-  bool isFirstNameValid(String firstname) {
-    if (firstname.isNotEmpty) {
+  bool isFirstNameValid() {
+    if (_firstname.isNotEmpty) {
       _error = '';
       return true;
     } else {
@@ -102,8 +106,8 @@ class RegisterScreenViewModel {
     }
   }
 
-  bool isLastNameValid(String lastname) {
-    if (lastname.isNotEmpty) {
+  bool isLastNameValid() {
+    if (_lastname.isNotEmpty) {
       _error = '';
       return true;
     } else {
@@ -118,5 +122,35 @@ class RegisterScreenViewModel {
 
   bool isUserRegistered() {
     return _isRegistered;
+  }
+
+  String get email => _email;
+
+  get password => _password;
+
+  get confirmPassword => _confirmPassword;
+
+  get firstname => _firstname;
+
+  get lastname => _lastname;
+
+  set lastname(value) {
+    _lastname = value;
+  }
+
+  set firstname(value) {
+    _firstname = value;
+  }
+
+  set confirmPassword(value) {
+    _confirmPassword = value;
+  }
+
+  set password(value) {
+    _password = value;
+  }
+
+  set email(String value) {
+    _email = value;
   }
 }

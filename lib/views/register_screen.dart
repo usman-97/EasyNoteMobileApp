@@ -51,7 +51,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         keyboardType: TextInputType.emailAddress,
                         textAlign: TextAlign.center,
                         onChanged: (value) {
-                          _firstname = value;
+                          _registerScreenViewModel.firstname = value;
                         },
                         decoration: kTextFieldInputDecoration.copyWith(
                           fillColor: kTextIconColour,
@@ -75,7 +75,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         keyboardType: TextInputType.emailAddress,
                         textAlign: TextAlign.center,
                         onChanged: (value) {
-                          _lastname = value;
+                          _registerScreenViewModel.lastname = value;
                         },
                         decoration: kTextFieldInputDecoration.copyWith(
                           fillColor: kTextIconColour,
@@ -99,7 +99,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         keyboardType: TextInputType.emailAddress,
                         textAlign: TextAlign.center,
                         onChanged: (value) {
-                          _email = value;
+                          _registerScreenViewModel.email = value;
                         },
                         decoration: kTextFieldInputDecoration.copyWith(
                           fillColor: kTextIconColour,
@@ -123,7 +123,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         obscureText: true,
                         textAlign: TextAlign.center,
                         onChanged: (value) {
-                          _password = value;
+                          _registerScreenViewModel.password = value;
                         },
                         decoration: kTextFieldInputDecoration.copyWith(
                           fillColor: kTextIconColour,
@@ -147,7 +147,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         obscureText: true,
                         textAlign: TextAlign.center,
                         onChanged: (value) {
-                          _confirmPassword = value;
+                          _registerScreenViewModel.confirmPassword = value;
                         },
                         decoration: kTextFieldInputDecoration.copyWith(
                           fillColor: kTextIconColour,
@@ -196,12 +196,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     label: 'Next',
                     onPressed: () {
                       setState(() {
-                        print(
-                            '${_registerScreenViewModel.isFirstNameValid(_firstname)} ${_registerScreenViewModel.isLastNameValid(_lastname)}');
-                        if (_registerScreenViewModel
-                                .isFirstNameValid(_firstname) ||
-                            _registerScreenViewModel
-                                .isLastNameValid(_lastname)) {
+                        // print(
+                        //     '${_registerScreenViewModel.isFirstNameValid()} ${_registerScreenViewModel.isLastNameValid()}');
+                        if (_registerScreenViewModel.isFirstNameValid() ||
+                            _registerScreenViewModel.isLastNameValid()) {
                           _registrationError = '';
                           _isNextSectionVisible =
                               _isNextSectionVisible == true ? false : true;
@@ -220,14 +218,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: RoundButton(
                     label: 'Register',
                     onPressed: () async {
-                      await _registerScreenViewModel.registerUser(
-                          _email, _password, _confirmPassword);
+                      await _registerScreenViewModel.registerUser();
                       setState(() {
                         _registrationError =
                             _registerScreenViewModel.getRegistrationError();
                         if (_registerScreenViewModel.isUserRegistered()) {
-                          _registerScreenViewModel.addUserData(
-                              _email, _firstname, _lastname);
+                          _registerScreenViewModel.addUserData();
                           // _registerScreenViewModel.navigateToVerificationScreen(context);
                           Navigation.navigateToVerification(context);
                         }
