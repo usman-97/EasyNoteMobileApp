@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:note_taking_app/views/home_screen.dart';
 import 'package:note_taking_app/views/login_screen.dart';
+import 'package:note_taking_app/views/note_list_screen.dart';
 import 'package:note_taking_app/views/register_screen.dart';
 import 'package:note_taking_app/views/verification_screen.dart';
 
@@ -19,5 +20,9 @@ class Navigation {
 
   static void navigateToVerification(BuildContext context) {
     Navigator.pushNamed(context, VerificationScreen.id);
+  }
+
+  static void navigateToNoteList(BuildContext context) {
+    Navigator.pushNamed(context, NoteListScreen.id);
   }
 }
