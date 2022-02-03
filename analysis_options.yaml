@@ -33,7 +33,7 @@ dart_code_metrics:
     maximum-nesting-level: 5 # Maximum number of nesting allowed
     number-of-parameter: 4 # Total number of parameter a method can take
     lines-of-code: 50 # Max line a method can have
-    halstead-volume: 120 # Total number of operators and operand a method can have
+    halstead-volume: 180 # Total number of operators and operand a method can have
   metrics-exclude:
     - test/**
   rules:
