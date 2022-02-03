@@ -8,14 +8,14 @@ import 'package:note_taking_app/utilities/navigation.dart';
 class LoginScreenViewModel {
   late final UserAuthentication _userAuthentication;
   late String _error;
+  String email = '', password = '';
 
   LoginScreenViewModel() {
     _userAuthentication = UserAuthentication();
     _error = '';
   }
 
-  Future<void> loginUser(
-      BuildContext context, String email, String password) async {
+  Future<void> loginUser(BuildContext context) async {
     if (email.isNotEmpty) {
       if (password.isNotEmpty) {
         bool isUserSignedIn =

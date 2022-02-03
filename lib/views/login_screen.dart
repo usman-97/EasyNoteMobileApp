@@ -17,7 +17,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final LoginScreenViewModel _loginScreenViewModel = LoginScreenViewModel();
-  String _email = '', _password = '';
+  // String _email = '', _password = '';
   String _loginError = '';
 
   @override
@@ -41,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       keyboardType: TextInputType.emailAddress,
                       textAlign: TextAlign.center,
                       onChanged: (value) {
-                        _email = value;
+                        _loginScreenViewModel.email = value;
                       },
                       decoration: kTextFieldInputDecoration.copyWith(
                         fillColor: kTextIconColour,
@@ -63,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       keyboardType: TextInputType.emailAddress,
                       textAlign: TextAlign.center,
                       onChanged: (value) {
-                        _password = value;
+                        _loginScreenViewModel.password = value;
                       },
                       decoration: kTextFieldInputDecoration.copyWith(
                         fillColor: kTextIconColour,
@@ -120,8 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: RoundButton(
                   label: 'Login',
                   onPressed: () async {
-                    await _loginScreenViewModel.loginUser(
-                        context, _email, _password);
+                    await _loginScreenViewModel.loginUser(context);
                     setState(() {
                       _loginError = _loginScreenViewModel.getLoginError();
                     });
