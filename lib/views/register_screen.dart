@@ -19,12 +19,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final RegisterScreenViewModel _registerScreenViewModel =
       RegisterScreenViewModel();
   bool _isNextSectionVisible = false;
-  String _registrationError = '',
-      _email = '',
-      _password = '',
-      _confirmPassword = '',
-      _firstname = '',
-      _lastname = '';
+  String _registrationError = '';
 
   @override
   Widget build(BuildContext context) {
