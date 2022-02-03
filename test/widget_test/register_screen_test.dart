@@ -53,9 +53,12 @@ void main() async {
       ));
 
       final nextButton = find.byType(RoundButton);
-      final firstSectionTextFields = find.byType(TextField);
+      final firstNameTextField = find.byKey(const Key('firstNameRegistration'));
+      final lastNameTextField = find.byKey(const Key('lastNameRegistration'));
 
-      await tester.enterText(firstSectionTextFields, 'text');
+      await tester.enterText(firstNameTextField, 'firstname');
+      await tester.enterText(lastNameTextField, 'lastname');
+
       await tester.tap(nextButton);
       await tester.pump();
 
