@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:note_taking_app/components/app_menu.dart';
+import 'package:note_taking_app/components/custom_app_bar.dart';
 import 'package:note_taking_app/utilities/constants.dart';
 import 'package:note_taking_app/utilities/navigation.dart';
 
@@ -18,14 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         actions: const <Widget>[
-          Padding(
-            padding: EdgeInsets.only(right: 10.0),
-            child: Icon(
-              Icons.search_rounded,
-              color: kTextIconColour,
-              size: 40.0,
-            ),
-          )
+          CustomAppBar(),
         ],
       ),
       drawer: AppMenu(),
