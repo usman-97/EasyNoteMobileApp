@@ -24,7 +24,9 @@ class AppMenu extends StatelessWidget {
           AppMenuCard(
             cardTitle: 'Notes',
             icon: Icons.note_rounded,
-            onTap: () {},
+            onTap: () {
+              Navigation.navigateToNoteList(context);
+            },
           ),
           AppMenuCard(
             cardTitle: 'Logout',
