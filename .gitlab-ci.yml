@@ -15,9 +15,9 @@ update_flutter:
 code_quality:
   stage: test
   before_script:
-    - flutter pub global activate dart_code_metrics
+    - dart pub global activate dart_code_metrics
   script:
-    - flutter pub global run dart_code_metrcis:metrics analyze lib -r gitlab > code-quality-report.json
+    - dart pub global run dart_code_metrcis:metrics analyze lib -r gitlab > code-quality-report.json
   artifacts:
     reports:
       codequality: code-quality-report.json
