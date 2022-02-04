@@ -1,12 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:note_taking_app/services/firebase_auth.dart';
 
 class UserAuthentication {
   final FirebaseAuth _firebaseAuthentication =
       FirebaseAuthentication.firebaseAuthInstance();
   String _userErrorCode = '';
+  // bool _isUserSignedIn = false;
   // User? _currentUser;
 
   // Register new user using FirebaseAuth
@@ -94,15 +93,15 @@ class UserAuthentication {
     return _userErrorCode;
   }
 
-  bool isUserAlreadySignedIn() {
-    bool isUserSignedIn = false;
-    _firebaseAuthentication.userChanges().listen((User? user) {
-      if (user == null) {
-        isUserSignedIn = false;
-      } else {
-        isUserSignedIn = true;
-      }
-    });
-    return isUserSignedIn;
-  }
+  // bool isUserAlreadySignedIn() {
+  //   bool isUserSignedIn = false;
+  //   _firebaseAuthentication.userChanges().listen((User? user) {
+  //     if (user == null) {
+  //       isUserSignedIn = false;
+  //     } else {
+  //       isUserSignedIn = true;
+  //     }
+  //   });
+  //   return isUserSignedIn;
+  // }
 }
