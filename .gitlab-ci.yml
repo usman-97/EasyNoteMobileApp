@@ -39,9 +39,9 @@ code_quality:
     - mkdir reports
     - dart pub global run dart_code_metrics:metrics analyze lib -r gitlab > reports/code-quality-report.json
   artifacts:
-    paths:
-      - reports/
     reports:
       codequality: code-quality-report.json
+    paths:
+      - reports/
   only:
     - main
