@@ -92,7 +92,6 @@ class UserAuthentication {
   String getUserErrorCode() {
     return _userErrorCode;
   }
-
   // bool isUserAlreadySignedIn() {
   //   bool isUserSignedIn = false;
   //   _firebaseAuthentication.userChanges().listen((User? user) {
