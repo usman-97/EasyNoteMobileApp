@@ -1,4 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:note_taking_app/services/firebase_auth.dart';
 
 class UserAuthentication {
@@ -90,5 +92,17 @@ class UserAuthentication {
 
   String getUserErrorCode() {
     return _userErrorCode;
+  }
+
+  bool isUserAlreadySignedIn() {
+    bool isUserSignedIn = false;
+    _firebaseAuthentication.userChanges().listen((User? user) {
+      if (user == null) {
+        isUserSignedIn = false;
+      } else {
+        isUserSignedIn = true;
+      }
+    });
+    return isUserSignedIn;
   }
 }
