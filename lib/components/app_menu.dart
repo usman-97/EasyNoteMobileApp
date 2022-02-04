@@ -22,6 +22,13 @@ class AppMenu extends StatelessWidget {
             child: Text('EasyNote'),
           ),
           AppMenuCard(
+            cardTitle: 'Home',
+            icon: Icons.home_rounded,
+            onTap: () {
+              Navigation.navigateToHome(context);
+            },
+          ),
+          AppMenuCard(
             cardTitle: 'Notes',
             icon: Icons.note_rounded,
             onTap: () {
