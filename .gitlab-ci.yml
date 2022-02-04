@@ -11,6 +11,24 @@ update_flutter:
     - flutter clean
     - flutter pub get
   interruptible: true
+  only:
+    - main
+
+unit_test:
+  stage: test
+  script:
+    - flutter test test/unit_test
+  interruptible: true
+  only:
+    - main
+
+widget_test:
+  stage: test
+  script:
+    - flutter test test/widget_test
+  interruptible: true
+  only:
+    - main
 
 code_quality:
   stage: test
@@ -18,19 +36,12 @@ code_quality:
     - dart pub get
     - dart pub global activate dart_code_metrics
   script:
-    - dart pub global run dart_code_metrics:metrics analyze lib -r gitlab > code-quality-report.json
+    - mkdir reports
+    - dart pub global run dart_code_metrics:metrics analyze lib -r gitlab > reports/code-quality-report.json
   artifacts:
+    paths:
+      - reports/
     reports:
       codequality: code-quality-report.json
-
-unit_test:
-  stage: test
-  script:
-    - flutter test test/unit_test
-  interruptible: true
-
-widget_test:
-  stage: test
-  script:
-    - flutter test test/widget_test
-  interruptible: true
+  only:
+    - main
