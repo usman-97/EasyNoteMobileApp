@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_taking_app/components/add_button.dart';
 import 'package:note_taking_app/components/app_menu.dart';
 import 'package:note_taking_app/components/custom_app_bar.dart';
 import 'package:note_taking_app/utilities/constants.dart';
@@ -32,8 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
               height: kTopContainerHeight,
               color: kPrimaryColour,
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 10.0, horizontal: 10.0),
+                padding: const EdgeInsets.all(10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -142,25 +142,11 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Stack(
                 children: <Widget>[
                   ListView(),
-                  Align(
+                  const Align(
                     alignment: FractionalOffset.bottomCenter,
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: 20.0),
-                      child: RawMaterialButton(
-                        onPressed: () {},
-                        child: const Icon(
-                          Icons.add_rounded,
-                          color: kTextIconColour,
-                          size: 60.0,
-                        ),
-                        elevation: 0.0,
-                        constraints: const BoxConstraints.tightFor(
-                          width: 100.0,
-                          height: 100.0,
-                        ),
-                        shape: const CircleBorder(),
-                        fillColor: kAccentColour,
-                      ),
+                      padding: EdgeInsets.only(bottom: 20.0),
+                      child: AddButton(),
                     ),
                   ),
                 ],
