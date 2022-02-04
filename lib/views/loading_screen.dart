@@ -13,13 +13,14 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-  final LoadingScreenViewModel loadingScreenViewModel =
+  final LoadingScreenViewModel _loadingScreenViewModel =
       LoadingScreenViewModel();
 
   @override
   void initState() {
     super.initState();
-    loadingScreenViewModel.navigateToLoginScreen(context);
+    _loadingScreenViewModel.appLoading(context);
+    // _loadingScreenViewModel.isUserSignedIn();
   }
 
   @override
