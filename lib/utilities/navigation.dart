@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_taking_app/views/create_note_screen.dart';
 import 'package:note_taking_app/views/home_screen.dart';
 import 'package:note_taking_app/views/login_screen.dart';
 import 'package:note_taking_app/views/note_list_screen.dart';
@@ -24,5 +25,9 @@ class Navigation {
 
   static void navigateToNoteList(BuildContext context) {
     Navigator.pushNamed(context, NoteListScreen.id);
+  }
+
+  static void navigateToCreateNote(BuildContext context) {
+    Navigator.pushNamed(context, CreateNoteScreen.id);
   }
 }
