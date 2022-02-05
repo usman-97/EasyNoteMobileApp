@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:note_taking_app/utilities/constants.dart';
+import 'package:note_taking_app/utilities/navigation.dart';
 
 class AddButton extends StatelessWidget {
   const AddButton({
@@ -9,7 +10,9 @@ class AddButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RawMaterialButton(
-      onPressed: () {},
+      onPressed: () {
+        Navigation.navigateToCreateNote(context);
+      },
       child: const Icon(
         Icons.add_rounded,
         color: kTextIconColour,
