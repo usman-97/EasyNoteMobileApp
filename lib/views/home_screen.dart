@@ -152,38 +152,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            // Expanded(
-            //   child: Stack(
-            //     alignment: Alignment.bottomCenter,
-            //     children: [
-            //       Container(
-            //         color: kDarkPrimaryColour,
-            //         height: 70.0,
-            //         child: Row(
-            //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //           children: <Widget>[
-            //             TextButton(
-            //               onPressed: () {},
-            //               child: const Icon(
-            //                 Icons.menu_rounded,
-            //                 color: kTextIconColour,
-            //                 size: 50.0,
-            //               ),
-            //             ),
-            //             TextButton(
-            //               onPressed: () {},
-            //               child: const Icon(
-            //                 Icons.search_rounded,
-            //                 color: kTextIconColour,
-            //                 size: 50.0,
-            //               ),
-            //             ),
-            //           ],
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
           ],
         ),
       ),
