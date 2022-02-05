@@ -40,7 +40,7 @@ code_quality:
     - dart pub global run dart_code_metrics:metrics analyze lib -r gitlab > reports/code-quality-report.json
   artifacts:
     reports:
-      codequality: code-quality-report.json
+      codequality: reports/code-quality-report.json
     paths:
       - reports/
   only:
