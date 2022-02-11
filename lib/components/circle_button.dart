@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:note_taking_app/utilities/constants.dart';
 import 'package:note_taking_app/utilities/navigation.dart';
 
-class AddButton extends StatelessWidget {
-  const AddButton({
-    Key? key,
-  }) : super(key: key);
+class CircleButton extends StatelessWidget {
+  final IconData icon;
+
+  const CircleButton({Key? key, this.icon = Icons.add_rounded})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,8 +14,8 @@ class AddButton extends StatelessWidget {
       onPressed: () {
         Navigation.navigateToCreateNote(context);
       },
-      child: const Icon(
-        Icons.add_rounded,
+      child: Icon(
+        icon,
         color: kTextIconColour,
         size: 60.0,
       ),
