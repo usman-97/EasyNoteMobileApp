@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:note_taking_app/components/app_menu.dart';
+import 'package:note_taking_app/components/circle_button.dart';
 import 'package:note_taking_app/components/custom_app_bar.dart';
 import 'package:note_taking_app/utilities/constants.dart';
 import 'package:note_taking_app/viewModels/create_note_view_model.dart';
@@ -14,7 +15,7 @@ import 'package:html_editor_enhanced/utils/shims/dart_ui_fake.dart';
 import 'package:html_editor_enhanced/utils/shims/dart_ui_real.dart';
 import 'package:html_editor_enhanced/utils/shims/flutter_inappwebview_fake.dart';
 import 'package:html_editor_enhanced/utils/toolbar.dart';
-import 'package:html_editor_enhanced/utils/utils.dart';
+// import 'package:html_editor_enhanced/utils/utils.dart';
 
 class CreateNoteScreen extends StatefulWidget {
   static const String id = 'create_note_screen';
@@ -29,7 +30,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
   // final QuillController _quillController = QuillController.basic();
   final HtmlEditorController _htmlEditorController = HtmlEditorController();
   final CreateNoteViewModel _createNoteViewModel = CreateNoteViewModel();
-  bool _isEditNote = false;
+  bool _isEditNote = true;
 
   @override
   Widget build(BuildContext context) {
@@ -37,15 +38,19 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
       appBar: AppBar(
         leading: TextButton(
           onPressed: () {
-            Navigator.pop(context);
+            if (!_isEditNote) {
+              Navigator.pop(context);
+            } else {
+              setState(() {
+                _isEditNote = false;
+                _htmlEditorController.disable();
+              });
+            }
           },
-          child: Visibility(
-            visible: !_isEditNote,
-            child: const Icon(
-              Icons.arrow_back_rounded,
-              size: 40.0,
-              color: kTextIconColour,
-            ),
+          child: Icon(
+            _isEditNote ? Icons.check_rounded : Icons.arrow_back_rounded,
+            size: 40.0,
+            color: kTextIconColour,
           ),
         ),
         actions: <Widget>[
@@ -69,32 +74,52 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
         child: Column(
           children: <Widget>[
             Expanded(
-              child: HtmlEditor(
-                controller: _htmlEditorController,
-                htmlEditorOptions: const HtmlEditorOptions(
-                  hint: 'Your text here...',
-                  spellCheck: true,
-                  shouldEnsureVisible: true,
-                ),
-                otherOptions: const OtherOptions(
-                  height: 400,
-                ),
-                htmlToolbarOptions: const HtmlToolbarOptions(
-                  toolbarType: ToolbarType.nativeGrid,
-                  defaultToolbarButtons: [
-                    StyleButtons(),
-                    FontSettingButtons(
-                      fontSizeUnit: false,
+              child: Stack(
+                children: <Widget>[
+                  HtmlEditor(
+                    controller: _htmlEditorController,
+                    htmlEditorOptions: const HtmlEditorOptions(
+                      hint: 'Your text here...',
+                      shouldEnsureVisible: true,
+                      spellCheck: true,
                     ),
-                    ColorButtons(),
-                    ListButtons(listStyles: false),
-                    ParagraphButtons(
-                      lineHeight: false,
-                      caseConverter: false,
+                    otherOptions: const OtherOptions(),
+                    htmlToolbarOptions: const HtmlToolbarOptions(
+                      toolbarType: ToolbarType.nativeGrid,
+                      defaultToolbarButtons: [
+                        StyleButtons(),
+                        FontSettingButtons(
+                          fontSizeUnit: false,
+                        ),
+                        ColorButtons(),
+                        ListButtons(listStyles: false),
+                        ParagraphButtons(
+                          lineHeight: false,
+                          caseConverter: false,
+                        ),
+                        InsertButtons(),
+                      ],
                     ),
-                    InsertButtons(),
-                  ],
-                ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 20.0),
+                    child: Visibility(
+                      visible: !_isEditNote,
+                      child: Align(
+                        alignment: FractionalOffset.bottomCenter,
+                        child: CircleButton(
+                          icon: Icons.edit_rounded,
+                          onPressed: () {
+                            setState(() {
+                              _htmlEditorController.enable();
+                              _isEditNote = true;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
 
