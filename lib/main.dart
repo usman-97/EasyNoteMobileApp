@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:note_taking_app/views/create_note_screen.dart';
 import 'package:note_taking_app/views/home_screen.dart';
@@ -10,6 +11,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final cameras = await availableCameras();
   await Firebase.initializeApp(
       // options: DefaultFirebaseOptions.currentPlatform,
       );
