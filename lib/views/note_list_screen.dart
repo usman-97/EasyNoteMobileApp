@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:note_taking_app/components/add_button.dart';
+import 'package:note_taking_app/components/circle_button.dart';
 import 'package:note_taking_app/components/app_menu.dart';
 import 'package:note_taking_app/components/custom_app_bar.dart';
 import 'package:note_taking_app/components/noteCard.dart';
 import 'package:note_taking_app/utilities/constants.dart';
+import 'package:note_taking_app/utilities/navigation.dart';
 
 class NoteListScreen extends StatefulWidget {
   static const String id = 'note_list_screen';
@@ -77,11 +78,15 @@ class _NoteListScreenState extends State<NoteListScreen> {
                       NoteCard(),
                     ],
                   ),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.only(bottom: 20.0),
                     child: Align(
                       alignment: FractionalOffset.bottomCenter,
-                      child: AddButton(),
+                      child: CircleButton(
+                        onPressed: () {
+                          Navigation.navigateToCreateNote(context);
+                        },
+                      ),
                     ),
                   ),
                 ],
