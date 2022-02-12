@@ -9,9 +9,11 @@ import 'package:note_taking_app/views/verification_screen.dart';
 import 'views/loading_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+late List<CameraDescription> cameras;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final cameras = await availableCameras();
+  cameras = await availableCameras();
   await Firebase.initializeApp(
       // options: DefaultFirebaseOptions.currentPlatform,
       );
@@ -38,7 +40,9 @@ class EasyNote extends StatelessWidget {
         VerificationScreen.id: (context) => const VerificationScreen(),
         HomeScreen.id: (context) => const HomeScreen(),
         NoteListScreen.id: (context) => const NoteListScreen(),
-        CreateNoteScreen.id: (context) => const CreateNoteScreen(),
+        CreateNoteScreen.id: (context) => CreateNoteScreen(
+              cameraDescription: cameras[0],
+            ),
       },
     );
   }
