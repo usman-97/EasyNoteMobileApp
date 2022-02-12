@@ -1,8 +1,11 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:note_taking_app/components/app_menu.dart';
 import 'package:note_taking_app/components/circle_button.dart';
 import 'package:note_taking_app/components/custom_app_bar.dart';
+import 'package:note_taking_app/components/custom_editor_button.dart';
 import 'package:note_taking_app/utilities/constants.dart';
+import 'package:note_taking_app/utilities/navigation.dart';
 import 'package:note_taking_app/viewModels/create_note_view_model.dart';
 
 import 'package:html_editor_enhanced/html_editor.dart';
@@ -19,8 +22,10 @@ import 'package:html_editor_enhanced/utils/toolbar.dart';
 
 class CreateNoteScreen extends StatefulWidget {
   static const String id = 'create_note_screen';
+  final CameraDescription cameraDescription;
 
-  const CreateNoteScreen({Key? key}) : super(key: key);
+  const CreateNoteScreen({Key? key, required this.cameraDescription})
+      : super(key: key);
 
   @override
   _CreateNoteScreenState createState() => _CreateNoteScreenState();
@@ -29,17 +34,22 @@ class CreateNoteScreen extends StatefulWidget {
 class _CreateNoteScreenState extends State<CreateNoteScreen> {
   // final QuillController _quillController = QuillController.basic();
   final HtmlEditorController _htmlEditorController = HtmlEditorController();
-  final CreateNoteViewModel _createNoteViewModel = CreateNoteViewModel();
   bool _isEditNote = true;
+
+  // final CreateNoteViewModel _createNoteViewModel = CreateNoteViewModel();
+  // late final CameraController _cameraController;
+  // late final Future<void> _initializeControllerFuture;
+  // bool _isCameraShown = false;
 
   @override
   Widget build(BuildContext context) {
+    _htmlEditorController.setFullScreen();
     return Scaffold(
       appBar: AppBar(
         leading: TextButton(
           onPressed: () {
             if (!_isEditNote) {
-              Navigator.pop(context);
+              Navigation.navigateToNoteList(context);
             } else {
               setState(() {
                 _isEditNote = false;
@@ -83,21 +93,52 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
                       shouldEnsureVisible: true,
                       spellCheck: true,
                     ),
-                    otherOptions: const OtherOptions(),
-                    htmlToolbarOptions: const HtmlToolbarOptions(
-                      toolbarType: ToolbarType.nativeGrid,
+                    otherOptions: const OtherOptions(
+                      height: 1200,
+                    ),
+                    htmlToolbarOptions: HtmlToolbarOptions(
+                      toolbarType: ToolbarType.nativeExpandable,
+                      customToolbarButtons: <Widget>[
+                        //   TextButton(
+                        //     onPressed: () {
+                        //       setState(() {
+                        //         _isCameraShown = true;
+                        //       });
+                        //     },
+                        //     child: const Icon(
+                        //       Icons.camera_enhance_rounded,
+                        //       color: Colors.black87,
+                        //     ),
+                        //   ),
+                        Row(
+                          children: <Widget>[
+                            CustomEditorButton(
+                              icon: Icons.undo_rounded,
+                              onPressed: () {
+                                _htmlEditorController.undo();
+                              },
+                            ),
+                            CustomEditorButton(
+                              icon: Icons.redo_rounded,
+                              onPressed: () {
+                                _htmlEditorController.redo();
+                              },
+                            ),
+                          ],
+                        )
+                      ],
                       defaultToolbarButtons: [
-                        StyleButtons(),
-                        FontSettingButtons(
+                        const StyleButtons(),
+                        const FontSettingButtons(
                           fontSizeUnit: false,
                         ),
-                        ColorButtons(),
-                        ListButtons(listStyles: false),
-                        ParagraphButtons(
+                        const ColorButtons(),
+                        const ListButtons(listStyles: false),
+                        const ParagraphButtons(
                           lineHeight: false,
                           caseConverter: false,
                         ),
-                        InsertButtons(),
+                        const InsertButtons(),
                       ],
                     ),
                   ),
@@ -122,27 +163,6 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
                 ],
               ),
             ),
-
-            // Visibility(
-            //   visible: _isEditNote,
-            //   child: QuillToolbar.basic(
-            //     controller: _quillController,
-            //     onImagePickCallback: _createNoteViewModel.onImagePickCallback,
-            //     onVideoPickCallback: _createNoteViewModel.onVideoPickCallBack,
-            //   ),
-            // ),
-            // Expanded(
-            //   child: Padding(
-            //     padding: const EdgeInsets.symmetric(
-            //       horizontal: 10.0,
-            //       vertical: 15.0,
-            //     ),
-            //     child: QuillEditor.basic(
-            //       controller: _quillController,
-            //       readOnly: !_isEditNote,
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ),
