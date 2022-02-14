@@ -549,14 +549,14 @@ packages:
     source: hosted
     version: "2.0.2"
   path:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: path
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
   path_provider:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: path_provider
       url: "https://pub.dartlang.org"
