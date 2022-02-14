@@ -5,6 +5,7 @@ import 'package:note_taking_app/components/custom_app_bar.dart';
 import 'package:note_taking_app/components/noteCard.dart';
 import 'package:note_taking_app/utilities/constants.dart';
 import 'package:note_taking_app/utilities/navigation.dart';
+import 'package:note_taking_app/views/home_screen.dart';
 
 class NoteListScreen extends StatefulWidget {
   static const String id = 'note_list_screen';
@@ -38,7 +39,7 @@ class _NoteListScreenState extends State<NoteListScreen> {
                 children: <Widget>[
                   TextButton(
                     onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.pushNamed(context, HomeScreen.id);
                     },
                     child: const Padding(
                       padding: EdgeInsets.only(bottom: 10.0),
