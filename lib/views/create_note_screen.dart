@@ -7,17 +7,18 @@ import 'package:note_taking_app/components/custom_editor_button.dart';
 import 'package:note_taking_app/utilities/constants.dart';
 import 'package:note_taking_app/utilities/navigation.dart';
 import 'package:note_taking_app/viewModels/create_note_view_model.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 
-import 'package:html_editor_enhanced/html_editor.dart';
-import 'package:html_editor_enhanced/utils/callbacks.dart';
-import 'package:html_editor_enhanced/utils/file_upload_model.dart';
-import 'package:html_editor_enhanced/utils/options.dart';
-import 'package:html_editor_enhanced/utils/plugins.dart';
-import 'package:html_editor_enhanced/utils/shims/dart_ui.dart';
-import 'package:html_editor_enhanced/utils/shims/dart_ui_fake.dart';
-import 'package:html_editor_enhanced/utils/shims/dart_ui_real.dart';
-import 'package:html_editor_enhanced/utils/shims/flutter_inappwebview_fake.dart';
-import 'package:html_editor_enhanced/utils/toolbar.dart';
+// import 'package:html_editor_enhanced/html_editor.dart';
+// import 'package:html_editor_enhanced/utils/callbacks.dart';
+// import 'package:html_editor_enhanced/utils/file_upload_model.dart';
+// import 'package:html_editor_enhanced/utils/options.dart';
+// import 'package:html_editor_enhanced/utils/plugins.dart';
+// import 'package:html_editor_enhanced/utils/shims/dart_ui.dart';
+// import 'package:html_editor_enhanced/utils/shims/dart_ui_fake.dart';
+// import 'package:html_editor_enhanced/utils/shims/dart_ui_real.dart';
+// import 'package:html_editor_enhanced/utils/shims/flutter_inappwebview_fake.dart';
+// import 'package:html_editor_enhanced/utils/toolbar.dart';
 // import 'package:html_editor_enhanced/utils/utils.dart';
 
 class CreateNoteScreen extends StatefulWidget {
@@ -32,18 +33,18 @@ class CreateNoteScreen extends StatefulWidget {
 }
 
 class _CreateNoteScreenState extends State<CreateNoteScreen> {
-  // final QuillController _quillController = QuillController.basic();
-  final HtmlEditorController _htmlEditorController = HtmlEditorController();
+  final QuillController _quillController = QuillController.basic();
+  final CreateNoteViewModel _createNoteViewModel = CreateNoteViewModel();
+  // final HtmlEditorController _htmlEditorController = HtmlEditorController();
   bool _isEditNote = true;
 
-  // final CreateNoteViewModel _createNoteViewModel = CreateNoteViewModel();
   // late final CameraController _cameraController;
   // late final Future<void> _initializeControllerFuture;
   // bool _isCameraShown = false;
 
   @override
   Widget build(BuildContext context) {
-    _htmlEditorController.setFullScreen();
+    // _htmlEditorController.setFullScreen();
     return Scaffold(
       appBar: AppBar(
         leading: TextButton(
@@ -53,7 +54,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
             } else {
               setState(() {
                 _isEditNote = false;
-                _htmlEditorController.disable();
+                // _htmlEditorController.disable();
               });
             }
           },
@@ -83,86 +84,118 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
       body: SafeArea(
         child: Column(
           children: <Widget>[
-            Expanded(
-              child: Stack(
-                children: <Widget>[
-                  HtmlEditor(
-                    controller: _htmlEditorController,
-                    htmlEditorOptions: const HtmlEditorOptions(
-                      hint: 'Your text here...',
-                      shouldEnsureVisible: true,
-                      spellCheck: true,
-                    ),
-                    otherOptions: const OtherOptions(
-                      height: 1200,
-                    ),
-                    htmlToolbarOptions: HtmlToolbarOptions(
-                      toolbarType: ToolbarType.nativeExpandable,
-                      customToolbarButtons: <Widget>[
-                        //   TextButton(
-                        //     onPressed: () {
-                        //       setState(() {
-                        //         _isCameraShown = true;
-                        //       });
-                        //     },
-                        //     child: const Icon(
-                        //       Icons.camera_enhance_rounded,
-                        //       color: Colors.black87,
-                        //     ),
-                        //   ),
-                        Row(
-                          children: <Widget>[
-                            CustomEditorButton(
-                              icon: Icons.undo_rounded,
-                              onPressed: () {
-                                _htmlEditorController.undo();
-                              },
-                            ),
-                            CustomEditorButton(
-                              icon: Icons.redo_rounded,
-                              onPressed: () {
-                                _htmlEditorController.redo();
-                              },
-                            ),
-                          ],
-                        )
-                      ],
-                      defaultToolbarButtons: [
-                        const StyleButtons(),
-                        const FontSettingButtons(
-                          fontSizeUnit: false,
-                        ),
-                        const ColorButtons(),
-                        const ListButtons(listStyles: false),
-                        const ParagraphButtons(
-                          lineHeight: false,
-                          caseConverter: false,
-                        ),
-                        const InsertButtons(),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 20.0),
-                    child: Visibility(
-                      visible: !_isEditNote,
-                      child: Align(
-                        alignment: FractionalOffset.bottomCenter,
-                        child: CircleButton(
-                          icon: Icons.edit_rounded,
-                          onPressed: () {
-                            setState(() {
-                              _htmlEditorController.enable();
-                              _isEditNote = true;
-                            });
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+            // Expanded(
+            //   child: Stack(
+            //     children: <Widget>[
+            //       HtmlEditor(
+            //         controller: _htmlEditorController,
+            //         htmlEditorOptions: const HtmlEditorOptions(
+            //           hint: 'Your text here...',
+            //           shouldEnsureVisible: true,
+            //           spellCheck: true,
+            //         ),
+            //         otherOptions: const OtherOptions(
+            //           height: 1200,
+            //         ),
+            //         htmlToolbarOptions: HtmlToolbarOptions(
+            //           toolbarType: ToolbarType.nativeExpandable,
+            //           customToolbarButtons: <Widget>[
+            //             //   TextButton(
+            //             //     onPressed: () {
+            //             //       setState(() {
+            //             //         _isCameraShown = true;
+            //             //       });
+            //             //     },
+            //             //     child: const Icon(
+            //             //       Icons.camera_enhance_rounded,
+            //             //       color: Colors.black87,
+            //             //     ),
+            //             //   ),
+            //             Row(
+            //               children: <Widget>[
+            //                 CustomEditorButton(
+            //                   icon: Icons.undo_rounded,
+            //                   onPressed: () {
+            //                     _htmlEditorController.undo();
+            //                   },
+            //                 ),
+            //                 CustomEditorButton(
+            //                   icon: Icons.redo_rounded,
+            //                   onPressed: () {
+            //                     _htmlEditorController.redo();
+            //                   },
+            //                 ),
+            //               ],
+            //             )
+            //           ],
+            //           defaultToolbarButtons: [
+            //             const StyleButtons(),
+            //             const FontSettingButtons(
+            //               fontSizeUnit: false,
+            //             ),
+            //             const ColorButtons(),
+            //             const ListButtons(listStyles: false),
+            //             const ParagraphButtons(
+            //               lineHeight: false,
+            //               caseConverter: false,
+            //             ),
+            //             const InsertButtons(),
+            //           ],
+            //         ),
+            //       ),
+            //       Padding(
+            //         padding: const EdgeInsets.only(bottom: 20.0),
+            //         child: Visibility(
+            //           visible: !_isEditNote,
+            //           child: Align(
+            //             alignment: FractionalOffset.bottomCenter,
+            //             child: CircleButton(
+            //               icon: Icons.edit_rounded,
+            //               onPressed: () {
+            //                 setState(() {
+            //                   _htmlEditorController.enable();
+            //                   _isEditNote = true;
+            //                 });
+            //               },
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+
+            Visibility(
+              visible: _isEditNote,
+              child: QuillToolbar.basic(
+                controller: _quillController,
+                onImagePickCallback: _createNoteViewModel.onImagePickCallback,
+                onVideoPickCallback: _createNoteViewModel.onVideoPickCallBack,
               ),
             ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10.0,
+                  vertical: 15.0,
+                ),
+                child: QuillEditor.basic(
+                  controller: _quillController,
+                  readOnly: false,
+                ),
+              ),
+            ),
+            // Visibility(
+            //   visible: !_isEditNote,
+            //   child: CircleButton(
+            //     onPressed: () {
+            //       setState(() {
+            //         _isEditNote = true;
+            //       });
+            //     },
+            //     icon: Icons.edit_rounded,
+            //   ),
+            // ),
           ],
         ),
       ),
