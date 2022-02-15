@@ -12,22 +12,22 @@ class Navigation {
   }
 
   static void navigateToLogin(BuildContext context) {
-    Navigator.pushNamed(context, LoginScreen.id);
+    Navigator.popAndPushNamed(context, LoginScreen.id);
   }
 
   static void navigateToRegister(BuildContext context) {
-    Navigator.pushNamed(context, RegisterScreen.id);
+    Navigator.popAndPushNamed(context, RegisterScreen.id);
   }
 
   static void navigateToVerification(BuildContext context) {
-    Navigator.pushNamed(context, VerificationScreen.id);
+    Navigator.popAndPushNamed(context, VerificationScreen.id);
   }
 
   static void navigateToNoteList(BuildContext context) {
-    Navigator.pushNamed(context, NoteListScreen.id);
+    Navigator.popAndPushNamed(context, NoteListScreen.id);
   }
 
   static void navigateToCreateNote(BuildContext context) {
-    Navigator.pushNamed(context, CreateNoteScreen.id);
+    Navigator.popAndPushNamed(context, CreateNoteScreen.id);
   }
 }
