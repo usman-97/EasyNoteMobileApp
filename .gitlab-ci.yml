@@ -1,6 +1,7 @@
 stages:
   - update
   - test
+  - build
 
 default:
   image: "cirrusci/flutter:latest"
@@ -43,5 +44,15 @@ code_quality:
       codequality: reports/code-quality-report.json
     paths:
       - reports/
+  only:
+    - main
+
+android_build:
+  stage: build
+  script:
+    - flutter build apk
+  artifacts:
+    paths:
+      - build/app/outputs/apk/release/app-release.apk
   only:
     - main
