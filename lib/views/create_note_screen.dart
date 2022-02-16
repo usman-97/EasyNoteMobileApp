@@ -36,6 +36,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
   final QuillController _quillController = QuillController.basic();
   final CreateNoteViewModel _createNoteViewModel = CreateNoteViewModel();
   // final HtmlEditorController _htmlEditorController = HtmlEditorController();
+  final FocusNode _focusNode = FocusNode();
   bool _isEditNote = true;
 
   // late final CameraController _cameraController;
@@ -43,8 +44,15 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
   // bool _isCameraShown = false;
 
   @override
+  void dispose() {
+    _quillController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     // _htmlEditorController.setFullScreen();
+    print(_isEditNote);
     return Scaffold(
       appBar: AppBar(
         leading: TextButton(
@@ -54,6 +62,8 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
             } else {
               setState(() {
                 _isEditNote = false;
+                // _isReadOnlyMode = true;
+                FocusManager.instance.primaryFocus?.unfocus();
                 // _htmlEditorController.disable();
               });
             }
@@ -171,20 +181,112 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
                 controller: _quillController,
                 onImagePickCallback: _createNoteViewModel.onImagePickCallback,
                 onVideoPickCallback: _createNoteViewModel.onVideoPickCallBack,
+                showAlignmentButtons: true,
               ),
             ),
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10.0,
-                  vertical: 15.0,
+              // flex: 10,
+              child: Container(
+                color: Colors.white,
+                padding: const EdgeInsets.only(
+                  top: 10.0,
+                  left: 16.0,
+                  right: 16.0,
                 ),
-                child: QuillEditor.basic(
+                child: QuillEditor(
                   controller: _quillController,
-                  readOnly: false,
+                  focusNode: _focusNode,
+                  scrollController: ScrollController(),
+                  scrollable: true,
+                  padding: EdgeInsets.zero,
+                  autoFocus: true,
+                  readOnly: !_isEditNote,
+                  expands: true,
+                  showCursor: _isEditNote,
                 ),
               ),
             ),
+            Visibility(
+              visible: !_isEditNote,
+              child: Align(
+                alignment: FractionalOffset.bottomCenter,
+                child: CircleButton(
+                  onPressed: () {
+                    setState(() {
+                      _isEditNote = true;
+                    });
+                  },
+                  icon: Icons.edit_rounded,
+                ),
+              ),
+            ),
+
+            // const SizedBox(
+            //   height: 50.0,
+            // ),
+            // Expanded(
+            //   flex: 5,
+            //   child: Container(
+            //     padding: const EdgeInsets.symmetric(
+            //       horizontal: 10.0,
+            //       vertical: 15.0,
+            //     ),
+            //     child: QuillEditor.basic(
+            //       controller: _quillController,
+            //       readOnly: false,
+            //     ),
+            //   ),
+            // ),
+            // Visibility(
+            //   visible: !_isEditNote,
+            //   child: Align(
+            //     alignment: FractionalOffset.bottomCenter,
+            //     child: CircleButton(
+            //       onPressed: () {
+            //         setState(() {
+            //           _isEditNote = true;
+            //         });
+            //       },
+            //       icon: Icons.edit_rounded,
+            //     ),
+            //   ),
+            // ),
+
+            // Expanded(
+            //   child: Stack(
+            //     children: [
+            //       Expanded(
+            //         child: Padding(
+            //           padding: const EdgeInsets.symmetric(
+            //             horizontal: 10.0,
+            //             vertical: 15.0,
+            //           ),
+            //           child: QuillEditor.basic(
+            //             controller: _quillController,
+            //             readOnly: false,
+            //           ),
+            //         ),
+            //       ),
+            //       Visibility(
+            //         visible: !_isEditNote,
+            //         child: Align(
+            //           alignment: FractionalOffset.bottomCenter,
+            //           child: Padding(
+            //             padding: const EdgeInsets.only(bottom: 20.0),
+            //             child: CircleButton(
+            //               onPressed: () {
+            //                 setState(() {
+            //                   _isEditNote = true;
+            //                 });
+            //               },
+            //               icon: Icons.edit_rounded,
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
             // Visibility(
             //   visible: !_isEditNote,
             //   child: CircleButton(
