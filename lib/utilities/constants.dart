@@ -48,3 +48,13 @@ const InputDecoration kAuthTextFieldInputDecoration = InputDecoration(
     borderRadius: BorderRadius.all(Radius.circular(32.0)),
   ),
 );
+
+const InputDecoration kNoteTitleInputDecoration = InputDecoration(
+  contentPadding: EdgeInsets.zero,
+  border: InputBorder.none,
+  focusedBorder: UnderlineInputBorder(
+    borderSide: BorderSide(
+      color: kLightPrimaryColour,
+    ),
+  ),
+);
