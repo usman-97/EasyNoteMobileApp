@@ -37,11 +37,19 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
   final CreateNoteViewModel _createNoteViewModel = CreateNoteViewModel();
   // final HtmlEditorController _htmlEditorController = HtmlEditorController();
   final FocusNode _focusNode = FocusNode();
+  final TextEditingController _titleTextFieldController =
+      TextEditingController();
   bool _isEditNote = true;
 
   // late final CameraController _cameraController;
   // late final Future<void> _initializeControllerFuture;
   // bool _isCameraShown = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _titleTextFieldController.text = 'Untitled';
+  }
 
   @override
   void dispose() {
@@ -52,17 +60,21 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
   @override
   Widget build(BuildContext context) {
     // _htmlEditorController.setFullScreen();
-    print(_isEditNote);
+    // print(_isEditNote);
     return Scaffold(
       appBar: AppBar(
         leading: TextButton(
-          onPressed: () {
+          onPressed: () async {
             if (!_isEditNote) {
               Navigation.navigateToNoteList(context);
             } else {
+              var document = _quillController.document.toDelta().toJson();
+              // await _createNoteViewModel.uploadNoteToCloud(
+              //     document, 'filename');
+              await _createNoteViewModel
+                  .addNoteToFirestore(_titleTextFieldController.text);
               setState(() {
                 _isEditNote = false;
-                // _isReadOnlyMode = true;
                 FocusManager.instance.primaryFocus?.unfocus();
                 // _htmlEditorController.disable();
               });
@@ -74,21 +86,15 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
             color: kTextIconColour,
           ),
         ),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              // setState(() {
-              //   _isEditNote = _isEditNote ? false : true;
-              //   print(_isEditNote);
-              // });
-            },
-            child: Icon(
-              _isEditNote ? Icons.check_rounded : Icons.edit_rounded,
-              color: kTextIconColour,
-              size: 40.0,
-            ),
-          )
-        ],
+        title: TextField(
+          controller: _titleTextFieldController,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontSize: 25.0,
+            fontWeight: FontWeight.bold,
+          ),
+          decoration: kNoteTitleInputDecoration,
+        ),
       ),
       // drawer: AppMenu(),
       body: SafeArea(
