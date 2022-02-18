@@ -43,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       onChanged: (value) {
                         _loginScreenViewModel.email = value;
                       },
-                      decoration: kTextFieldInputDecoration.copyWith(
+                      decoration: kAuthTextFieldInputDecoration.copyWith(
                         fillColor: kTextIconColour,
                         hintText: 'Email',
                       ),
@@ -65,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       onChanged: (value) {
                         _loginScreenViewModel.password = value;
                       },
-                      decoration: kTextFieldInputDecoration.copyWith(
+                      decoration: kAuthTextFieldInputDecoration.copyWith(
                         fillColor: kTextIconColour,
                         hintText: 'Password',
                       ),

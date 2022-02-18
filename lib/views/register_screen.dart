@@ -49,7 +49,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         onChanged: (value) {
                           _registerScreenViewModel.firstname = value;
                         },
-                        decoration: kTextFieldInputDecoration.copyWith(
+                        decoration: kAuthTextFieldInputDecoration.copyWith(
                           fillColor: kTextIconColour,
                           hintText: 'First name',
                         ),
@@ -74,7 +74,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         onChanged: (value) {
                           _registerScreenViewModel.lastname = value;
                         },
-                        decoration: kTextFieldInputDecoration.copyWith(
+                        decoration: kAuthTextFieldInputDecoration.copyWith(
                           fillColor: kTextIconColour,
                           hintText: 'Last name',
                         ),
@@ -98,7 +98,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         onChanged: (value) {
                           _registerScreenViewModel.email = value;
                         },
-                        decoration: kTextFieldInputDecoration.copyWith(
+                        decoration: kAuthTextFieldInputDecoration.copyWith(
                           fillColor: kTextIconColour,
                           hintText: 'Email',
                         ),
@@ -122,7 +122,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         onChanged: (value) {
                           _registerScreenViewModel.password = value;
                         },
-                        decoration: kTextFieldInputDecoration.copyWith(
+                        decoration: kAuthTextFieldInputDecoration.copyWith(
                           fillColor: kTextIconColour,
                           hintText: 'Password',
                         ),
@@ -146,7 +146,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         onChanged: (value) {
                           _registerScreenViewModel.confirmPassword = value;
                         },
-                        decoration: kTextFieldInputDecoration.copyWith(
+                        decoration: kAuthTextFieldInputDecoration.copyWith(
                           fillColor: kTextIconColour,
                           hintText: 'Confirm Password',
                         ),
