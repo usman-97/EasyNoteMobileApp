@@ -5,8 +5,6 @@ class UserAuthentication {
   final FirebaseAuth _firebaseAuthentication =
       FirebaseAuthentication.firebaseAuthInstance();
   String _userErrorCode = '';
-  // bool _isUserSignedIn = false;
-  // User? _currentUser;
 
   // Register new user using FirebaseAuth
   Future<bool> registerUser(
@@ -20,6 +18,7 @@ class UserAuthentication {
         password: password,
       );
 
+      // If user is successfully added to database
       if (newUser != null) {
         isUserRegistered = true;
         signInUser(email, password);
@@ -30,6 +29,7 @@ class UserAuthentication {
     return isUserRegistered;
   }
 
+  // Sign in user to their created account by using their login credentials
   Future<bool> signInUser(String email, String password) async {
     bool isUserSignedIn = false;
     try {
@@ -44,10 +44,12 @@ class UserAuthentication {
     return isUserSignedIn;
   }
 
+  // Check if user email has been verified before giving them
+  // full access to their account
   Future<bool> isUserEmailVerified() async {
     bool isEmailVerified = false;
-    User? currentUser = getCurrentUser();
-    await currentUser?.reload();
+    User? currentUser = getCurrentUser(); // Current logged in user
+    await currentUser?.reload(); // reload user
     if (currentUser != null) {
       if (currentUser.emailVerified) {
         isEmailVerified = true;
@@ -56,6 +58,7 @@ class UserAuthentication {
     return isEmailVerified;
   }
 
+  // Send email verification to user's email
   Future<void> sendEmailVerification() async {
     bool isUserEmailVerified = await this.isUserEmailVerified();
     User? currentUser = getCurrentUser();
@@ -64,6 +67,7 @@ class UserAuthentication {
     }
   }
 
+  // Get current User object
   User? getCurrentUser() {
     // return _currentUser;
     try {
@@ -72,8 +76,10 @@ class UserAuthentication {
         return currentUser;
       }
     } catch (e) {}
+    return null;
   }
 
+  // Get current logged in user's email
   String getCurrentUserEmail() {
     var currentUser = getCurrentUser();
     String userEmail = '';
