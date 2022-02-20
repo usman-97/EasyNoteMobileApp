@@ -2,13 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:camera/camera.dart';
-import 'package:note_taking_app/models/note_firestore.dart';
 import 'package:note_taking_app/models/note_storage.dart';
+import 'package:note_taking_app/models/user_note.dart';
 
 class CreateNoteViewModel {
   final ImagePicker _imagePicker = ImagePicker();
   final NoteStorage _noteStorage = NoteStorage();
-  final NoteFireStore _noteFireStore = NoteFireStore();
+  final UserNote _noteFireStore = UserNote();
   String _error = '';
 
   Future<String> onImagePickCallback(File file) async {
