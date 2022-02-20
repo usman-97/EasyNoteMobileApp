@@ -2,12 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:note_taking_app/models/user_authentication.dart';
 import 'package:note_taking_app/services/firestore_cloud.dart';
 
-class NoteFireStore {
+class Note {
   final FirebaseFirestore _firestore = FirestoreCloud.firebaseCloudInstance();
   final UserAuthentication _userAuthentication = UserAuthentication();
   late String _userEmail;
 
-  NoteFireStore() {
+  Note() {
     _userEmail = _userAuthentication.getCurrentUserEmail();
   }
 
