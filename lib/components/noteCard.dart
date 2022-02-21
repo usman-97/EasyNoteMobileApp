@@ -7,16 +7,16 @@ class NoteCard extends StatelessWidget {
     required this.date_created,
     required this.last_modified,
     required this.status,
+    required this.onTap,
   }) : super(key: key);
 
   final String title, date_created, last_modified, status;
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        print(title);
-      },
+      onTap: onTap,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
         child: Card(
