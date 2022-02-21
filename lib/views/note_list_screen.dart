@@ -97,7 +97,8 @@ class _NoteListScreenState extends State<NoteListScreen> {
                           return Container();
                         }
 
-                        _noteListViewModel.buildUserNoteCards(snapshot);
+                        _noteListViewModel.buildUserNoteCards(
+                            snapshot, context);
                         return ListView(
                           children: _noteListViewModel.userNoteCards,
                         );
