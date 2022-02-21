@@ -22,15 +22,6 @@ class UserNote {
   Stream<List<UserNoteData>> fetchAllUserNoteData() {
     List<UserNoteData> noteData;
     try {
-      // await for (var snapshot in _firestore
-      //     .collection('notes')
-      //     .doc(_userEmail)
-      //     .collection('notes')
-      //     .snapshots()) {
-      //   for (var noteData in snapshot.docs) {
-      //     userNotesData.add(UserNoteData(noteData));
-      //   }
-      // }
       _firestore
           .collection('notes')
           .doc(_userEmail)
