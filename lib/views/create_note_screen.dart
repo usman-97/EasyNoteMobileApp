@@ -23,10 +23,10 @@ import 'package:flutter_quill/flutter_quill.dart';
 
 class CreateNoteScreen extends StatefulWidget {
   static const String id = 'create_note_screen';
-  final CameraDescription cameraDescription;
+  final bool isEditable;
+  // final CameraDescription cameraDescription;
 
-  const CreateNoteScreen({Key? key, required this.cameraDescription})
-      : super(key: key);
+  const CreateNoteScreen({Key? key, this.isEditable = true}) : super(key: key);
 
   @override
   _CreateNoteScreenState createState() => _CreateNoteScreenState();
@@ -35,20 +35,16 @@ class CreateNoteScreen extends StatefulWidget {
 class _CreateNoteScreenState extends State<CreateNoteScreen> {
   final QuillController _quillController = QuillController.basic();
   final CreateNoteViewModel _createNoteViewModel = CreateNoteViewModel();
-  // final HtmlEditorController _htmlEditorController = HtmlEditorController();
   final FocusNode _focusNode = FocusNode();
   final TextEditingController _titleTextFieldController =
       TextEditingController();
-  bool _isEditNote = true;
-
-  // late final CameraController _cameraController;
-  // late final Future<void> _initializeControllerFuture;
-  // bool _isCameraShown = false;
+  late bool _isEditNote;
 
   @override
   void initState() {
     super.initState();
     _titleTextFieldController.text = 'Untitled';
+    _isEditNote = widget.isEditable;
   }
 
   @override
@@ -59,8 +55,6 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // _htmlEditorController.setFullScreen();
-    // print(_isEditNote);
     return Scaffold(
       appBar: AppBar(
         leading: TextButton(
@@ -76,7 +70,6 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
               setState(() {
                 _isEditNote = false;
                 FocusManager.instance.primaryFocus?.unfocus();
-                // _htmlEditorController.disable();
               });
             }
           },
