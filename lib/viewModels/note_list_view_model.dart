@@ -33,6 +33,7 @@ class NoteListViewModel with ChangeNotifier {
             return CreateNoteScreen(
               isEditable: false,
               documentID: noteData.documentID,
+              title: noteData.note_title,
             );
           }));
         },
