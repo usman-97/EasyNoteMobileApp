@@ -11,6 +11,8 @@ class CreateNoteViewModel {
   final UserNote _noteFireStore = UserNote();
   String _error = '';
 
+  String get getError => _error;
+
   Future<String> onImagePickCallback(File file) async {
     final XFile? image =
         await _imagePicker.pickImage(source: ImageSource.gallery);
@@ -33,20 +35,19 @@ class CreateNoteViewModel {
 
   Future<void> addNoteToFirestore(String noteTitle) async {
     String date = _getDate();
-    print(date);
-    bool isDocExist = await _noteFireStore.isNotesDocumentExist(noteTitle);
-    if (isDocExist) {
-      await _noteFireStore.updateLastModified(noteTitle, date);
-    } else {
-      await _noteFireStore.addNote(noteTitle, date);
-    }
+    // bool isDocExist = await _noteFireStore.isNotesDocumentExist(noteTitle);
+    // if (isDocExist) {
+    //   await _noteFireStore.updateLastModified(noteTitle, date);
+    // } else {
+    //   await _noteFireStore.addNote(noteTitle, date);
+    // }
   }
 
   String _getDate() {
-    DateTime now = DateTime.now();
-    DateTime date = DateTime(now.day, now.month, now.year);
-    return date.toString();
+    DateTime now = DateTime.now().toLocal();
+    String date = '${now.day}/${now.month}/${now.year}';
+    // String date = DateTime(now.year, now.month, now.day);
+    // print(date);
+    return date;
   }
-
-  String get getError => _error;
 }
