@@ -93,6 +93,10 @@ class _NoteListScreenState extends State<NoteListScreen> {
                         //       status: noteData.status));
                         // }
 
+                        if (!snapshot.hasData) {
+                          return Container();
+                        }
+
                         _noteListViewModel.buildUserNoteCards(snapshot);
                         return ListView(
                           children: _noteListViewModel.userNoteCards,
