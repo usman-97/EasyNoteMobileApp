@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:note_taking_app/models/data/user_note_data.dart';
 import 'package:note_taking_app/models/note.dart';
@@ -10,8 +12,41 @@ class UserNote {
   final Note _noteFireStore = Note();
   late String _userEmail;
 
+  final StreamController<List<UserNoteData>> _noteDataStreamController =
+      StreamController.broadcast();
+
   UserNote() {
     _userEmail = _userAuthentication.getCurrentUserEmail();
+  }
+
+  Stream<List<UserNoteData>> fetchAllUserNoteData() {
+    List<UserNoteData> noteData;
+    try {
+      // await for (var snapshot in _firestore
+      //     .collection('notes')
+      //     .doc(_userEmail)
+      //     .collection('notes')
+      //     .snapshots()) {
+      //   for (var noteData in snapshot.docs) {
+      //     userNotesData.add(UserNoteData(noteData));
+      //   }
+      // }
+      _firestore
+          .collection('notes')
+          .doc(_userEmail)
+          .collection('notes')
+          .snapshots()
+          .listen((event) {
+        if (event.docs.isNotEmpty) {
+          noteData = event.docs
+              .map((snapshot) =>
+                  UserNoteData.fromDocumentSnapshot(snapshot.data()))
+              .toList();
+          _noteDataStreamController.add(noteData);
+        }
+      });
+    } on FirebaseException catch (e) {}
+    return _noteDataStreamController.stream;
   }
 
   // Add note data to Firebase FireStore
@@ -64,21 +99,5 @@ class UserNote {
         'last_modified': date,
       });
     } on FirebaseException catch (e) {}
-  }
-
-  Future<Map<String, dynamic>?> fetchAllUserNoteData() async {
-    Map<String, dynamic>? dataSet;
-    try {
-      await for (var snapshot in _firestore
-          .collection('notes')
-          .doc(_userEmail)
-          .collection('notes')
-          .snapshots()) {
-        for (var noteData in snapshot.docs) {
-          dataSet = UserNoteData(noteData) as Map<String, dynamic>?;
-        }
-      }
-    } on FirebaseException catch (e) {}
-    return dataSet;
   }
 }
