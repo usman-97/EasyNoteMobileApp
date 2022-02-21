@@ -12,24 +12,18 @@ update_flutter:
     - flutter clean
     - flutter pub get
   interruptible: true
-  only:
-    - main
 
 unit_test:
   stage: test
   script:
     - flutter test test/unit_test
   interruptible: true
-  only:
-    - main
 
 widget_test:
   stage: test
   script:
     - flutter test test/widget_test
   interruptible: true
-  only:
-    - main
 
 code_quality:
   stage: test
@@ -44,8 +38,6 @@ code_quality:
       codequality: reports/code-quality-report.json
     paths:
       - reports/
-  only:
-    - main
 
 android_build:
   stage: build
@@ -54,5 +46,3 @@ android_build:
   artifacts:
     paths:
       - build/app/outputs/apk/release/app-release.apk
-  only:
-    - main
