@@ -58,6 +58,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // print(_createNoteViewModel.attachmentName);
     return Scaffold(
       appBar: AppBar(
         leading: TextButton(

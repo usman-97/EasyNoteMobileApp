@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:note_taking_app/models/note_storage.dart';
 import 'package:note_taking_app/models/user_note.dart';
 import 'package:note_taking_app/models/note.dart';
+import 'package:path_provider/path_provider.dart';
 
 class CreateNoteViewModel {
   final ImagePicker _imagePicker = ImagePicker();
@@ -13,14 +14,37 @@ class CreateNoteViewModel {
   final UserNote _userNote = UserNote();
   final Note _note = Note();
   String _error = '';
+  String attachmentName = '';
 
   String get getError => _error;
+
+  // void listAllFiles() async {
+  //   Directory dir = await getTemporaryDirectory();
+  //   List<FileSystemEntity> list = await dir.list().toList();
+  //   list.forEach((element) {
+  //     print(element);
+  //     // if (element is File) {
+  //     //   element.delete(recursive: false);
+  //     // }
+  //   });
+  //
+  //   // await Directory('${dir.path}/test').create(recursive: false);
+  //   // await File('${dir.path}/test/testFile.txt').create(recursive: false);
+  //   // List<FileSystemEntity> dirFileList =
+  //   //     await Directory('${dir.path}/test').list().toList();
+  //   // dirFileList.forEach((e) {
+  //   //   print(e.toString());
+  //   //   e.delete();
+  //   // });
+  //   // print(await Directory('${dir.path}/test').exists());
+  // }
 
   Future<String> onImagePickCallback(File file) async {
     final XFile? image =
         await _imagePicker.pickImage(source: ImageSource.gallery);
+    attachmentName = image!.name;
 
-    return image!.path;
+    return image.path;
   }
 
   Future<String> onVideoPickCallBack(File file) async {

@@ -42,9 +42,16 @@ class NoteStorage {
   }
 
   Future<File> downloadFileFromCloud(String filename) async {
-    Directory appDirectory = await getApplicationDocumentsDirectory();
+    Directory appDirectory = await getTemporaryDirectory();
     // print(appDirectory.path);
-    File fileToDownload = File('${appDirectory.path}/$filename.json');
+
+    String path = '${appDirectory.path}/files';
+    if (!await Directory(path).exists()) {
+      await Directory('${appDirectory.path}/files').create(recursive: false);
+    }
+    // print(await Directory(path).exists());
+
+    File fileToDownload = File('$path/$filename.json');
     // print(fileToDownload.path);
 
     try {
@@ -54,6 +61,7 @@ class NoteStorage {
     } on FirebaseException catch (e) {
       print(e);
     }
+    // print(fileToDownload.path);
 
     return fileToDownload;
   }
