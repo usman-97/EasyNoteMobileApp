@@ -27,7 +27,7 @@ class UserNote {
           .doc(_userEmail)
           .collection('notes')
           .snapshots()
-          .listen((event) {
+          .listen((event) async {
         if (event.docs.isNotEmpty) {
           noteData = event.docs
               .map((snapshot) =>
