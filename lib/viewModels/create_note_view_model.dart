@@ -1,14 +1,17 @@
 import 'dart:convert';
 import 'dart:io';
+
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:camera/camera.dart';
 import 'package:note_taking_app/models/note_storage.dart';
 import 'package:note_taking_app/models/user_note.dart';
+import 'package:note_taking_app/models/note.dart';
 
 class CreateNoteViewModel {
   final ImagePicker _imagePicker = ImagePicker();
   final NoteStorage _noteStorage = NoteStorage();
-  final UserNote _noteFireStore = UserNote();
+  final UserNote _userNote = UserNote();
+  final Note _note = Note();
   String _error = '';
 
   String get getError => _error;
@@ -16,16 +19,32 @@ class CreateNoteViewModel {
   Future<String> onImagePickCallback(File file) async {
     final XFile? image =
         await _imagePicker.pickImage(source: ImageSource.gallery);
+
     return image!.path;
   }
 
   Future<String> onVideoPickCallBack(File file) async {
     final XFile? video =
         await _imagePicker.pickVideo(source: ImageSource.gallery);
+
     return video!.path;
   }
 
-  Future<void> uploadNoteToCloud(Object obj, String filename) async {
+  // Future<void> uploadNoteToCloud(
+  //     Object obj, String currentDocumentID, String newDocumentID) async {
+  //   String documentName =
+  //       await _generateDocumentName(currentDocumentID, newDocumentID);
+  //   // String documentID =
+  //   //     await _generateDocumentID(currentDocumentID, newDocumentID);
+  //
+  //   await _uploadNote(obj, documentName);
+  //   // await _addNote(documentID);
+  // }
+
+  Future<void> uploadNoteToCloud(
+      Object obj, String currentDocumentID, String newDocumentID) async {
+    String filename =
+        await _generateDocumentName(currentDocumentID, newDocumentID);
     var jsonFile = jsonEncode(obj);
     bool isUploaded = await _noteStorage.uploadFileToCloud(jsonFile, filename);
     if (!isUploaded) {
@@ -33,21 +52,61 @@ class CreateNoteViewModel {
     }
   }
 
-  Future<void> addNoteToFirestore(String noteTitle) async {
+  Future<String> _generateDocumentName(
+      String currentDocumentID, String newDocumentID) async {
+    String noteDocId = '$currentDocumentID.json';
+    int totalNotes = await getTotalNotes();
+    if (currentDocumentID.isEmpty) {
+      noteDocId = '$newDocumentID${totalNotes + 1}.json';
+    }
+
+    return noteDocId;
+  }
+
+  Future<Document> downloadNoteFromCloud(String filename) async {
+    Document doc;
+    try {
+      final File noteFilePath =
+          await _noteStorage.downloadFileFromCloud(filename);
+      final String fileAsString = await noteFilePath.readAsString();
+      doc = Document.fromJson(jsonDecode(fileAsString));
+    } catch (e) {
+      doc = Document();
+    }
+    // print(doc);
+
+    return doc;
+  }
+
+  Future<void> addNote(String currentDocumentID, String newDocumentID) async {
+    String id = await _generateDocumentID(currentDocumentID, newDocumentID);
     String date = _getDate();
-    // bool isDocExist = await _noteFireStore.isNotesDocumentExist(noteTitle);
-    // if (isDocExist) {
-    //   await _noteFireStore.updateLastModified(noteTitle, date);
-    // } else {
-    //   await _noteFireStore.addNote(noteTitle, date);
-    // }
+    bool isDocExist = await _userNote.isNotesDocumentExist(id);
+    if (isDocExist) {
+      await _userNote.updateLastModified(id, date);
+    } else {
+      await _userNote.addNote(id, date);
+    }
+  }
+
+  Future<String> _generateDocumentID(
+      String currentDocumentID, String newDocumentID) async {
+    String finalID = currentDocumentID;
+    if (finalID.isEmpty) {
+      finalID = newDocumentID;
+    }
+
+    return finalID;
+  }
+
+  Future<int> getTotalNotes() async {
+    return await _note.fetchTotalNotes();
   }
 
   String _getDate() {
     DateTime now = DateTime.now().toLocal();
     String date = '${now.day}/${now.month}/${now.year}';
-    // String date = DateTime(now.year, now.month, now.day);
-    // print(date);
+
     return date;
   }
 }
