@@ -1,4 +1,3 @@
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:note_taking_app/views/create_note_screen.dart';
 import 'package:note_taking_app/views/home_screen.dart';
@@ -9,11 +8,8 @@ import 'package:note_taking_app/views/verification_screen.dart';
 import 'views/loading_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-// late List<CameraDescription> cameras;
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // cameras = await availableCameras();
   await Firebase.initializeApp(
       // options: DefaultFirebaseOptions.currentPlatform,
       );
@@ -26,6 +22,7 @@ class EasyNote extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch().copyWith(
           primary: const Color(0xFF388E3c),
@@ -40,7 +37,7 @@ class EasyNote extends StatelessWidget {
         VerificationScreen.id: (context) => const VerificationScreen(),
         HomeScreen.id: (context) => const HomeScreen(),
         NoteListScreen.id: (context) => const NoteListScreen(),
-        CreateNoteScreen.id: (context) => CreateNoteScreen(),
+        CreateNoteScreen.id: (context) => const CreateNoteScreen(),
       },
     );
   }
