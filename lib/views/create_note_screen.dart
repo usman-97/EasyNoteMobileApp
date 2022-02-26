@@ -64,25 +64,14 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
         leading: TextButton(
           onPressed: () async {
             if (!_isEditNote) {
+              _createNoteViewModel.clearCache();
               Navigation.navigateToNoteList(context);
             } else {
-              // String noteDoc = await _createNoteViewModel.generateDocumentName(
-              //         documentID, _titleTextFieldController.text),
-              //     id = await _createNoteViewModel.generateDocumentID(
-              //         documentID, _titleTextFieldController.text);
-              // int totalNotes = await _createNoteViewModel.getTotalNotes();
-              // if (documentID.isEmpty) {
-              //   noteDoc =
-              //       '${_titleTextFieldController.text}${totalNotes + 1}.json';
-              //   id = _titleTextFieldController.text;
-              // } else {
-              //   noteDoc = '$documentID.json';
-              //   id = documentID;
-              // }
               var document = _quillController.document.toDelta().toJson();
               await _createNoteViewModel.uploadNoteToCloud(
                   document, documentID, _titleTextFieldController.text);
-              // await _createNoteViewModel.uploadNoteToCloud(document, noteDoc);
+              _createNoteViewModel.uploadUserAttachment(
+                  documentID, _titleTextFieldController.text);
               await _createNoteViewModel.addNote(
                   documentID, _titleTextFieldController.text);
               setState(() {
@@ -106,6 +95,26 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
           ),
           decoration: kNoteTitleInputDecoration,
         ),
+        actions: <Widget>[
+          Visibility(
+            visible: _isEditNote,
+            child: TextButton(
+              onPressed: () {
+                if (documentID.isNotEmpty) {
+                  _isEditNote = false;
+                  _loadDoc(documentID);
+                } else {
+                  Navigation.navigateToNoteList(context);
+                }
+              },
+              child: const Icon(
+                Icons.close_outlined,
+                color: kTextIconColour,
+                size: 35.0,
+              ),
+            ),
+          ),
+        ],
       ),
       // drawer: AppMenu(),
       body: SafeArea(
