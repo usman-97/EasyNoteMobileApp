@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:note_taking_app/utilities/constants.dart';
+import 'package:note_taking_app/utilities/navigation.dart';
 
 class CustomAppBar extends StatelessWidget {
   final bool isEditNote;
@@ -11,13 +12,18 @@ class CustomAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.only(right: 10.0),
+    return Padding(
+      padding: const EdgeInsets.only(right: 10.0),
       child: Visibility(
-        child: Icon(
-          Icons.search_rounded,
-          color: kTextIconColour,
-          size: 40.0,
+        child: TextButton(
+          onPressed: () {
+            Navigation.navigateToSearchNotesScreen(context);
+          },
+          child: const Icon(
+            Icons.search_rounded,
+            color: kTextIconColour,
+            size: 40.0,
+          ),
         ),
       ),
     );
