@@ -58,3 +58,8 @@ const InputDecoration kNoteTitleInputDecoration = InputDecoration(
     ),
   ),
 );
+
+const TextStyle kAppBarTextFieldStyle = TextStyle(
+  fontSize: 25.0,
+  fontWeight: FontWeight.bold,
+);
