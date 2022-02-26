@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:note_taking_app/services/cloud_storage.dart';
 import 'package:note_taking_app/models/user_authentication.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart';
 import 'dart:convert' show utf8;
 import 'dart:typed_data' show Uint8List;
 
@@ -29,7 +30,8 @@ class NoteStorage {
     Uint8List data = Uint8List.fromList(encodedFile);
 
     // Create path for the file
-    Reference fileRef = _firebaseStorage.ref('$_userEmail/$filename');
+    Reference fileRef =
+        _firebaseStorage.ref('$_userEmail/notes/$filename/$filename');
 
     try {
       // Upload file on created path in Firebase Storage
@@ -56,13 +58,48 @@ class NoteStorage {
 
     try {
       await _firebaseStorage
-          .ref('$_userEmail/$filename.json')
+          .ref('$_userEmail/notes/$filename.json/$filename.json')
           .writeToFile(fileToDownload);
     } on FirebaseException catch (e) {
-      print(e);
+      // print(e);
     }
     // print(fileToDownload.path);
 
     return fileToDownload;
+  }
+
+  Future<void> uploadAttachmentToCloud(String documentID) async {
+    Directory tempDir = await getTemporaryDirectory();
+    List<FileSystemEntity> allTempDirContent = await tempDir.list().toList();
+
+    if (allTempDirContent.isNotEmpty) {
+      for (FileSystemEntity entity in allTempDirContent) {
+        if (entity is File) {
+          String filename = basename(entity.path);
+          File attachmentFile = entity;
+          Reference attachmentRef = _firebaseStorage
+              .ref('$_userEmail/notes/$documentID/attachments/$filename');
+
+          try {
+            attachmentRef.putFile(attachmentFile);
+          } on FirebaseException catch (e) {}
+        }
+      }
+    }
+  }
+
+  Future<void> downloadAttachmentFilesFromCloud(String documentID) async {
+    Directory tempDir = await getTemporaryDirectory();
+    ListResult allFilesInCloudRef = await _firebaseStorage
+        .ref('$_userEmail/notes/$documentID/attachments')
+        .listAll();
+    for (var element in allFilesInCloudRef.prefixes) {
+      File attachmentFile = File('${tempDir.path}/${element.name}');
+      try {
+        await _firebaseStorage
+            .ref('$_userEmail/notes/$documentID/attachments/${element.name}')
+            .writeToFile(attachmentFile);
+      } on FirebaseException catch (e) {}
+    }
   }
 }
