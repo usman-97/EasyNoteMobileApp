@@ -18,26 +18,26 @@ class CreateNoteViewModel {
 
   String get getError => _error;
 
-  // void listAllFiles() async {
-  //   Directory dir = await getTemporaryDirectory();
-  //   List<FileSystemEntity> list = await dir.list().toList();
-  //   list.forEach((element) {
-  //     print(element);
-  //     // if (element is File) {
-  //     //   element.delete(recursive: false);
-  //     // }
-  //   });
-  //
-  //   // await Directory('${dir.path}/test').create(recursive: false);
-  //   // await File('${dir.path}/test/testFile.txt').create(recursive: false);
-  //   // List<FileSystemEntity> dirFileList =
-  //   //     await Directory('${dir.path}/test').list().toList();
-  //   // dirFileList.forEach((e) {
-  //   //   print(e.toString());
-  //   //   e.delete();
-  //   // });
-  //   // print(await Directory('${dir.path}/test').exists());
-  // }
+  void listAllFiles() async {
+    Directory dir = await getTemporaryDirectory();
+    List<FileSystemEntity> list = await dir.list().toList();
+    for (var element in list) {
+      print(element);
+      // if (element is File) {
+      // await element.delete(recursive: false);
+      // }
+    }
+
+    // await Directory('${dir.path}/test').create(recursive: false);
+    // await File('${dir.path}/test/testFile.txt').create(recursive: false);
+    // List<FileSystemEntity> dirFileList =
+    //     await Directory('${dir.path}/test').list().toList();
+    // dirFileList.forEach((e) {
+    //   print(e.toString());
+    //   e.delete();
+    // });
+    // print(await Directory('${dir.path}/test').exists());
+  }
 
   Future<String> onImagePickCallback(File file) async {
     final XFile? image =
@@ -132,5 +132,30 @@ class CreateNoteViewModel {
     String date = '${now.day}/${now.month}/${now.year}';
 
     return date;
+  }
+
+  void uploadUserAttachment(
+      String currentDocumentID, String newDocumentID) async {
+    String documentName =
+        await _generateDocumentName(currentDocumentID, newDocumentID);
+    await _noteStorage.uploadAttachmentToCloud(documentName);
+  }
+
+  void downloadAttachmentFiles(
+      String currentDocumentID, String newDocumentID) async {
+    String documentName =
+        await _generateDocumentName(currentDocumentID, newDocumentID);
+    await _noteStorage.downloadAttachmentFilesFromCloud(documentName);
+  }
+
+  void clearCache() async {
+    // Directory tempDir = await getTemporaryDirectory();
+    // List<FileSystemEntity> allTempDirContent = await tempDir.list().toList();
+    // for (var element in allTempDirContent) {
+    //   await element.delete(recursive: true);
+    // }
+    Directory dir = await getTemporaryDirectory();
+    dir.deleteSync(recursive: true);
+    dir.create();
   }
 }
