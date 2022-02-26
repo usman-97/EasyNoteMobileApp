@@ -89,10 +89,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
         title: TextField(
           controller: _titleTextFieldController,
           textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontSize: 25.0,
-            fontWeight: FontWeight.bold,
-          ),
+          style: kAppBarTextFieldStyle,
           decoration: kNoteTitleInputDecoration,
         ),
         actions: <Widget>[
