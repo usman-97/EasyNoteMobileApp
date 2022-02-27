@@ -54,17 +54,6 @@ class CreateNoteViewModel {
     return video!.path;
   }
 
-  // Future<void> uploadNoteToCloud(
-  //     Object obj, String currentDocumentID, String newDocumentID) async {
-  //   String documentName =
-  //       await _generateDocumentName(currentDocumentID, newDocumentID);
-  //   // String documentID =
-  //   //     await _generateDocumentID(currentDocumentID, newDocumentID);
-  //
-  //   await _uploadNote(obj, documentName);
-  //   // await _addNote(documentID);
-  // }
-
   Future<void> uploadNoteToCloud(
       Object obj, String currentDocumentID, String newDocumentID) async {
     String filename =
@@ -141,11 +130,10 @@ class CreateNoteViewModel {
     await _noteStorage.uploadAttachmentToCloud(documentName);
   }
 
-  void downloadAttachmentFiles(
-      String currentDocumentID, String newDocumentID) async {
-    String documentName =
-        await _generateDocumentName(currentDocumentID, newDocumentID);
-    await _noteStorage.downloadAttachmentFilesFromCloud(documentName);
+  Future<void> downloadAttachmentFiles(String documentID) async {
+    // String documentName =
+    //     await _generateDocumentName(currentDocumentID, newDocumentID);
+    await _noteStorage.downloadAttachmentFilesFromCloud(documentID);
   }
 
   void clearCache() async {
@@ -156,6 +144,6 @@ class CreateNoteViewModel {
     // }
     Directory dir = await getTemporaryDirectory();
     dir.deleteSync(recursive: true);
-    dir.create();
+    await dir.create();
   }
 }
