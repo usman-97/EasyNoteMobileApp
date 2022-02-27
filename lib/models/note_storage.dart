@@ -89,17 +89,33 @@ class NoteStorage {
   }
 
   Future<void> downloadAttachmentFilesFromCloud(String documentID) async {
+    // print(documentID);
     Directory tempDir = await getTemporaryDirectory();
-    ListResult allFilesInCloudRef = await _firebaseStorage
-        .ref('$_userEmail/notes/$documentID/attachments')
-        .listAll();
-    for (var element in allFilesInCloudRef.prefixes) {
-      File attachmentFile = File('${tempDir.path}/${element.name}');
-      try {
+    try {
+      ListResult allFilesInCloudRef = await _firebaseStorage
+          .ref('$_userEmail/notes/$documentID.json/attachments')
+          .listAll();
+
+      for (var element in allFilesInCloudRef.items) {
+        File attachmentFile = File('${tempDir.path}/${element.name}');
         await _firebaseStorage
-            .ref('$_userEmail/notes/$documentID/attachments/${element.name}')
+            .ref(
+                '$_userEmail/notes/$documentID.json/attachments/${element.name}')
             .writeToFile(attachmentFile);
-      } on FirebaseException catch (e) {}
+        print(await attachmentFile.exists());
+      }
+
+      // for (var element in allFilesInCloudRef.prefixes) {
+      //   File attachmentFile = File('${tempDir.path}/${element.name}');
+      //   await _firebaseStorage
+      //       .ref(
+      //           '$_userEmail/notes/$documentID.json/attachments/${element.name}')
+      //       .writeToFile(attachmentFile);
+      // }
+    } on FirebaseException catch (e) {
+      print(e);
     }
+    // print(await File('${tempDir.path}/image_picker1786613033710753713.jpg')
+    //     .exists());
   }
 }
