@@ -37,11 +37,15 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
     _isEditNote = widget.isEditable;
     documentID = widget.documentID;
     _loadDoc(documentID);
+
+    // _createNoteViewModel.listAllFiles();
   }
 
   void _loadDoc(String filename) async {
-    final doc = await _createNoteViewModel.downloadNoteFromCloud(filename);
     if (filename.isNotEmpty) {
+      await _createNoteViewModel.downloadAttachmentFiles(filename);
+      final doc = await _createNoteViewModel.downloadNoteFromCloud(filename);
+      _createNoteViewModel.listAllFiles();
       setState(() {
         _quillController = QuillController(
             document: doc,
