@@ -1,10 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:note_taking_app/models/user_authentication.dart';
 import 'package:note_taking_app/models/user_management.dart';
+
+import '../models/note.dart';
 
 class RegisterScreenViewModel {
   late final UserAuthentication _userAuthentication;
   late final UserManagement _userManagement;
+  late final Note _note;
   late String _error;
   late bool _isRegistered;
 
@@ -17,6 +19,7 @@ class RegisterScreenViewModel {
   RegisterScreenViewModel() {
     _userAuthentication = UserAuthentication();
     _userManagement = UserManagement();
+    _note = Note();
     _error = '';
     _isRegistered = false;
   }
@@ -31,6 +34,7 @@ class RegisterScreenViewModel {
             _error = _userAuthentication.getUserErrorCode();
           } else {
             _isRegistered = true;
+            await _note.addUserNoteInfo(email);
             await _userAuthentication.sendEmailVerification();
             _error = '';
           }
