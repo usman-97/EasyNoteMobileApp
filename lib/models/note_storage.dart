@@ -68,7 +68,8 @@ class NoteStorage {
     return fileToDownload;
   }
 
-  Future<void> uploadAttachmentToCloud(String documentID) async {
+  Future<void> uploadAttachmentToCloud(
+      String documentID, String document) async {
     Directory tempDir = await getTemporaryDirectory();
     List<FileSystemEntity> allTempDirContent = await tempDir.list().toList();
 
@@ -79,10 +80,21 @@ class NoteStorage {
           File attachmentFile = entity;
           Reference attachmentRef = _firebaseStorage
               .ref('$_userEmail/notes/$documentID/attachments/$filename');
-
-          try {
-            attachmentRef.putFile(attachmentFile);
-          } on FirebaseException catch (e) {}
+          // print(document.contains(filename));
+          if (!document.contains(filename)) {
+            ListResult allFilesInCloudRef = await _firebaseStorage
+                .ref('$_userEmail/notes/$documentID/attachments')
+                .listAll();
+            for (var element in allFilesInCloudRef.items) {
+              if (element.name == filename) {
+                await attachmentRef.delete();
+              }
+            }
+          } else {
+            try {
+              attachmentRef.putFile(attachmentFile);
+            } on FirebaseException catch (e) {}
+          }
         }
       }
     }
@@ -97,6 +109,7 @@ class NoteStorage {
           .listAll();
 
       for (var element in allFilesInCloudRef.items) {
+        // print(element.name);
         File attachmentFile = File('${tempDir.path}/${element.name}');
         await _firebaseStorage
             .ref(
@@ -104,14 +117,6 @@ class NoteStorage {
             .writeToFile(attachmentFile);
         // print(await attachmentFile.exists());
       }
-
-      // for (var element in allFilesInCloudRef.prefixes) {
-      //   File attachmentFile = File('${tempDir.path}/${element.name}');
-      //   await _firebaseStorage
-      //       .ref(
-      //           '$_userEmail/notes/$documentID.json/attachments/${element.name}')
-      //       .writeToFile(attachmentFile);
-      // }
     } on FirebaseException catch (e) {
       print(e);
     }
