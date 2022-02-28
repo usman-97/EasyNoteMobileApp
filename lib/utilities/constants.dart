@@ -30,7 +30,7 @@ const TextStyle kErrorMessageStyle = TextStyle(
   color: Colors.red,
 );
 
-const InputDecoration kAuthTextFieldInputDecoration = InputDecoration(
+const InputDecoration kRoundTextFieldInputDecoration = InputDecoration(
   filled: true,
   contentPadding: EdgeInsets.symmetric(
     vertical: 10.0,
