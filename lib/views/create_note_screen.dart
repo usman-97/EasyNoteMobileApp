@@ -45,7 +45,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
     if (filename.isNotEmpty) {
       await _createNoteViewModel.downloadAttachmentFiles(filename);
       final doc = await _createNoteViewModel.downloadNoteFromCloud(filename);
-      _createNoteViewModel.listAllFiles();
+      // _createNoteViewModel.listAllFiles();
       setState(() {
         _quillController = QuillController(
             document: doc,
@@ -75,8 +75,8 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
               var document = _quillController.document.toDelta().toJson();
               await _createNoteViewModel.uploadNoteToCloud(
                   document, documentID, _titleTextFieldController.text);
-              _createNoteViewModel.uploadUserAttachment(
-                  documentID, _titleTextFieldController.text);
+              _createNoteViewModel.uploadUserAttachment(documentID,
+                  _titleTextFieldController.text, document.toString());
               await _createNoteViewModel.addNote(
                   documentID, _titleTextFieldController.text);
               setState(() {
