@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:note_taking_app/components/circle_button.dart';
 import 'package:note_taking_app/components/app_menu.dart';
 import 'package:note_taking_app/components/custom_app_bar.dart';
-import 'package:note_taking_app/components/noteCard.dart';
 import 'package:note_taking_app/utilities/constants.dart';
 import 'package:note_taking_app/utilities/navigation.dart';
 import 'package:note_taking_app/viewModels/note_list_view_model.dart';
 import 'package:note_taking_app/views/home_screen.dart';
-import 'package:provider/provider.dart';
 
 class NoteListScreen extends StatefulWidget {
   static const String id = 'note_list_screen';
