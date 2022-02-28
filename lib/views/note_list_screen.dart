@@ -4,6 +4,7 @@ import 'package:note_taking_app/components/app_menu.dart';
 import 'package:note_taking_app/components/custom_app_bar.dart';
 import 'package:note_taking_app/utilities/constants.dart';
 import 'package:note_taking_app/utilities/navigation.dart';
+import 'package:note_taking_app/viewModels/create_note_view_model.dart';
 import 'package:note_taking_app/viewModels/note_list_view_model.dart';
 import 'package:note_taking_app/views/home_screen.dart';
 
@@ -18,6 +19,13 @@ class NoteListScreen extends StatefulWidget {
 
 class _NoteListScreenState extends State<NoteListScreen> {
   final NoteListViewModel _noteListViewModel = NoteListViewModel();
+  final CreateNoteViewModel _createNoteViewModel = CreateNoteViewModel();
+
+  @override
+  void initState() {
+    super.initState();
+    _createNoteViewModel.clearCache();
+  }
 
   @override
   Widget build(BuildContext context) {
