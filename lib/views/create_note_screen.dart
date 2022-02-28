@@ -49,7 +49,8 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
       setState(() {
         _quillController = QuillController(
             document: doc,
-            selection: const TextSelection(baseOffset: 0, extentOffset: 0));
+            selection: const TextSelection(baseOffset: 0, extentOffset: 0),
+            keepStyleOnNewLine: true);
       });
     }
   }
