@@ -62,7 +62,15 @@ class Note {
   //   } on FirebaseException catch (e) {}
   // }
 
-  // Fetch all data stored in the Notes collection in database
+  Future<void> addUserNoteInfo(String author) async {
+    try {
+      _firestore.collection('notes').doc(author).set({
+        'author': author,
+        'total_notes': 0,
+      });
+    } on FirebaseException catch (e) {}
+  }
+
   Future<Map<String, dynamic>?> fetchNoteData() async {
     Map<String, dynamic>? notesData;
     try {
