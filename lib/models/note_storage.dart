@@ -102,7 +102,7 @@ class NoteStorage {
             .ref(
                 '$_userEmail/notes/$documentID.json/attachments/${element.name}')
             .writeToFile(attachmentFile);
-        print(await attachmentFile.exists());
+        // print(await attachmentFile.exists());
       }
 
       // for (var element in allFilesInCloudRef.prefixes) {
