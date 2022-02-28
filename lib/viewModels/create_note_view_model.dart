@@ -124,10 +124,10 @@ class CreateNoteViewModel {
   }
 
   void uploadUserAttachment(
-      String currentDocumentID, String newDocumentID) async {
+      String currentDocumentID, String newDocumentID, String document) async {
     String documentName =
         await _generateDocumentName(currentDocumentID, newDocumentID);
-    await _noteStorage.uploadAttachmentToCloud(documentName);
+    await _noteStorage.uploadAttachmentToCloud(documentName, document);
   }
 
   Future<void> downloadAttachmentFiles(String documentID) async {
