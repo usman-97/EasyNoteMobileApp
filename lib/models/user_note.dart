@@ -47,12 +47,7 @@ class UserNote {
         .fetchTotalNotes(); // Fetch total number of created notes
     String documentID = '$noteTitle${totalNotes + 1}';
     try {
-      _firestore
-          .collection('notes')
-          .doc(_userEmail)
-          .collection('notes')
-          .doc(documentID)
-          .set({
+      _firestore.collection('notes').doc(_userEmail).collection('notes').add({
         'id': documentID,
         'title': noteTitle,
         'date_created': date,
