@@ -8,6 +8,7 @@ const Color kPrimaryColour = Color(0xFF4CAF50);
 const Color kTextIconColour = Color(0xFFFFFFFF);
 const Color kPrimaryTextColour = Color(0xFF212121);
 const Color kAccentColour = Color(0xFF009688);
+const Color kTextFieldHintColour = Colors.black26;
 
 const double kTopContainerHeight = 200.0;
 
