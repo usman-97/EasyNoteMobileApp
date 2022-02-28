@@ -7,7 +7,8 @@ class UserManagement {
   // Add user data to database
   Future<void> addUserData(
       String email, String firstname, String lastname) async {
-    _firestore.collection('users').doc(email).set({
+    _firestore.collection('users').add({
+      'email': email,
       'firstname': firstname,
       'lastname': lastname,
     });
