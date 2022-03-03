@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
 class LinearLoadingProgressBar extends StatefulWidget {
-  const LinearLoadingProgressBar({Key? key}) : super(key: key);
+  const LinearLoadingProgressBar(
+      {Key? key, required this.backgroundColour, required this.colour})
+      : super(key: key);
+
+  final Color backgroundColour, colour;
 
   @override
   _LinearLoadingProgressBarState createState() =>
@@ -11,9 +15,12 @@ class LinearLoadingProgressBar extends StatefulWidget {
 class _LinearLoadingProgressBarState extends State<LinearLoadingProgressBar>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
+  late Color _backgroundColour, _colour;
 
   @override
   void initState() {
+    _backgroundColour = widget.backgroundColour;
+    _colour = widget.colour;
     // Control animation with this controller
     _controller = AnimationController(
       // Time loading progress bar takes to complete
@@ -64,11 +71,10 @@ class _LinearLoadingProgressBarState extends State<LinearLoadingProgressBar>
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20.0),
       child: LinearProgressIndicator(
-        value: _controller.value,
-        backgroundColor: const Color(0xFF4CAF50),
-        valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFFC8E6C9)),
-        // color: const Color(0xFF4CAF50),
-      ),
+          value: _controller.value,
+          backgroundColor: _backgroundColour,
+          valueColor: AlwaysStoppedAnimation<Color>(_colour)),
+      // color: const Color(0xFF4CAF50),
     );
   }
 }
