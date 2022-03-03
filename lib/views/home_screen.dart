@@ -43,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         TextButton(
+                          key: const Key('home_button'),
                           onPressed: () {
                             Navigation.navigateToHome(context);
                           },
@@ -53,6 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         TextButton(
+                          key: const Key('mode_change_button'),
                           onPressed: () {},
                           child: const Icon(
                             Icons.brightness_2_rounded,
