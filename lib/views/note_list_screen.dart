@@ -25,7 +25,8 @@ class _NoteListScreenState extends State<NoteListScreen> {
   @override
   void initState() {
     super.initState();
-    _createNoteViewModel.clearCache();
+    // _createNoteViewModel.clearCache();
+    // _createNoteViewModel.listAllFiles();
   }
 
   @override
@@ -50,6 +51,7 @@ class _NoteListScreenState extends State<NoteListScreen> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget>[
                   TextButton(
+                    key: const Key('note_list_back_button'),
                     onPressed: () {
                       Navigator.pushNamed(context, HomeScreen.id);
                     },
@@ -69,6 +71,7 @@ class _NoteListScreenState extends State<NoteListScreen> {
                     padding: EdgeInsets.only(bottom: 15.0),
                     child: Text(
                       'Notes',
+                      key: Key('note_list_screen_heading'),
                       style: TextStyle(
                         color: kTextIconColour,
                         fontSize: 40.0,
