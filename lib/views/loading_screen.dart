@@ -46,6 +46,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
             // Loading progress bar
             LinearLoadingProgressBar(
               key: Key('linearProgressBar'),
+              backgroundColour: Color(0xFF4CAF50),
+              colour: Color(0xFFC8E6C9),
             ),
             SizedBox(
               height: 30.0,
