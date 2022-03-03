@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:note_taking_app/components/circle_button.dart';
 import 'package:note_taking_app/components/app_menu.dart';
 import 'package:note_taking_app/components/custom_app_bar.dart';
+import 'package:note_taking_app/components/noteCard.dart';
 import 'package:note_taking_app/utilities/constants.dart';
 import 'package:note_taking_app/utilities/navigation.dart';
 import 'package:note_taking_app/viewModels/create_note_view_model.dart';
@@ -85,23 +86,14 @@ class _NoteListScreenState extends State<NoteListScreen> {
                     stream: _noteListViewModel.fetchAllUserNotes(),
                     builder: (BuildContext context,
                         AsyncSnapshot<dynamic> snapshot) {
-                      // final notesData = snapshot.data;
-                      // List<NoteCard> userNoteCards = [];
-                      // for (var noteData in notesData) {
-                      //   userNoteCards.add(NoteCard(
-                      //       title: noteData.note_title,
-                      //       date_created: noteData.date_created,
-                      //       last_modified: noteData.last_modified,
-                      //       status: noteData.status));
-                      // }
-
                       if (!snapshot.hasData) {
                         return Container();
                       }
 
-                      _noteListViewModel.buildUserNoteCards(snapshot, context);
+                      List<NoteCard> userNotes = _noteListViewModel
+                          .buildUserNoteCards(snapshot, context);
                       return ListView(
-                        children: _noteListViewModel.userNoteCards,
+                        children: userNotes,
                       );
                     },
                   ),
