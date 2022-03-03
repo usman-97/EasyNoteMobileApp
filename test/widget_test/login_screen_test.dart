@@ -13,7 +13,7 @@ void main() {
       await Firebase.initializeApp();
     });
 
-    testWidgets('Login Screen', (WidgetTester tester) async {
+    testWidgets('Login Screen widgets', (WidgetTester tester) async {
       // Build LoginScreen Widget
       await tester.pumpWidget(const MaterialApp(
         home: LoginScreen(),
