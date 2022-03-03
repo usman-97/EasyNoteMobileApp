@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 
-class LinearLoadingProgressBar extends StatefulWidget {
-  const LinearLoadingProgressBar(
+class LinearProgressBar extends StatefulWidget {
+  const LinearProgressBar(
       {Key? key, required this.backgroundColour, required this.colour})
       : super(key: key);
 
   final Color backgroundColour, colour;
 
   @override
-  _LinearLoadingProgressBarState createState() =>
-      _LinearLoadingProgressBarState();
+  _LinearProgressBarState createState() => _LinearProgressBarState();
 }
 
-class _LinearLoadingProgressBarState extends State<LinearLoadingProgressBar>
+class _LinearProgressBarState extends State<LinearProgressBar>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Color _backgroundColour, _colour;
@@ -48,7 +47,7 @@ class _LinearLoadingProgressBarState extends State<LinearLoadingProgressBar>
 
   @override
   Widget build(BuildContext context) {
-    print(_controller.value);
+    // print(_controller.value);
     // return Stack(
     //   children: <Widget>[
     //     // bar which will be filled
