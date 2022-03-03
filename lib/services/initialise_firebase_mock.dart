@@ -17,6 +17,7 @@ void setupFirebaseAuthMocks([Callback? customHandlers]) {
             'appId': '123',
             'messagingSenderId': '123',
             'projectId': '123',
+            'storageBucket': 'myapp.appspot.com',
           },
           'pluginConstants': {},
         }
