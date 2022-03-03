@@ -24,7 +24,7 @@ class UserNote {
     try {
       _firestore
           .collection('notes')
-          .doc(_userEmail)
+          .doc(_userEmail.isNotEmpty ? _userEmail : ' ')
           .collection('notes')
           .snapshots()
           .listen((event) async {
