@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
-class LinearProgressBar extends StatefulWidget {
-  const LinearProgressBar({Key? key}) : super(key: key);
+class LinearLoadingProgressBar extends StatefulWidget {
+  const LinearLoadingProgressBar({Key? key}) : super(key: key);
 
   @override
-  _LinearProgressBarState createState() => _LinearProgressBarState();
+  _LinearLoadingProgressBarState createState() =>
+      _LinearLoadingProgressBarState();
 }
 
-class _LinearProgressBarState extends State<LinearProgressBar>
+class _LinearLoadingProgressBarState extends State<LinearLoadingProgressBar>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
