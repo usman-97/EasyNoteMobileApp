@@ -22,18 +22,23 @@ class NoteCard extends StatelessWidget {
         child: Card(
           color: Colors.amberAccent,
           child: Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(5.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Text(
-                  title,
-                  style: TextStyle(fontSize: 40.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      title,
+                      style: const TextStyle(fontSize: 40.0),
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      child: const Icon(Icons.more_horiz_rounded),
+                    ),
+                  ],
                 ),
-                // const Text(
-                //   'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s',
-                //   style: TextStyle(fontSize: 14.0),
-                // ),
                 const SizedBox(
                   height: 10.0,
                 ),
@@ -41,7 +46,13 @@ class NoteCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
-                    Text('Last Modified: $last_modified'),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text('Created: $date_created'),
+                        Text('Last Modified: $last_modified'),
+                      ],
+                    ),
                     Text(status),
                   ],
                 ),
