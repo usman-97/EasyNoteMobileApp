@@ -53,7 +53,9 @@ class NoteCard extends StatelessWidget {
                         Text('Last Modified: $last_modified'),
                       ],
                     ),
-                    Text(status),
+                    Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Text(status)),
                   ],
                 ),
               ],
