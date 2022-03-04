@@ -5,7 +5,13 @@ import 'package:note_taking_app/viewModels/register_screen_view_model.dart';
 
 void main() async {
   setupFirebaseAuthMocks();
+  TestWidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
+  // setUpAll(() async {
+  //   TestWidgetsFlutterBinding.ensureInitialized();
+  //   await Firebase.initializeApp();
+  // });
 
   group('Password', () {
     RegisterScreenViewModel registerScreenViewModel = RegisterScreenViewModel();
