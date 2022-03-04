@@ -33,6 +33,6 @@ class Navigation {
   }
 
   static void navigateToSearchNotesScreen(BuildContext context) {
-    Navigator.popAndPushNamed(context, SearchNoteScreen.id);
+    Navigator.pushNamed(context, SearchNoteScreen.id);
   }
 }
