@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:note_taking_app/components/noteCard.dart';
+import 'package:note_taking_app/components/note_card.dart';
 import 'package:note_taking_app/models/data/user_note_data.dart';
 import 'package:note_taking_app/models/user_note.dart';
 import 'package:note_taking_app/views/create_note_screen.dart';
