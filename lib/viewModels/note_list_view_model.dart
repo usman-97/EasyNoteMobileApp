@@ -6,15 +6,41 @@ import 'package:note_taking_app/models/data/user_note_data.dart';
 import 'package:note_taking_app/models/user_note.dart';
 import 'package:note_taking_app/views/create_note_screen.dart';
 
+import '../components/note_pop_up_menu.dart';
+
 class NoteListViewModel with ChangeNotifier {
   final UserNote _userNote = UserNote();
+  final List<DropdownMenuItem<String>> _cardMenuOptions = [
+    DropdownMenuItem(
+      value: 'Share',
+      child: GestureDetector(
+        onTap: () {
+          print('share');
+        },
+        child: const Text('Share'),
+      ),
+    ),
+    DropdownMenuItem(
+      value: 'Delete',
+      child: GestureDetector(
+        onTap: () {
+          print('delete');
+        },
+        child: const Text('Delete'),
+      ),
+    ),
+  ];
+  String noteMenuValue = 'Share';
+
+  List<DropdownMenuItem<String>> get cardMenuOptions => _cardMenuOptions;
 
   Stream<List<UserNoteData>> fetchAllUserNotes() {
     return _userNote.fetchAllUserNoteData();
   }
 
   List<NoteCard> buildUserNoteCards(
-      AsyncSnapshot<dynamic> snapshot, BuildContext context) {
+      AsyncSnapshot<dynamic> snapshot, BuildContext context,
+      {required NotePopUpMenu popupMenuButton}) {
     List<NoteCard> _userNoteCards = [];
     final notesData = snapshot.data;
 
@@ -33,6 +59,7 @@ class NoteListViewModel with ChangeNotifier {
             );
           }));
         },
+        notePopUpMenu: popupMenuButton,
       ));
     }
 
