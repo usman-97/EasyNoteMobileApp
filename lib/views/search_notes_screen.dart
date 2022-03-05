@@ -3,6 +3,7 @@ import 'package:note_taking_app/utilities/constants.dart';
 import 'package:note_taking_app/viewModels/note_list_view_model.dart';
 import 'package:note_taking_app/viewModels/search_notes_view_model.dart';
 import 'package:note_taking_app/components/note_card.dart';
+import 'package:note_taking_app/components/note_pop_up_menu.dart';
 
 class SearchNoteScreen extends StatefulWidget {
   static const String id = 'search_note_screen';
@@ -76,7 +77,15 @@ class _SearchNoteScreenState extends State<SearchNoteScreen> {
                   }
 
                   List<NoteCard> searchedNoteCards =
-                      _noteListViewModel.buildUserNoteCards(snapshot, context);
+                      _noteListViewModel.buildUserNoteCards(
+                    snapshot,
+                    context,
+                    popupMenuButton: NotePopUpMenu(
+                      value: _noteListViewModel.noteMenuValue,
+                      share: () {},
+                      delete: () {},
+                    ),
+                  );
 
                   return ListView(
                     children: searchedNoteCards,
