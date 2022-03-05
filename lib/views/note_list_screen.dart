@@ -8,8 +8,7 @@ import 'package:note_taking_app/utilities/navigation.dart';
 import 'package:note_taking_app/viewModels/create_note_view_model.dart';
 import 'package:note_taking_app/viewModels/note_list_view_model.dart';
 import 'package:note_taking_app/views/home_screen.dart';
-
-import '../components/note_pop_up_menu.dart';
+import 'package:note_taking_app/components/note_pop_up_menu.dart';
 
 class NoteListScreen extends StatefulWidget {
   static const String id = 'note_list_screen';
