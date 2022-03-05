@@ -3,7 +3,6 @@ import 'package:note_taking_app/components/circle_button.dart';
 import 'package:note_taking_app/components/app_menu.dart';
 import 'package:note_taking_app/components/custom_app_bar.dart';
 import 'package:note_taking_app/components/note_card.dart';
-import 'package:note_taking_app/components/note_pop_up_menu_option.dart';
 import 'package:note_taking_app/utilities/constants.dart';
 import 'package:note_taking_app/utilities/navigation.dart';
 import 'package:note_taking_app/viewModels/create_note_view_model.dart';
