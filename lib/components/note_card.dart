@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'note_pop_up_menu.dart';
+
 class NoteCard extends StatelessWidget {
   const NoteCard({
     Key? key,
@@ -8,10 +10,12 @@ class NoteCard extends StatelessWidget {
     required this.last_modified,
     required this.status,
     required this.onTap,
+    required this.notePopUpMenu,
   }) : super(key: key);
 
   final String title, date_created, last_modified, status;
   final Function() onTap;
+  final NotePopUpMenu notePopUpMenu;
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +37,11 @@ class NoteCard extends StatelessWidget {
                       title,
                       style: const TextStyle(fontSize: 40.0),
                     ),
-                    TextButton(
-                      onPressed: () {},
-                      child: const Icon(Icons.more_horiz_rounded),
-                    ),
+                    notePopUpMenu,
+                    // TextButton(
+                    //   onPressed: () {},
+                    //   child: const Icon(Icons.more_horiz_rounded),
+                    // ),
                   ],
                 ),
                 const SizedBox(
