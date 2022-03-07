@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:note_taking_app/models/user_authentication.dart';
+import 'package:note_taking_app/utilities/navigation.dart';
 import 'package:note_taking_app/views/home_screen.dart';
 import 'package:note_taking_app/views/login_screen.dart';
 import 'package:note_taking_app/views/verification_screen.dart';
@@ -18,10 +19,12 @@ class LoadingScreenViewModel {
         bool isUserEmailVerified =
             await _userAuthentication.isUserEmailVerified();
         if (isUserEmailVerified) {
-          Navigator.pushNamed(context, HomeScreen.id);
+          // Navigator.pushNamed(context, HomeScreen.id);
+          Navigation.navigateToHome(context);
         } else {
           await _userAuthentication.sendEmailVerification();
-          Navigator.pushNamed(context, VerificationScreen.id);
+          // Navigator.pushNamed(context, VerificationScreen.id);
+          Navigation.navigateToVerification(context);
         }
         // print('User has been Signed in');
       }
