@@ -23,12 +23,6 @@ class LoginScreenViewModel {
         if (isUserSignedIn) {
           bool isUserEmailVerified =
               await _userAuthentication.isUserEmailVerified();
-          // print(_userAuthentication.getCurrentUser()?.email);
-          // if (isUserEmailVerified) {
-          //   print('Email verified');
-          // } else {
-          //   print('Email not verified');
-          // }
           _error = '';
           if (isUserEmailVerified) {
             Navigation.navigateToHome(context);
@@ -45,7 +39,6 @@ class LoginScreenViewModel {
     } else {
       _error = 'Invalid email';
     }
-    // print(_error);
   }
 
   Future<bool> isUserEmailVerified() async {
