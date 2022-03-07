@@ -26,6 +26,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      _verificationScreenViewModel.checkUserEmailVerification(context);
+    });
     return Scaffold(
       backgroundColor: kLightPrimaryColour,
       body: SafeArea(
