@@ -9,7 +9,7 @@ import 'package:note_taking_app/views/verification_screen.dart';
 
 class Navigation {
   static void navigateToHome(BuildContext context) {
-    Navigator.pushNamed(context, HomeScreen.id);
+    Navigator.popAndPushNamed(context, HomeScreen.id);
   }
 
   static void navigateToLogin(BuildContext context) {
