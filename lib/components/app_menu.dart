@@ -36,6 +36,13 @@ class AppMenu extends StatelessWidget {
             },
           ),
           AppMenuCard(
+            cardTitle: 'Shared Notes',
+            icon: Icons.folder_shared_rounded,
+            onTap: () {
+              Navigation.navigateToSharedNotesScreen(context);
+            },
+          ),
+          AppMenuCard(
             cardTitle: 'Logout',
             icon: Icons.exit_to_app_rounded,
             onTap: () {
