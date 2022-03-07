@@ -30,6 +30,19 @@ class _NoteListScreenState extends State<NoteListScreen> {
     // _createNoteViewModel.listAllFiles();
   }
 
+  // AlertDialog alert = AlertDialog(
+  //   title: const Text('Share'),
+  //   content: const TextField(
+  //     decoration: InputDecoration(hintText: 'Email'),
+  //   ),
+  //   actions: <Widget>[
+  //     TextButton(
+  //       onPressed: () {},
+  //       child: const Text('Share'),
+  //     )
+  //   ],
+  // );
+
   @override
   Widget build(BuildContext context) {
     // _noteListViewModel.fetchAllUserNotes();
@@ -94,16 +107,8 @@ class _NoteListScreenState extends State<NoteListScreen> {
                         return Container();
                       }
 
-                      List<NoteCard> userNotes =
-                          _noteListViewModel.buildUserNoteCards(
-                        snapshot,
-                        context,
-                        popupMenuButton: NotePopUpMenu(
-                          value: _noteListViewModel.noteMenuValue,
-                          share: () {},
-                          delete: () {},
-                        ),
-                      );
+                      List<NoteCard> userNotes = _noteListViewModel
+                          .buildUserNoteCards(snapshot, context);
                       // print(_noteListViewModel.noteMenuValue);
                       return ListView(
                         children: userNotes,

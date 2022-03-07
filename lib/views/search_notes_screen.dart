@@ -77,15 +77,7 @@ class _SearchNoteScreenState extends State<SearchNoteScreen> {
                   }
 
                   List<NoteCard> searchedNoteCards =
-                      _noteListViewModel.buildUserNoteCards(
-                    snapshot,
-                    context,
-                    popupMenuButton: NotePopUpMenu(
-                      value: _noteListViewModel.noteMenuValue,
-                      share: () {},
-                      delete: () {},
-                    ),
-                  );
+                      _noteListViewModel.buildUserNoteCards(snapshot, context);
 
                   return ListView(
                     children: searchedNoteCards,
