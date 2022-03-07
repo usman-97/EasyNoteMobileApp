@@ -4,11 +4,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:note_taking_app/models/data/user_note_data.dart';
 import 'package:note_taking_app/models/note.dart';
 import 'package:note_taking_app/models/user_authentication.dart';
+import 'package:note_taking_app/models/user_management.dart';
 import '../services/firestore_cloud.dart';
 
 class UserNote {
   final FirebaseFirestore _firestore = FirestoreCloud.firebaseCloudInstance();
   final UserAuthentication _userAuthentication = UserAuthentication();
+  final UserManagement _userManagement = UserManagement();
   final Note _noteFireStore = Note();
   late String _userEmail;
 
@@ -85,5 +87,9 @@ class UserNote {
         'last_modified': date,
       });
     } on FirebaseException catch (e) {}
+  }
+
+  void shareUserNote(String documentID, String otherUserEmail) async {
+    await _userManagement.doesUserExist(otherUserEmail);
   }
 }
