@@ -198,7 +198,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         setState(() {
                           // print(
                           //     '${_registerScreenViewModel.isFirstNameValid()} ${_registerScreenViewModel.isLastNameValid()}');
-                          if (_registerScreenViewModel.isFirstNameValid() ||
+                          if (_registerScreenViewModel.isFirstNameValid() &&
                               _registerScreenViewModel.isLastNameValid()) {
                             _registrationError = '';
                             _isNextSectionVisible =
@@ -244,6 +244,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       label: 'Back',
                       onPressed: () {
                         setState(() {
+                          _registerScreenViewModel.firstname = '';
+                          _registerScreenViewModel.lastname = '';
                           _isNextSectionVisible =
                               _isNextSectionVisible == true ? false : true;
                           _registrationError = '';
