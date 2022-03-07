@@ -5,8 +5,9 @@ import 'package:note_taking_app/components/note_card.dart';
 import 'package:note_taking_app/models/data/user_note_data.dart';
 import 'package:note_taking_app/models/user_note.dart';
 import 'package:note_taking_app/views/create_note_screen.dart';
+import 'package:note_taking_app/components/note_pop_up_menu.dart';
 
-import '../components/note_pop_up_menu.dart';
+import '../components/share_note_pop_up_form.dart';
 
 class NoteListViewModel with ChangeNotifier {
   final UserNote _userNote = UserNote();
@@ -30,7 +31,8 @@ class NoteListViewModel with ChangeNotifier {
       ),
     ),
   ];
-  String noteMenuValue = 'Share';
+  String _noteMenuValue = 'Share';
+  String _currentSelectedNoteId = '';
 
   List<DropdownMenuItem<String>> get cardMenuOptions => _cardMenuOptions;
 
@@ -38,9 +40,25 @@ class NoteListViewModel with ChangeNotifier {
     return _userNote.fetchAllUserNoteData();
   }
 
+  AlertDialog alert = AlertDialog(
+    title: const Text('Share'),
+    content: const TextField(
+      decoration: InputDecoration(hintText: 'Email'),
+    ),
+    actions: <Widget>[
+      TextButton(
+        onPressed: () {},
+        child: const Text('Share'),
+      )
+    ],
+  );
+
+  void _selectCurrentNote(String currentNoteId) {
+    _currentSelectedNoteId = currentNoteId;
+  }
+
   List<NoteCard> buildUserNoteCards(
-      AsyncSnapshot<dynamic> snapshot, BuildContext context,
-      {required NotePopUpMenu popupMenuButton}) {
+      AsyncSnapshot<dynamic> snapshot, BuildContext context) {
     List<NoteCard> _userNoteCards = [];
     final notesData = snapshot.data;
 
@@ -59,7 +77,22 @@ class NoteListViewModel with ChangeNotifier {
             );
           }));
         },
-        notePopUpMenu: popupMenuButton,
+        notePopUpMenu: NotePopUpMenu(
+          value: _noteMenuValue,
+          share: () {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  _currentSelectedNoteId = noteData.documentID;
+                  return SharePopUpForm(
+                    onPressed: () {
+                      print(_currentSelectedNoteId);
+                    },
+                  );
+                });
+          },
+          delete: () {},
+        ),
       ));
     }
 
