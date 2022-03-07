@@ -31,6 +31,7 @@ class NoteListViewModel with ChangeNotifier {
       ),
     ),
   ];
+  TextEditingController _controller = TextEditingController();
   String _noteMenuValue = 'Share';
   String _currentSelectedNoteId = '';
 
@@ -52,10 +53,6 @@ class NoteListViewModel with ChangeNotifier {
       )
     ],
   );
-
-  void _selectCurrentNote(String currentNoteId) {
-    _currentSelectedNoteId = currentNoteId;
-  }
 
   List<NoteCard> buildUserNoteCards(
       AsyncSnapshot<dynamic> snapshot, BuildContext context) {
@@ -83,10 +80,14 @@ class NoteListViewModel with ChangeNotifier {
             showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  _currentSelectedNoteId = noteData.documentID;
+                  // _currentSelectedNoteId = noteData.documentID;
+                  // print(noteData.documentID);
                   return SharePopUpForm(
+                    controller: _controller,
                     onPressed: () {
-                      print(_currentSelectedNoteId);
+                      _userNote.shareUserNote(
+                          noteData.documentID, _controller.text);
+                      // _userNote.shareUserNote(_currentSelectedNoteId, otherUserEmail)
                     },
                   );
                 });
