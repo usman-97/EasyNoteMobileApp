@@ -104,7 +104,27 @@ class _NoteListScreenState extends State<NoteListScreen> {
                     builder: (BuildContext context,
                         AsyncSnapshot<dynamic> snapshot) {
                       if (!snapshot.hasData) {
-                        return Container();
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: const <Widget>[
+                            Icon(
+                              Icons.note_rounded,
+                              size: 200.0,
+                              color: kPrimaryColour,
+                            ),
+                            Center(
+                              child: Text(
+                                'Tap + button to create a new note.',
+                                style: TextStyle(
+                                  color: kPrimaryTextColour,
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
                       }
 
                       List<NoteCard> userNotes = _noteListViewModel
