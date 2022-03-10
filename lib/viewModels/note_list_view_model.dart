@@ -8,9 +8,11 @@ import 'package:note_taking_app/views/create_note_screen.dart';
 import 'package:note_taking_app/components/note_pop_up_menu.dart';
 
 import '../components/share_note_pop_up_form.dart';
+import '../models/user_shared_notes.dart';
 
 class NoteListViewModel with ChangeNotifier {
   final UserNote _userNote = UserNote();
+  final UserSharedNotes _sharedUserNotes = UserSharedNotes();
   final List<DropdownMenuItem<String>> _cardMenuOptions = [
     DropdownMenuItem(
       value: 'Share',
@@ -85,9 +87,8 @@ class NoteListViewModel with ChangeNotifier {
                   return SharePopUpForm(
                     controller: _controller,
                     onPressed: () {
-                      _userNote.shareUserNote(
+                      _sharedUserNotes.shareUserNote(
                           noteData.documentID, _controller.text);
-                      // _userNote.shareUserNote(_currentSelectedNoteId, otherUserEmail)
                     },
                   );
                 });

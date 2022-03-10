@@ -88,8 +88,4 @@ class UserNote {
       });
     } on FirebaseException catch (e) {}
   }
-
-  void shareUserNote(String documentID, String otherUserEmail) async {
-    await _userManagement.doesUserExist(otherUserEmail);
-  }
 }

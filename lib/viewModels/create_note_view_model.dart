@@ -20,6 +20,7 @@ class CreateNoteViewModel {
 
   void listAllFiles() async {
     Directory dir = await getTemporaryDirectory();
+    print(dir.path);
     List<FileSystemEntity> list = await dir.list().toList();
     for (var element in list) {
       print(element);
@@ -44,6 +45,7 @@ class CreateNoteViewModel {
         await _imagePicker.pickImage(source: ImageSource.gallery);
     attachmentName = image!.name;
 
+    print(image.path);
     return image.path;
   }
 
@@ -82,13 +84,31 @@ class CreateNoteViewModel {
       final File noteFilePath =
           await _noteStorage.downloadFileFromCloud(filename);
       final String fileAsString = await noteFilePath.readAsString();
-      doc = Document.fromJson(jsonDecode(fileAsString));
+      final String fileAsStringPlatformCompatible = _checkImagePlatformCompatibility(fileAsString);
+      // print(fileAsStringPlatformCompatible);
+      doc = Document.fromJson(jsonDecode(fileAsStringPlatformCompatible));
     } catch (e) {
       doc = Document();
     }
     // print(doc);
 
     return doc;
+  }
+
+  String _checkImagePlatformCompatibility(String fileAsString) {
+    const String androidTempDir = '/data/user/0/com.usk.easynote/cache';
+    const String iosTempDir = '/Users/usmanshabir/Library/Developer/CoreSimulator/Devices/B73BA5CC-A266-455E-9D64-E769FA80258F/data/Containers/Data/Application/4F02287D-242B-4F4C-B7EB-DEDB3F7C3ACE/Library/Caches';
+    String file = fileAsString;
+
+    if (Platform.isIOS) {
+      file = file.replaceAll(androidTempDir, iosTempDir);
+    }
+
+    if (Platform.isAndroid) {
+      file = file.replaceAll(iosTempDir, androidTempDir);
+    }
+
+    return file;
   }
 
   Future<void> addNote(String currentDocumentID, String newDocumentID) async {

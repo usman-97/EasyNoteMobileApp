@@ -22,25 +22,17 @@ class UserManagement {
     });
   }
 
-  Future<void> doesUserExist(String email) async {
-    print(_currentUserEmail);
-    _firestore
+  Future<bool> doesUserExist(String email) async {
+    bool doesUserExist = false;
+    final user = await _firestore
         .collection('users')
         .where('email', isEqualTo: email)
-        .snapshots()
-        .listen((event) {
-      if (event.docs.isNotEmpty &&
-          event.docs.first.toString() != _currentUserEmail) {
-        print('Not Empty');
-      } else {
-        print('Empty');
-      }
-    });
+        .get();
 
-    // if (await otherUser.length > 0) {
-    //   print('Not Empty');
-    // } else {
-    //   print('Empty');
-    // }
+    if (user.docs.isNotEmpty) {
+      doesUserExist = true;
+    }
+
+    return doesUserExist;
   }
 }
