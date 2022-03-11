@@ -12,7 +12,7 @@ class UserManagement {
     _currentUserEmail = _userAuthentication.getCurrentUserEmail();
   }
 
-  // Add user data to database
+  /// Add user data to database
   Future<void> addUserData(
       String email, String firstname, String lastname) async {
     _firestore.collection('users').add({
@@ -22,6 +22,7 @@ class UserManagement {
     });
   }
 
+  /// Check if a user exist having [email]
   Future<bool> doesUserExist(String email) async {
     bool doesUserExist = false;
     final user = await _firestore
