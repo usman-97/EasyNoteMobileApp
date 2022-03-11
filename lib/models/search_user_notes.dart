@@ -17,12 +17,12 @@ class SearchUserNotes {
     _userEmail = _userAuthentication.getCurrentUserEmail();
   }
 
+  // Store stream of searched notes
   StreamController<List<UserNoteData>> get searchedNotesStreamController =>
       _searchedNotesStreamController;
 
+  /// Fetch all notes using user typed [keyword]
   Future<void> fetchUserSearchedNoteData(String keyword) async {
-    // List<UserNoteData> _searchNotes = [];
-
     try {
       _firestore
           .collection('notes')
@@ -37,10 +37,10 @@ class SearchUserNotes {
               .map((snapshot) =>
                   UserNoteData.fromDocumentSnapshot(snapshot.data()))
               .toList();
+          // Add all searched notes to the stream
           _searchedNotesStreamController.add(_searchNotes);
         }
       });
     } on FirebaseException catch (e) {}
-    // return _searchedNotesStreamController;
   }
 }
