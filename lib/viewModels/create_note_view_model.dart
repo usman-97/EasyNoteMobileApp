@@ -15,6 +15,7 @@ class CreateNoteViewModel {
   final Note _note = Note();
   String _error = '';
   String attachmentName = '';
+  String currentDocumentID = '';
 
   String get getError => _error;
 
@@ -28,25 +29,26 @@ class CreateNoteViewModel {
       // await element.delete(recursive: false);
       // }
     }
-
-    // await Directory('${dir.path}/test').create(recursive: false);
-    // await File('${dir.path}/test/testFile.txt').create(recursive: false);
-    // List<FileSystemEntity> dirFileList =
-    //     await Directory('${dir.path}/test').list().toList();
-    // dirFileList.forEach((e) {
-    //   print(e.toString());
-    //   e.delete();
-    // });
-    // print(await Directory('${dir.path}/test').exists());
   }
 
   Future<String> onImagePickCallback(File file) async {
     final XFile? image =
         await _imagePicker.pickImage(source: ImageSource.gallery);
     attachmentName = image!.name;
+    String imagePath = image.path;
 
-    print(image.path);
-    return image.path;
+    if (Platform.isIOS) {
+      Directory cacheDir = await getTemporaryDirectory();
+      File imageFile = File(image.path);
+      File newImageFile =
+          await imageFile.copy('${cacheDir.path}/${image.name}');
+      await imageFile.delete();
+      imagePath = newImageFile.path;
+      // print(newImageFile.path);
+    }
+
+    // print(image.path);
+    return imagePath;
   }
 
   Future<String> onVideoPickCallBack(File file) async {
@@ -56,26 +58,60 @@ class CreateNoteViewModel {
     return video!.path;
   }
 
+  Future<void> addNote(String currentDocumentID, String newNoteTitle,
+      String currentNoteTitle) async {
+    String newDocID = await _generateNewDocumentID(
+        currentDocumentID, newNoteTitle, currentNoteTitle);
+    // print(currentDocumentID);
+    // print(newNoteTitle);
+    // print(currentNoteTitle);
+    print(newDocID);
+    String date = _getDate();
+    bool isDocExist = await _userNote.isNoteDocumentExist(currentDocumentID);
+    // print(isDocExist);
+    if (isDocExist) {
+      await _userNote.updateLastModified(newDocID, date);
+      if (currentNoteTitle != newNoteTitle) {
+        // await _userNote.updateNoteID(currentDocumentID, newDocID);
+        await _userNote.updateNoteTitle(currentDocumentID, newNoteTitle);
+      }
+    } else {
+      await _userNote.addNote(newDocID, date);
+    }
+  }
+
+  Future<String> _generateNewDocumentID(String currentDocumentID,
+      String newNoteTitle, String currentNoteTitle) async {
+    String finalID = currentDocumentID;
+    if (finalID.isEmpty) {
+      finalID = newNoteTitle;
+    }
+    // else if (currentNoteTitle != newNoteTitle) {
+    //   final idPattern = RegExp(r'[0-9]+$');
+    //   final match = idPattern.firstMatch(currentDocumentID);
+    //   // print(match);
+    //   if (match != null) {
+    //     String oldDocumentIDNumbers = match.group(0).toString();
+    //     finalID = '${newNoteTitle}Note$oldDocumentIDNumbers';
+    //   }
+    // }
+    //
+    this.currentDocumentID = finalID;
+    return finalID;
+  }
+
   Future<void> uploadNoteToCloud(
       Object obj, String currentDocumentID, String newDocumentID) async {
     String filename =
-        await _generateDocumentName(currentDocumentID, newDocumentID);
+        await _generateNewDocumentName(currentDocumentID, newDocumentID);
+    if (filename != currentDocumentID && currentDocumentID.isNotEmpty) {
+      await _noteStorage.deleteUserNoteFiles(currentDocumentID);
+    }
     var jsonFile = jsonEncode(obj);
     bool isUploaded = await _noteStorage.uploadFileToCloud(jsonFile, filename);
     if (!isUploaded) {
       _error = 'File not uploaded';
     }
-  }
-
-  Future<String> _generateDocumentName(
-      String currentDocumentID, String newDocumentID) async {
-    String noteDocId = '$currentDocumentID.json';
-    int totalNotes = await getTotalNotes();
-    if (currentDocumentID.isEmpty) {
-      noteDocId = '$newDocumentID${totalNotes + 1}.json';
-    }
-
-    return noteDocId;
   }
 
   Future<Document> downloadNoteFromCloud(String filename) async {
@@ -84,7 +120,8 @@ class CreateNoteViewModel {
       final File noteFilePath =
           await _noteStorage.downloadFileFromCloud(filename);
       final String fileAsString = await noteFilePath.readAsString();
-      final String fileAsStringPlatformCompatible = _checkImagePlatformCompatibility(fileAsString);
+      final String fileAsStringPlatformCompatible =
+          _checkImagePlatformCompatibility(fileAsString);
       // print(fileAsStringPlatformCompatible);
       doc = Document.fromJson(jsonDecode(fileAsStringPlatformCompatible));
     } catch (e) {
@@ -95,9 +132,38 @@ class CreateNoteViewModel {
     return doc;
   }
 
+  void uploadUserAttachment(
+      String currentDocumentID, String newDocumentID, String document) async {
+    String documentName =
+        await _generateNewDocumentName(currentDocumentID, newDocumentID);
+    await _noteStorage.uploadAttachmentToCloud(documentName, document);
+  }
+
+  Future<void> downloadAttachmentFiles(String documentID) async {
+    // String documentName =
+    //     await _generateDocumentName(currentDocumentID, newDocumentID);
+    await _noteStorage.downloadAttachmentFilesFromCloud(documentID);
+  }
+
+  Future<String> _generateNewDocumentName(
+      String currentDocumentID, String newDocumentName) async {
+    String noteDocId = currentDocumentID;
+    int totalNotes = await getTotalNotes();
+    if (currentDocumentID.isEmpty) {
+      noteDocId = '$newDocumentName${totalNotes + 1}';
+    }
+    // else if (noteTitle != newDocumentName) {
+    //   noteDocId = await _generateNewDocumentID(
+    //       currentDocumentID, newDocumentName, noteTitle);
+    // }
+
+    return noteDocId;
+  }
+
   String _checkImagePlatformCompatibility(String fileAsString) {
     const String androidTempDir = '/data/user/0/com.usk.easynote/cache';
-    const String iosTempDir = '/Users/usmanshabir/Library/Developer/CoreSimulator/Devices/B73BA5CC-A266-455E-9D64-E769FA80258F/data/Containers/Data/Application/4F02287D-242B-4F4C-B7EB-DEDB3F7C3ACE/Library/Caches';
+    const String iosTempDir =
+        '/Users/usmanshabir/Library/Developer/CoreSimulator/Devices/B73BA5CC-A266-455E-9D64-E769FA80258F/data/Containers/Data/Application/4F02287D-242B-4F4C-B7EB-DEDB3F7C3ACE/Library/Caches';
     String file = fileAsString;
 
     if (Platform.isIOS) {
@@ -111,27 +177,6 @@ class CreateNoteViewModel {
     return file;
   }
 
-  Future<void> addNote(String currentDocumentID, String newDocumentID) async {
-    String id = await _generateDocumentID(currentDocumentID, newDocumentID);
-    String date = _getDate();
-    bool isDocExist = await _userNote.isNotesDocumentExist(id);
-    if (isDocExist) {
-      await _userNote.updateLastModified(id, date);
-    } else {
-      await _userNote.addNote(id, date);
-    }
-  }
-
-  Future<String> _generateDocumentID(
-      String currentDocumentID, String newDocumentID) async {
-    String finalID = currentDocumentID;
-    if (finalID.isEmpty) {
-      finalID = newDocumentID;
-    }
-
-    return finalID;
-  }
-
   Future<int> getTotalNotes() async {
     return await _note.fetchTotalNotes();
   }
@@ -141,19 +186,6 @@ class CreateNoteViewModel {
     String date = '${now.day}/${now.month}/${now.year}';
 
     return date;
-  }
-
-  void uploadUserAttachment(
-      String currentDocumentID, String newDocumentID, String document) async {
-    String documentName =
-        await _generateDocumentName(currentDocumentID, newDocumentID);
-    await _noteStorage.uploadAttachmentToCloud(documentName, document);
-  }
-
-  Future<void> downloadAttachmentFiles(String documentID) async {
-    // String documentName =
-    //     await _generateDocumentName(currentDocumentID, newDocumentID);
-    await _noteStorage.downloadAttachmentFilesFromCloud(documentID);
   }
 
   void clearCache() async {
