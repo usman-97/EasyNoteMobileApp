@@ -6,7 +6,8 @@ class UserAuthentication {
       FirebaseAuthentication.firebaseAuthInstance();
   String _userErrorCode = '';
 
-  // Register new user using FirebaseAuth
+  /// Register new user using FirebaseAuth using
+  /// user [email] and [password]
   Future<bool> registerUser(
       {required String email, required String password}) async {
     bool isUserRegistered = false;
@@ -29,23 +30,26 @@ class UserAuthentication {
     return isUserRegistered;
   }
 
-  // Sign in user to their created account by using their login credentials
+  /// Sign in user to their created account by using their login credentials
+  /// using [email] and [password]
   Future<bool> signInUser(String email, String password) async {
     bool isUserSignedIn = false;
     try {
+      // Sign in user
       UserCredential user = await _firebaseAuthentication
           .signInWithEmailAndPassword(email: email, password: password);
       if (user != null) {
         isUserSignedIn = true;
       }
     } on FirebaseException catch (e) {
+      // Sign in error message
       _userErrorCode = e.message!;
     }
     return isUserSignedIn;
   }
 
-  // Check if user email has been verified before giving them
-  // full access to their account
+  /// Check if user email has been verified before giving them
+  ///  full access to their account
   Future<bool> isUserEmailVerified() async {
     bool isEmailVerified = false;
     User? currentUser = getCurrentUser(); // Current logged in user
@@ -58,7 +62,7 @@ class UserAuthentication {
     return isEmailVerified;
   }
 
-  // Send email verification to user's email
+  /// Send email verification to user's email
   Future<void> sendEmailVerification() async {
     bool isUserEmailVerified = await this.isUserEmailVerified();
     User? currentUser = getCurrentUser();
@@ -67,7 +71,7 @@ class UserAuthentication {
     }
   }
 
-  // Get current User object
+  /// Get current User object
   User? getCurrentUser() {
     // return _currentUser;
     try {
@@ -79,7 +83,7 @@ class UserAuthentication {
     return null;
   }
 
-  // Get current logged in user's email
+  /// Get current logged in user's email
   String getCurrentUserEmail() {
     var currentUser = getCurrentUser();
     String userEmail = '';
@@ -89,24 +93,15 @@ class UserAuthentication {
     return userEmail;
   }
 
+  /// Sign out current signed in user
   void signOutUser() {
     try {
       _firebaseAuthentication.signOut();
     } on FirebaseException catch (e) {}
   }
 
+  /// Get user authentication error code
   String getUserErrorCode() {
     return _userErrorCode;
   }
-  // bool isUserAlreadySignedIn() {
-  //   bool isUserSignedIn = false;
-  //   _firebaseAuthentication.userChanges().listen((User? user) {
-  //     if (user == null) {
-  //       isUserSignedIn = false;
-  //     } else {
-  //       isUserSignedIn = true;
-  //     }
-  //   });
-  //   return isUserSignedIn;
-  // }
 }
