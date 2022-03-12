@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:html';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:note_taking_app/models/data/user_note_data.dart';
 import 'package:note_taking_app/models/note.dart';
 import 'package:note_taking_app/models/user_authentication.dart';
@@ -15,6 +13,7 @@ class UserNote {
   final UserManagement _userManagement = UserManagement();
   final Note _note = Note();
   late String _userEmail;
+  String _currentNoteID = '';
 
   // StreamController to store all user notes
   final StreamController<List<UserNoteData>> _noteDataStreamController =
@@ -24,35 +23,52 @@ class UserNote {
     _userEmail = _userAuthentication.getCurrentUserEmail();
   }
 
+  String get currentNoteID => _currentNoteID;
+
   /// Add note data to Firebase FireStore
   Future<void> addNote(String noteTitle, String date) async {
-    int totalNotes =
-        await _note.fetchTotalNotes(); // Fetch total number of created notes
-    String documentID = 'Note0${totalNotes + 1}';
+    // int totalNotes =
+    //     await getTotalUserNotes(); // Fetch total number of created notes
+    // String documentID = 'Note0${totalNotes + 1}';
+    _currentNoteID = await generateNewNoteID();
     try {
       _firestore.collection('notes').doc(_userEmail).collection('notes').add({
-        'id': documentID,
+        'id': _currentNoteID,
         'title': noteTitle,
         'date_created': date,
         'last_modified': date,
         'status': 'private',
       });
-      await _note.updateTotalNotes(totalNotes +
+      int currentTotalNotes = await _note.fetchTotalNotes();
+      await _note.updateTotalNotes(currentTotalNotes +
           1); // Update the total notes after adding new note to FireStore
     } on FirebaseException catch (e) {}
   }
 
+  /// Generate new user note id
+  Future<String> generateNewNoteID() async {
+    int totalNotes =
+        await getTotalUserNotes(); // Fetch total number of created notes
+    return 'Note0${totalNotes + 1}';
+  }
+
   /// Fetch total number of user created notes
-  Future<int> totalUserNotes() async {
+  Future<int> getTotalUserNotes() async {
     int totalNotes = 0;
 
     try {
-      totalNotes = await _firestore
+      await _firestore
           .collection('notes')
           .doc(_userEmail)
           .collection('notes')
-          .snapshots()
-          .length;
+          .get()
+          .then((value) {
+        if (value.docs.isNotEmpty) {
+          String lastNoteID = value.docs.last.data()['id'];
+          String lastNoteNumStr = lastNoteID.replaceAll(RegExp(r'[^0-9]'), '');
+          totalNotes = int.parse(lastNoteNumStr);
+        }
+      });
     } on FirebaseException catch (e) {}
 
     return totalNotes;
