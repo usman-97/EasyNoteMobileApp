@@ -27,16 +27,16 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
   final FocusNode _focusNode = FocusNode();
   final TextEditingController _titleTextFieldController =
       TextEditingController();
-  late bool _isEditNote, _isToolBarExpaneded = false;
-  late String documentID, title;
+  late bool _isNoteEditable, _isToolBarExpanded = false;
+  late String _documentID, _title;
 
   @override
   void initState() {
     super.initState();
-    _titleTextFieldController.text = widget.title;
-    _isEditNote = widget.isEditable;
-    documentID = widget.documentID;
-    _loadDoc(documentID);
+    _titleTextFieldController.text = _title = widget.title;
+    _isNoteEditable = widget.isEditable;
+    _documentID = widget.documentID;
+    _loadDoc(_documentID);
 
     // _createNoteViewModel.listAllFiles();
   }
@@ -68,43 +68,51 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
       appBar: AppBar(
         leading: TextButton(
           onPressed: () async {
-            if (!_isEditNote) {
+            if (!_isNoteEditable) {
               _createNoteViewModel.clearCache();
               Navigation.navigateToNoteList(context);
             } else {
               var document = _quillController.document.toDelta().toJson();
-              await _createNoteViewModel.uploadNoteToCloud(
-                  document, documentID, _titleTextFieldController.text);
-              _createNoteViewModel.uploadUserAttachment(documentID,
-                  _titleTextFieldController.text, document.toString());
+
               await _createNoteViewModel.addNote(
-                  documentID, _titleTextFieldController.text);
+                  _documentID, _titleTextFieldController.text, _title);
+              if (_documentID.isEmpty) {
+                _documentID = _createNoteViewModel.currentDocumentID;
+              }
+
+              await _createNoteViewModel.uploadNoteToCloud(
+                  document, _documentID, _titleTextFieldController.text);
+              _createNoteViewModel.uploadUserAttachment(_documentID,
+                  _titleTextFieldController.text, document.toString());
+              _title = _titleTextFieldController.text;
+              // _createNoteViewModel.listAllFiles();
               setState(() {
-                _isEditNote = false;
+                _isNoteEditable = false;
                 FocusManager.instance.primaryFocus?.unfocus();
               });
             }
           },
           child: Icon(
-            _isEditNote ? Icons.check_rounded : Icons.arrow_back_rounded,
+            _isNoteEditable ? Icons.check_rounded : Icons.arrow_back_rounded,
             size: 40.0,
             color: kTextIconColour,
           ),
         ),
         title: TextField(
           controller: _titleTextFieldController,
+          enabled: _isNoteEditable,
           textAlign: TextAlign.center,
           style: kAppBarTextFieldStyle,
           decoration: kNoteTitleInputDecoration,
         ),
         actions: <Widget>[
           Visibility(
-            visible: _isEditNote,
+            visible: _isNoteEditable,
             child: TextButton(
               onPressed: () {
-                if (documentID.isNotEmpty) {
-                  _isEditNote = false;
-                  _loadDoc(documentID);
+                if (_documentID.isNotEmpty) {
+                  _isNoteEditable = false;
+                  _loadDoc(_documentID);
                 } else {
                   Navigation.navigateToNoteList(context);
                 }
@@ -123,7 +131,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
         child: Column(
           children: <Widget>[
             Visibility(
-              visible: _isEditNote,
+              visible: _isNoteEditable,
               child: Column(
                 children: <Widget>[
                   QuillToolbar.basic(
@@ -133,17 +141,16 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
                     onVideoPickCallback:
                         _createNoteViewModel.onVideoPickCallBack,
                     showAlignmentButtons: true,
-                    multiRowsDisplay: _isToolBarExpaneded,
+                    multiRowsDisplay: _isToolBarExpanded,
                   ),
                   TextButton(
                     onPressed: () {
                       setState(() {
-                        _isToolBarExpaneded =
-                            _isToolBarExpaneded ? false : true;
+                        _isToolBarExpanded = _isToolBarExpanded ? false : true;
                       });
                     },
                     child: Icon(
-                      _isToolBarExpaneded
+                      _isToolBarExpanded
                           ? Icons.arrow_upward_rounded
                           : Icons.arrow_downward_rounded,
                     ),
@@ -167,20 +174,20 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
                   scrollable: true,
                   padding: EdgeInsets.zero,
                   autoFocus: true,
-                  readOnly: !_isEditNote,
+                  readOnly: !_isNoteEditable,
                   expands: true,
-                  showCursor: _isEditNote,
+                  showCursor: _isNoteEditable,
                 ),
               ),
             ),
             Visibility(
-              visible: !_isEditNote,
+              visible: !_isNoteEditable,
               child: Align(
                 alignment: FractionalOffset.bottomCenter,
                 child: CircleButton(
                   onPressed: () {
                     setState(() {
-                      _isEditNote = true;
+                      _isNoteEditable = true;
                     });
                   },
                   icon: Icons.edit_rounded,
