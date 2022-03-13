@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:note_taking_app/utilities/constants.dart';
 
 class RoundButton extends StatelessWidget {
+  const RoundButton(
+      {required this.label,
+      required this.onPressed,
+      this.backgroundColour = kLightPrimaryColour});
+
   final String label;
   final void Function() onPressed;
-
-  const RoundButton({required this.label, required this.onPressed});
+  final Color? backgroundColour;
 
   @override
   Widget build(BuildContext context) {
