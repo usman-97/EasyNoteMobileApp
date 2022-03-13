@@ -18,7 +18,7 @@ class RoundButton extends StatelessWidget {
         top: 20.0,
       ),
       child: Material(
-        color: kLightPrimaryColour,
+        color: backgroundColour,
         borderRadius: const BorderRadius.all(Radius.circular(30.0)),
         elevation: 5.0,
         child: MaterialButton(
