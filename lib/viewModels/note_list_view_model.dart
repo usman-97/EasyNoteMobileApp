@@ -5,56 +5,51 @@ import 'package:note_taking_app/components/note_card.dart';
 import 'package:note_taking_app/models/data/user_note_data.dart';
 import 'package:note_taking_app/models/user_note.dart';
 import 'package:note_taking_app/views/create_note_screen.dart';
-import 'package:note_taking_app/components/note_pop_up_menu.dart';
-
-import '../components/share_note_pop_up_form.dart';
 import '../models/user_shared_notes.dart';
 
 class NoteListViewModel with ChangeNotifier {
   final UserNote _userNote = UserNote();
   final UserSharedNotes _sharedUserNotes = UserSharedNotes();
-  final List<DropdownMenuItem<String>> _cardMenuOptions = [
-    DropdownMenuItem(
-      value: 'Share',
-      child: GestureDetector(
-        onTap: () {
-          print('share');
-        },
-        child: const Text('Share'),
-      ),
-    ),
-    DropdownMenuItem(
-      value: 'Delete',
-      child: GestureDetector(
-        onTap: () {
-          print('delete');
-        },
-        child: const Text('Delete'),
-      ),
-    ),
-  ];
-  TextEditingController _controller = TextEditingController();
+  // final List<DropdownMenuItem<String>> _cardMenuOptions = [
+  //   DropdownMenuItem(
+  //     value: 'Share',
+  //     child: GestureDetector(
+  //       onTap: () {},
+  //       child: const Text('Share'),
+  //     ),
+  //   ),
+  //   DropdownMenuItem(
+  //     value: 'Delete',
+  //     child: GestureDetector(
+  //       onTap: () {
+  //         print('delete');
+  //       },
+  //       child: const Text('Delete'),
+  //     ),
+  //   ),
+  // ];
+  final TextEditingController _controller = TextEditingController();
   String _noteMenuValue = 'Share';
-  String _currentSelectedNoteId = '';
+  String value = '';
 
-  List<DropdownMenuItem<String>> get cardMenuOptions => _cardMenuOptions;
+  // List<DropdownMenuItem<String>> get cardMenuOptions => _cardMenuOptions;
 
   Stream<List<UserNoteData>> fetchAllUserNotes() {
     return _userNote.fetchAllUserNoteData();
   }
 
-  AlertDialog alert = AlertDialog(
-    title: const Text('Share'),
-    content: const TextField(
-      decoration: InputDecoration(hintText: 'Email'),
-    ),
-    actions: <Widget>[
-      TextButton(
-        onPressed: () {},
-        child: const Text('Share'),
-      )
-    ],
-  );
+  // AlertDialog alert = AlertDialog(
+  //   title: const Text('Share'),
+  //   content: const TextField(
+  //     decoration: InputDecoration(hintText: 'Email'),
+  //   ),
+  //   actions: <Widget>[
+  //     TextButton(
+  //       onPressed: () {},
+  //       child: const Text('Share'),
+  //     )
+  //   ],
+  // );
 
   List<NoteCard> buildUserNoteCards(
       AsyncSnapshot<dynamic> snapshot, BuildContext context) {
@@ -76,28 +71,15 @@ class NoteListViewModel with ChangeNotifier {
             );
           }));
         },
-        notePopUpMenu: NotePopUpMenu(
-          value: _noteMenuValue,
-          share: () {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  // _currentSelectedNoteId = noteData.documentID;
-                  // print(noteData.documentID);
-                  return SharePopUpForm(
-                    controller: _controller,
-                    onPressed: () {
-                      _sharedUserNotes.shareUserNote(
-                          noteData.documentID, _controller.text);
-                    },
-                  );
-                });
-          },
-          delete: () {},
-        ),
+        onShare: (context) {},
+        onDelete: (context) {},
       ));
     }
 
     return _userNoteCards;
+  }
+
+  void _deleteNote(String documentID) async {
+    await _userNote.deleteUserNote(documentID);
   }
 }
