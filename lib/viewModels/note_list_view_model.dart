@@ -6,6 +6,7 @@ import 'package:note_taking_app/models/data/user_note_data.dart';
 import 'package:note_taking_app/models/user_note.dart';
 import 'package:note_taking_app/utilities/navigation.dart';
 import 'package:note_taking_app/views/create_note_screen.dart';
+import 'package:note_taking_app/views/share_note_screen.dart';
 import '../models/user_shared_notes.dart';
 
 class NoteListViewModel with ChangeNotifier {
@@ -50,7 +51,11 @@ class NoteListViewModel with ChangeNotifier {
           }));
         },
         onShare: (context) {
-          Navigation.navigateToShareNoteScreen(context);
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return ShareNoteScreen(
+              noteID: noteData.documentID,
+            );
+          }));
         },
         onDelete: (context) {},
       ));
