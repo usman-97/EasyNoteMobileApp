@@ -5,11 +5,12 @@ class RoundButton extends StatelessWidget {
   const RoundButton(
       {required this.label,
       required this.onPressed,
-      this.backgroundColour = kLightPrimaryColour});
+      this.backgroundColour = kLightPrimaryColour,
+      this.colour = kPrimaryTextColour});
 
   final String label;
   final void Function() onPressed;
-  final Color? backgroundColour;
+  final Color? backgroundColour, colour;
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +28,8 @@ class RoundButton extends StatelessWidget {
           height: 42.0,
           child: Text(
             label,
-            style: const TextStyle(
-              color: kPrimaryTextColour,
+            style: TextStyle(
+              color: colour,
               fontSize: 20.0,
             ),
           ),
