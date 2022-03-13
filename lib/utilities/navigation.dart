@@ -5,6 +5,7 @@ import 'package:note_taking_app/views/login_screen.dart';
 import 'package:note_taking_app/views/note_list_screen.dart';
 import 'package:note_taking_app/views/register_screen.dart';
 import 'package:note_taking_app/views/search_notes_screen.dart';
+import 'package:note_taking_app/views/share_note_screen.dart';
 import 'package:note_taking_app/views/shared_notes_screen.dart';
 import 'package:note_taking_app/views/verification_screen.dart';
 
@@ -39,5 +40,9 @@ class Navigation {
 
   static void navigateToSharedNotesScreen(BuildContext context) {
     Navigator.popAndPushNamed(context, SharedNoteScreen.id);
+  }
+
+  static void navigateToShareNoteScreen(BuildContext context) {
+    Navigator.popAndPushNamed(context, ShareNoteScreen.id);
   }
 }
