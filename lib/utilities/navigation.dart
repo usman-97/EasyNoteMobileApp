@@ -43,6 +43,6 @@ class Navigation {
   }
 
   static void navigateToShareNoteScreen(BuildContext context) {
-    Navigator.popAndPushNamed(context, ShareNoteScreen.id);
+    Navigator.pushNamed(context, ShareNoteScreen.id);
   }
 }
