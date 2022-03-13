@@ -4,35 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:note_taking_app/components/note_card.dart';
 import 'package:note_taking_app/models/data/user_note_data.dart';
 import 'package:note_taking_app/models/user_note.dart';
+import 'package:note_taking_app/utilities/navigation.dart';
 import 'package:note_taking_app/views/create_note_screen.dart';
 import '../models/user_shared_notes.dart';
 
 class NoteListViewModel with ChangeNotifier {
   final UserNote _userNote = UserNote();
   final UserSharedNotes _sharedUserNotes = UserSharedNotes();
-  // final List<DropdownMenuItem<String>> _cardMenuOptions = [
-  //   DropdownMenuItem(
-  //     value: 'Share',
-  //     child: GestureDetector(
-  //       onTap: () {},
-  //       child: const Text('Share'),
-  //     ),
-  //   ),
-  //   DropdownMenuItem(
-  //     value: 'Delete',
-  //     child: GestureDetector(
-  //       onTap: () {
-  //         print('delete');
-  //       },
-  //       child: const Text('Delete'),
-  //     ),
-  //   ),
-  // ];
-  final TextEditingController _controller = TextEditingController();
-  String _noteMenuValue = 'Share';
-  String value = '';
-
-  // List<DropdownMenuItem<String>> get cardMenuOptions => _cardMenuOptions;
 
   Stream<List<UserNoteData>> fetchAllUserNotes() {
     return _userNote.fetchAllUserNoteData();
@@ -71,7 +49,9 @@ class NoteListViewModel with ChangeNotifier {
             );
           }));
         },
-        onShare: (context) {},
+        onShare: (context) {
+          Navigation.navigateToShareNoteScreen(context);
+        },
         onDelete: (context) {},
       ));
     }
