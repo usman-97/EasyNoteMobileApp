@@ -8,7 +8,6 @@ import 'package:note_taking_app/utilities/navigation.dart';
 import 'package:note_taking_app/viewModels/create_note_view_model.dart';
 import 'package:note_taking_app/viewModels/note_list_view_model.dart';
 import 'package:note_taking_app/views/home_screen.dart';
-import 'package:note_taking_app/components/note_pop_up_menu.dart';
 
 class NoteListScreen extends StatefulWidget {
   static const String id = 'note_list_screen';
@@ -29,19 +28,6 @@ class _NoteListScreenState extends State<NoteListScreen> {
     // _createNoteViewModel.clearCache();
     // _createNoteViewModel.listAllFiles();
   }
-
-  // AlertDialog alert = AlertDialog(
-  //   title: const Text('Share'),
-  //   content: const TextField(
-  //     decoration: InputDecoration(hintText: 'Email'),
-  //   ),
-  //   actions: <Widget>[
-  //     TextButton(
-  //       onPressed: () {},
-  //       child: const Text('Share'),
-  //     )
-  //   ],
-  // );
 
   @override
   Widget build(BuildContext context) {
