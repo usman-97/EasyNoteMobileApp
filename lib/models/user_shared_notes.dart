@@ -90,6 +90,21 @@ class UserSharedNotes {
     } on FirebaseException catch (e) {}
   }
 
+  Future<void> updateNoteStatus(String documentID) async {
+    try {
+      final noteColRef =
+          _firestore.collection('notes').doc(_userEmail).collection('notes');
+      await noteColRef.where('id', isEqualTo: documentID).get().then((value) {
+        if (value.docs.isNotEmpty) {
+          String noteID = value.docs.first.id;
+          noteColRef.doc(noteID).update({
+            'status': 'shared',
+          });
+        }
+      });
+    } on FirebaseException catch (e) {}
+  }
+
   Future<bool> _hasUserAlreadySharedTheNote(String documentID) async {
     bool hasNoteAlreadyShared = false;
     final sharedNote = await _firestore
@@ -125,9 +140,23 @@ class UserSharedNotes {
         }
       });
 
-      await _firestore.collection('shared_notes').doc(noteID);
+      if (noteID.isNotEmpty) {
+        await _firestore
+            .collection('shared_notes')
+            .doc(noteID)
+            .collection('user_with_access')
+            .where('user', isEqualTo: email)
+            .get()
+            .then((value) {
+          if (value.docs.isNotEmpty) {
+            isNoteSharedWithUser = true;
+          }
+          // print(isNoteSharedWithUser);
+        });
+      }
     } on FirebaseException catch (e) {}
 
+    // print(isNoteSharedWithUser);
     return isNoteSharedWithUser;
   }
 }
