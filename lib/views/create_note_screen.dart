@@ -70,7 +70,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
           onPressed: () async {
             if (!_isNoteEditable) {
               _createNoteViewModel.clearCache();
-              Navigation.navigateToNoteList(context);
+              Navigator.pop(context);
             } else {
               var document = _quillController.document.toDelta().toJson();
 
