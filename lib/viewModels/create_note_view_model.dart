@@ -139,7 +139,7 @@ class CreateNoteViewModel {
       // Check for attachment file path because Android and iOS temp folder path
       // is different
       final String fileAsStringPlatformCompatible =
-          _checkImagePlatformCompatibility(fileAsString);
+          await _checkImagePlatformCompatibility(fileAsString);
       doc = Document.fromJson(jsonDecode(fileAsStringPlatformCompatible));
     } catch (e) {
       doc = Document();
@@ -149,18 +149,19 @@ class CreateNoteViewModel {
   }
 
   /// Check attachment files path
-  String _checkImagePlatformCompatibility(String fileAsString) {
+  Future<String> _checkImagePlatformCompatibility(String fileAsString) async {
+    Directory localTempDir = await getTemporaryDirectory();
     const String androidTempDir = '/data/user/0/com.usk.easynote/cache';
     const String iosTempDir =
         '/Users/usmanshabir/Library/Developer/CoreSimulator/Devices/B73BA5CC-A266-455E-9D64-E769FA80258F/data/Containers/Data/Application/4F02287D-242B-4F4C-B7EB-DEDB3F7C3ACE/Library/Caches';
     String file = fileAsString;
 
     if (Platform.isIOS) {
-      file = file.replaceAll(androidTempDir, iosTempDir);
+      file = file.replaceAll(androidTempDir, localTempDir.path);
     }
 
     if (Platform.isAndroid) {
-      file = file.replaceAll(iosTempDir, androidTempDir);
+      file = file.replaceAll(iosTempDir, localTempDir.path);
     }
 
     return file;

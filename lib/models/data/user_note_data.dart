@@ -9,6 +9,13 @@ class UserNoteData {
       required this.last_modified,
       required this.status});
 
+  UserNoteData.fromDocumentSnapshot(DocumentSnapshot snapshot)
+      : documentID = snapshot.get('id'),
+        note_title = snapshot.get('title'),
+        date_created = snapshot.get('date_created'),
+        last_modified = snapshot.get('last_modified'),
+        status = snapshot.get('status');
+
   UserNoteData.fromJson(Map<String, dynamic> jsonData)
       : documentID = jsonData['id'],
         note_title = jsonData['title'],

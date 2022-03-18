@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:note_taking_app/components/app_menu.dart';
 import 'package:note_taking_app/components/custom_app_bar.dart';
+import 'package:note_taking_app/components/note_card.dart';
 import 'package:note_taking_app/utilities/constants.dart';
+import 'package:note_taking_app/viewModels/note_list_view_model.dart';
+import 'package:note_taking_app/viewModels/shared_notes_view_model.dart';
 
 import 'home_screen.dart';
 
@@ -15,6 +18,16 @@ class SharedNoteScreen extends StatefulWidget {
 }
 
 class _SharedNoteScreenState extends State<SharedNoteScreen> {
+  final SharedNotesViewModel _sharedNotesViewModel = SharedNotesViewModel();
+  final NoteListViewModel _noteListViewModel = NoteListViewModel();
+
+  @override
+  void initState() {
+    super.initState();
+    _sharedNotesViewModel.getUserSharedNotes();
+    _sharedNotesViewModel.getOtherSharedNotes();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,6 +76,71 @@ class _SharedNoteScreenState extends State<SharedNoteScreen> {
                     ),
                   ),
                 ],
+              ),
+            ),
+            Expanded(
+              child: StreamBuilder(
+                  stream: _sharedNotesViewModel.sharedNotesController.stream,
+                  builder:
+                      (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                    // _sharedNotesViewModel.getUserSharedNotes();
+                    if (!snapshot.hasData) {
+                      return Container();
+                    }
+
+                    List<NoteCard> sharedNoteCardList = _noteListViewModel
+                        .buildUserNoteCards(snapshot, context);
+
+                    return ListView(
+                      children: <Widget>[
+                        ExpansionTile(
+                          title: const Text('Shared Notes'),
+                          children: sharedNoteCardList,
+                        )
+                      ],
+                    );
+                  }),
+            ),
+            Expanded(
+              child: StreamBuilder(
+                stream: _sharedNotesViewModel.getOtherSharedNotes(),
+                builder:
+                    (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                  if (!snapshot.hasData) {
+                    return Container();
+                  }
+
+                  // print(snapshot.data);
+                  final data = snapshot.data;
+                  // _sharedNotesViewModel.getOtherSharedNote(data[0].noteRef);
+
+                  // final stream =
+                  //     _sharedNotesViewModel.getOtherUserSharedNoteData(data);
+                  return StreamBuilder(
+                    stream:
+                        _sharedNotesViewModel.getOtherUserSharedNoteData(data),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<dynamic> snapshot) {
+                      if (!snapshot.hasData) {
+                        return Container();
+                      }
+
+                      // print(snapshot.data);
+                      List<NoteCard> otherUserSharedNotes =
+                          _sharedNotesViewModel.getOtherSharedNote(snapshot);
+                      // print(otherUserSharedNotes[0]);
+                      return ListView(
+                        children: <Widget>[
+                          ExpansionTile(
+                            title: Text('Note Shared by others'),
+                            children: otherUserSharedNotes,
+                          )
+                        ],
+                      );
+                    },
+                  );
+                  // return ListView();
+                },
               ),
             ),
           ],

@@ -86,8 +86,7 @@ class UserNote {
           .listen((event) async {
         if (event.docs.isNotEmpty) {
           noteData = event.docs
-              .map((snapshot) =>
-                  UserNoteData.fromDocumentSnapshot(snapshot.data()))
+              .map((snapshot) => UserNoteData.fromJson(snapshot.data()))
               .toList();
           _noteDataStreamController.add(noteData);
         }

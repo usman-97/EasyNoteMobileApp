@@ -34,8 +34,7 @@ class SearchUserNotes {
           .listen((event) {
         if (event.docs.isNotEmpty) {
           List<UserNoteData> _searchNotes = event.docs
-              .map((snapshot) =>
-                  UserNoteData.fromDocumentSnapshot(snapshot.data()))
+              .map((snapshot) => UserNoteData.fromJson(snapshot.data()))
               .toList();
           // Add all searched notes to the stream
           _searchedNotesStreamController.add(_searchNotes);

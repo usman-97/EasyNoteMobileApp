@@ -17,7 +17,9 @@ class UserSharedNotes {
 
   final StreamController<List<UserNoteData>> _sharedNotesController =
       StreamController.broadcast();
-  final StreamController<List<SharedNoteUsersData>> _otherSharedNotesController =
+  final StreamController<List<SharedNoteUsersData>>
+      _otherSharedNotesController = StreamController.broadcast();
+  final StreamController<List<UserNoteData>> _otherUserSharedNotesController =
       StreamController.broadcast();
 
   UserSharedNotes() {
@@ -28,6 +30,8 @@ class UserSharedNotes {
       _sharedNotesController;
   StreamController<List<SharedNoteUsersData>> get otherSharedNotesController =>
       _otherSharedNotesController;
+  StreamController<List<UserNoteData>> get otherUserSharedNotesController =>
+      _otherUserSharedNotesController;
 
   /// Add user shared note data to shared notes collection using
   /// notes [documentID]
@@ -90,17 +94,24 @@ class UserSharedNotes {
   }
 
   Future<DocumentReference> getNoteReference(String documentID) async {
-    DocumentReference noteRef = _firestore.collection('notes').doc(_userEmail);
+    late DocumentReference noteRef;
     try {
-      _firestore.collection('notes').doc(_userEmail).collection('notes').where('id', isEqualTo: documentID).snapshots().listen((event) {
+      await _firestore
+          .collection('notes')
+          .doc(_userEmail)
+          .collection('notes')
+          .where('id', isEqualTo: documentID)
+          .get()
+          .then((event) {
         if (event.docs.isNotEmpty) {
-          noteRef = _firestore.collection('notes').doc(_userEmail).collection('notes').doc(event.docs.first.id);
+          noteRef = _firestore
+              .collection('notes')
+              .doc(_userEmail)
+              .collection('notes')
+              .doc(event.docs.first.id);
         }
       });
-    }
-    on FirebaseException catch(e){
-
-    }
+    } on FirebaseException catch (e) {}
 
     return noteRef;
   }
@@ -120,25 +131,6 @@ class UserSharedNotes {
       });
     } on FirebaseException catch (e) {}
   }
-
-  // Future<bool> _hasUserAlreadySharedTheNote(String documentID) async {
-  //   bool hasNoteAlreadyShared = false;
-  //   final sharedNote = await _firestore
-  //       .collection('notes')
-  //       .doc(_userEmail)
-  //       .collection('shared')
-  //       .doc()
-  //       .collection('notes')
-  //       .where('documentID', isEqualTo: documentID)
-  //       .where('owner', isEqualTo: _userEmail)
-  //       .get();
-  //
-  //   if (sharedNote.docs.isNotEmpty) {
-  //     hasNoteAlreadyShared = true;
-  //   }
-  //
-  //   return hasNoteAlreadyShared;
-  // }
 
   /// Check if note with [documentID] has already been shared with
   /// user who have [email] email.
@@ -198,41 +190,70 @@ class UserSharedNotes {
     } on FirebaseException catch (e) {}
   }
 
-  Future<void> fetchOtherSharedNotes() async {
+  StreamController<List<SharedNoteUsersData>> fetchOtherSharedNotes() {
     try {
-      _firestore.collection('shared_notes').snapshots().listen((event) {
+      _firestore.collection('shared_notes').snapshots().listen((event) async {
+        // print(event.docs.length);
         if (event.docs.isNotEmpty) {
+          List<SharedNoteUsersData> sharedNoteUserData = [];
           for (final doc in event.docs) {
-            _firestore.collection('shared_notes').doc(doc.id).collection('user_with_access').where('user', isEqualTo: _userEmail).snapshots().listen((event) {
+            await _firestore
+                .collection('shared_notes')
+                .doc(doc.id)
+                .collection('user_with_access')
+                .where('user', isEqualTo: _userEmail)
+                .get()
+                .then((event) {
+              // print(event.docs.length);
               if (event.docs.isNotEmpty) {
-                List<SharedNoteUsersData> sharedNoteUserData = event.docs.map((snapshot) => SharedNoteUsersData.fromJson(snapshot.data())).toList();
-                _otherSharedNotesController.add(sharedNoteUserData);
+                sharedNoteUserData.add(
+                    SharedNoteUsersData.fromDocumentSnapshot(event.docs.first));
               }
             });
           }
+          _otherSharedNotesController.add(sharedNoteUserData);
         }
       });
     } on FirebaseException catch (e) {}
+
+    return _otherSharedNotesController;
+  }
+
+  StreamController<List<UserNoteData>> fetchOtherUserSharedNote(
+      final noteData) {
+    // UserNoteData noteData = UserNoteData(
+    //   documentID: '',
+    //   note_title: '',
+    //   date_created: '',
+    //   last_modified: '',
+    //   status: '',
+    // );
+    // print(noteData[0].noteRef);
+    List<UserNoteData> userNoteData = [];
+    for (final note in noteData) {
+      try {
+        note.noteRef.snapshots().listen((event) {
+          if (event.exists) {
+            // noteData = UserNoteData(
+            //   documentID: event.get('id'),
+            //   note_title: event.get('title'),
+            //   date_created: event.get('date_created'),
+            //   last_modified: event.get('last_modified'),
+            //   status: event.get('status'),
+            // );
+            // print(event.data());
+            // print(event.data());
+            userNoteData.add(UserNoteData.fromDocumentSnapshot(event));
+            // UserNoteData noteData = UserNoteData.fromDocumentSnapshot(event);
+            // _otherUserSharedNotesController.add(noteData);
+
+            // print(event);
+          }
+        });
+      } on FirebaseException catch (e) {}
+    }
+    _otherUserSharedNotesController.add(userNoteData);
+
+    return _otherUserSharedNotesController;
   }
 }
-
-// if (event.docs.isNotEmpty) {
-// for (final doc in event.docs) {
-// String userDocID = doc.id;
-// _firestore
-//     .collection('collectionPath')
-//     .doc()
-//     .collection('user_with_access')
-//     .doc(userDocID)
-//     .parent
-//     .snapshots()
-//     .listen((event) {
-// if (event.docs.isNotEmpty) {
-// List<UserNoteData> sharedNotesData = event.docs
-//     .map((snapshot) => UserNoteData.fromJson(snapshot.data()))
-//     .toList();
-// _otherSharedNotesController.add(sharedNotesData);
-// }
-// });
-// }
-// }

@@ -9,13 +9,15 @@ class NoteCard extends StatelessWidget {
     required this.last_modified,
     required this.status,
     required this.onTap,
-    required this.onShare,
-    required this.onDelete,
+    this.onShare,
+    this.onDelete,
+    this.access = '',
   }) : super(key: key);
 
   final String title, date_created, last_modified, status;
   final void Function() onTap;
-  final void Function(BuildContext context) onShare, onDelete;
+  final void Function(BuildContext context)? onShare, onDelete;
+  final String access;
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +68,8 @@ class NoteCard extends StatelessWidget {
               // ),
 
               SlidableAction(
-                onPressed: onShare,
+                onPressed:
+                    access.isEmpty ? onShare ?? (context) {} : (context) {},
                 backgroundColor: const Color(0xFF21B7CA),
                 foregroundColor: Colors.white,
                 icon: Icons.share_rounded,
