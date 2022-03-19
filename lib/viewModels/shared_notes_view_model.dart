@@ -2,11 +2,14 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:note_taking_app/components/note_card.dart';
 import 'package:note_taking_app/models/data/shared_note_data.dart';
 import 'package:note_taking_app/models/data/shared_note_users_data.dart';
 import 'package:note_taking_app/models/data/user_note_data.dart';
 import 'package:note_taking_app/models/user_shared_notes.dart';
+
+import '../views/create_note_screen.dart';
 
 class SharedNotesViewModel {
   final UserSharedNotes _userSharedNotes = UserSharedNotes();
@@ -73,7 +76,8 @@ class SharedNotesViewModel {
   //   // return _otherUserSharedNotes.stream;
   // }
 
-  List<NoteCard> buildOtherUserSharedNotes(AsyncSnapshot<dynamic> snapshot) {
+  List<NoteCard> buildOtherUserSharedNotes(
+      AsyncSnapshot<dynamic> snapshot, BuildContext context) {
     List<NoteCard> otherUserSharedNotes = [];
     final noteData = snapshot.data;
     if (_otherUsersSharedNotesDataList.isNotEmpty) {
@@ -83,7 +87,16 @@ class SharedNotesViewModel {
           date_created: noteData[i].date_created,
           last_modified: noteData[i].last_modified,
           status: _otherUsersSharedNotesDataList[i].access,
-          onTap: () {},
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return CreateNoteScreen(
+                isEditable: false,
+                documentID: noteData[0].documentID,
+                title: noteData[0].note_title,
+                access: _otherUsersSharedNotesDataList[i].access,
+              );
+            }));
+          },
         ));
       }
     }
