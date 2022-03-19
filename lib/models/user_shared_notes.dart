@@ -171,7 +171,7 @@ class UserSharedNotes {
     return isNoteSharedWithUser;
   }
 
-  Future<void> fetchUserSharedNotes() async {
+  StreamController<List<UserNoteData>> fetchUserSharedNotes() {
     try {
       _firestore
           .collection('notes')
@@ -188,9 +188,12 @@ class UserSharedNotes {
         }
       });
     } on FirebaseException catch (e) {}
+
+    return _sharedNotesController;
   }
 
   StreamController<List<SharedNoteUsersData>> fetchOtherSharedNotes() {
+    // List<SharedNoteUsersData> sharedNoteUserData = [];
     try {
       _firestore.collection('shared_notes').snapshots().listen((event) async {
         // print(event.docs.length);
@@ -216,44 +219,22 @@ class UserSharedNotes {
       });
     } on FirebaseException catch (e) {}
 
+    // print(sharedNoteUserData.length);
+    // return sharedNoteUserData;
     return _otherSharedNotesController;
   }
 
-  StreamController<List<UserNoteData>> fetchOtherUserSharedNote(
-      final noteData) {
-    // UserNoteData noteData = UserNoteData(
-    //   documentID: '',
-    //   note_title: '',
-    //   date_created: '',
-    //   last_modified: '',
-    //   status: '',
-    // );
-    // print(noteData[0].noteRef);
-    List<UserNoteData> userNoteData = [];
-    for (final note in noteData) {
-      try {
-        note.noteRef.snapshots().listen((event) {
-          if (event.exists) {
-            // noteData = UserNoteData(
-            //   documentID: event.get('id'),
-            //   note_title: event.get('title'),
-            //   date_created: event.get('date_created'),
-            //   last_modified: event.get('last_modified'),
-            //   status: event.get('status'),
-            // );
-            // print(event.data());
-            // print(event.data());
-            userNoteData.add(UserNoteData.fromDocumentSnapshot(event));
-            // UserNoteData noteData = UserNoteData.fromDocumentSnapshot(event);
-            // _otherUserSharedNotesController.add(noteData);
+  Future<UserNoteData?> fetchOtherUserSharedNote(
+      DocumentReference noteRef) async {
+    UserNoteData? userNoteData;
+    try {
+      await noteRef.get().then((event) {
+        if (event.exists) {
+          userNoteData = UserNoteData.fromDocumentSnapshot(event);
+        }
+      });
+    } on FirebaseException catch (e) {}
 
-            // print(event);
-          }
-        });
-      } on FirebaseException catch (e) {}
-    }
-    _otherUserSharedNotesController.add(userNoteData);
-
-    return _otherUserSharedNotesController;
+    return userNoteData;
   }
 }
