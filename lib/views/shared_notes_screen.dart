@@ -20,12 +20,19 @@ class SharedNoteScreen extends StatefulWidget {
 class _SharedNoteScreenState extends State<SharedNoteScreen> {
   final SharedNotesViewModel _sharedNotesViewModel = SharedNotesViewModel();
   final NoteListViewModel _noteListViewModel = NoteListViewModel();
+  int _option = 0;
 
   @override
   void initState() {
     super.initState();
-    _sharedNotesViewModel.getUserSharedNotes();
-    _sharedNotesViewModel.getOtherSharedNotes();
+    // _sharedNotesViewModel.getUserSharedNotes();
+    // _sharedNotesViewModel.getOtherSharedNotes();
+  }
+
+  @override
+  void dispose() {
+    _sharedNotesViewModel.otherSharedNoteData.close();
+    super.dispose();
   }
 
   @override
@@ -78,69 +85,69 @@ class _SharedNoteScreenState extends State<SharedNoteScreen> {
                 ],
               ),
             ),
-            Expanded(
-              child: StreamBuilder(
-                  stream: _sharedNotesViewModel.sharedNotesController.stream,
-                  builder:
-                      (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                    // _sharedNotesViewModel.getUserSharedNotes();
-                    if (!snapshot.hasData) {
-                      return Container();
-                    }
-
-                    List<NoteCard> sharedNoteCardList = _noteListViewModel
-                        .buildUserNoteCards(snapshot, context);
-
-                    return ListView(
-                      children: <Widget>[
-                        ExpansionTile(
-                          title: const Text('Shared Notes'),
-                          children: sharedNoteCardList,
-                        )
-                      ],
-                    );
-                  }),
+            Row(
+              children: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    setState(() {
+                      _option = 0;
+                    });
+                  },
+                  child: const Text('You'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    setState(() {
+                      _option = 1;
+                    });
+                  },
+                  child: const Text('Other'),
+                ),
+              ],
             ),
-            Expanded(
-              child: StreamBuilder(
-                stream: _sharedNotesViewModel.getOtherSharedNotes(),
-                builder:
-                    (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                  if (!snapshot.hasData) {
-                    return Container();
-                  }
-
-                  // print(snapshot.data);
-                  final data = snapshot.data;
-                  // _sharedNotesViewModel.getOtherSharedNote(data[0].noteRef);
-
-                  // final stream =
-                  //     _sharedNotesViewModel.getOtherUserSharedNoteData(data);
-                  return StreamBuilder(
-                    stream:
-                        _sharedNotesViewModel.getOtherUserSharedNoteData(data),
+            Visibility(
+              visible: _option == 0,
+              child: Expanded(
+                child: StreamBuilder(
+                    stream: _sharedNotesViewModel.getUserSharedNotes(),
                     builder: (BuildContext context,
                         AsyncSnapshot<dynamic> snapshot) {
+                      // _sharedNotesViewModel.getUserSharedNotes();
                       if (!snapshot.hasData) {
                         return Container();
                       }
 
-                      // print(snapshot.data);
-                      List<NoteCard> otherUserSharedNotes =
-                          _sharedNotesViewModel.getOtherSharedNote(snapshot);
-                      // print(otherUserSharedNotes[0]);
+                      List<NoteCard> sharedNoteCardList = _noteListViewModel
+                          .buildUserNoteCards(snapshot, context);
+
                       return ListView(
-                        children: <Widget>[
-                          ExpansionTile(
-                            title: Text('Note Shared by others'),
-                            children: otherUserSharedNotes,
-                          )
-                        ],
+                        children: sharedNoteCardList,
                       );
-                    },
-                  );
-                  // return ListView();
-                },
+                    }),
+              ),
+            ),
+            Visibility(
+              visible: _option == 1,
+              child: Expanded(
+                child: StreamBuilder(
+                  stream: _sharedNotesViewModel.getOtherSharedNotes(),
+                  builder:
+                      (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                    // _sharedNotesViewModel.getOtherUserSharedNoteData();
+                    if (!snapshot.hasData) {
+                      return Container();
+                    }
+                    print(_sharedNotesViewModel
+                        .otherUsersSharedNotesDataList.length);
+                    List<NoteCard> otherSharedUserNoteCards =
+                        _sharedNotesViewModel
+                            .buildOtherUserSharedNotes(snapshot);
+
+                    return ListView(
+                      children: otherSharedUserNoteCards,
+                    );
+                  },
+                ),
               ),
             ),
           ],
