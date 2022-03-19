@@ -140,8 +140,8 @@ class _SharedNoteScreenState extends State<SharedNoteScreen> {
                     print(_sharedNotesViewModel
                         .otherUsersSharedNotesDataList.length);
                     List<NoteCard> otherSharedUserNoteCards =
-                        _sharedNotesViewModel
-                            .buildOtherUserSharedNotes(snapshot);
+                        _sharedNotesViewModel.buildOtherUserSharedNotes(
+                            snapshot, context);
 
                     return ListView(
                       children: otherSharedUserNoteCards,
