@@ -16,6 +16,7 @@ class SharedNotesViewModel {
       StreamController.broadcast();
   StreamController<List<UserNoteData>> _otherUserSharedNotes =
       StreamController.broadcast();
+  List<SharedNoteUsersData> _otherUsersSharedNotesDataList = [];
 
   SharedNotesViewModel() {
     _sharedNotesController = _userSharedNotes.sharedNotesController;
@@ -28,40 +29,64 @@ class SharedNotesViewModel {
       _otherSharedNoteData;
   StreamController<List<UserNoteData>> get otherUserSharedNotes =>
       _otherUserSharedNotes;
+  List<SharedNoteUsersData> get otherUsersSharedNotesDataList =>
+      _otherUsersSharedNotesDataList;
 
-  void getUserSharedNotes() async {
-    await _userSharedNotes.fetchUserSharedNotes();
+  Stream<List<UserNoteData>> getUserSharedNotes() {
+    _sharedNotesController = _userSharedNotes.fetchUserSharedNotes();
+    return _sharedNotesController.stream;
   }
 
-  Stream<List<SharedNoteUsersData>> getOtherSharedNotes() {
+  // Stream<List<SharedNoteUsersData>> getSharedNoteData() {
+  //   _otherSharedNoteData = _userSharedNotes.fetchOtherSharedNotes();
+  //   return _otherSharedNoteData.stream;
+  // }
+
+  Stream<List<UserNoteData>> getOtherSharedNotes() {
     _otherSharedNoteData = _userSharedNotes.fetchOtherSharedNotes();
-    return _otherSharedNoteData.stream;
-  }
+    // return _otherSharedNoteData.stream;
+    // if (_otherUsersSharedNotesDataList.isNotEmpty) {
+    //   _otherUsersSharedNotesDataList.clear();
+    // }
+    _otherSharedNoteData.stream.listen((event) async {
+      _otherUsersSharedNotesDataList = event;
 
-  Stream<List<UserNoteData>> getOtherUserSharedNoteData(
-      List<SharedNoteUsersData> data) {
-    _otherUserSharedNotes = _userSharedNotes.fetchOtherUserSharedNote(data);
+      List<UserNoteData> sharedNotesList = [];
+      if (event.isNotEmpty) {
+        for (final note in event) {
+          UserNoteData? userNoteData =
+              await _userSharedNotes.fetchOtherUserSharedNote(note.noteRef);
+          if (userNoteData != null) {
+            sharedNotesList.add(userNoteData);
+          }
+        }
+      }
+      _otherUserSharedNotes.add(sharedNotesList);
+    });
+
     return _otherUserSharedNotes.stream;
   }
 
-  List<NoteCard> getOtherSharedNote(AsyncSnapshot<dynamic> snapshot) {
+  // Future<void> getOtherUserSharedNoteData() async {
+  //   await _userSharedNotes.fetchOtherUserSharedNote();
+  //   _otherUserSharedNotes = _userSharedNotes.otherUserSharedNotesController;
+  //   // return _otherUserSharedNotes.stream;
+  // }
+
+  List<NoteCard> buildOtherUserSharedNotes(AsyncSnapshot<dynamic> snapshot) {
     List<NoteCard> otherUserSharedNotes = [];
     final noteData = snapshot.data;
-    for (final note in noteData) {
-      otherUserSharedNotes.add(NoteCard(
-          title: note.note_title,
-          date_created: note.date_created,
-          last_modified: note.last_modified,
-          status: note.status,
-          onTap: () {}));
+    if (_otherUsersSharedNotesDataList.isNotEmpty) {
+      for (int i = 0; i < noteData.length; i++) {
+        otherUserSharedNotes.add(NoteCard(
+          title: noteData[i].note_title,
+          date_created: noteData[i].date_created,
+          last_modified: noteData[i].last_modified,
+          status: _otherUsersSharedNotesDataList[i].access,
+          onTap: () {},
+        ));
+      }
     }
-
-    // return NoteCard(
-    //     title: userNoteData.note_title,
-    //     date_created: userNoteData.date_created,
-    //     last_modified: userNoteData.last_modified,
-    //     status: userNoteData.status,
-    //     onTap: () {});
 
     return otherUserSharedNotes;
   }
