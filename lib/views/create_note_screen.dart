@@ -31,7 +31,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
   final TextEditingController _titleTextFieldController =
       TextEditingController();
   late bool _isNoteEditable, _isToolBarExpanded = false;
-  late String _documentID, _title, _access;
+  late String _documentID, _title, _access, _author;
 
   @override
   void initState() {
@@ -40,6 +40,8 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
     _isNoteEditable = widget.isEditable;
     _documentID = widget.documentID;
     _access = widget.access;
+    _author = widget.author;
+    _createNoteViewModel.setAuthor(_author);
     _loadDoc(_documentID);
 
     // _createNoteViewModel.listAllFiles();
