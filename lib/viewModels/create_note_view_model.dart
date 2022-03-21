@@ -216,4 +216,8 @@ class CreateNoteViewModel {
     dir.deleteSync(recursive: true);
     await dir.create();
   }
+
+  void setAuthor(String author) {
+    _noteStorage.userEmail = author;
+  }
 }
