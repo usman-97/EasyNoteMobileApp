@@ -1,18 +1,21 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:note_taking_app/components/note_card.dart';
 import 'package:note_taking_app/models/data/shared_note_data.dart';
 import 'package:note_taking_app/models/data/shared_note_users_data.dart';
 import 'package:note_taking_app/models/data/user_note_data.dart';
+import 'package:note_taking_app/models/user_authentication.dart';
 import 'package:note_taking_app/models/user_shared_notes.dart';
 
 import '../views/create_note_screen.dart';
 
 class SharedNotesViewModel {
   final UserSharedNotes _userSharedNotes = UserSharedNotes();
+  final UserAuthentication _userAuthentication = UserAuthentication();
   StreamController<List<UserNoteData>> _sharedNotesController =
       StreamController.broadcast();
   StreamController<List<SharedNoteUsersData>> _otherSharedNoteData =
@@ -20,6 +23,7 @@ class SharedNotesViewModel {
   StreamController<List<UserNoteData>> _otherUserSharedNotes =
       StreamController.broadcast();
   List<SharedNoteUsersData> _otherUsersSharedNotesDataList = [];
+  String _authorFullname = '';
 
   SharedNotesViewModel() {
     _sharedNotesController = _userSharedNotes.sharedNotesController;
@@ -76,17 +80,32 @@ class SharedNotesViewModel {
   //   // return _otherUserSharedNotes.stream;
   // }
 
+  void _sharedNoteAuthorFullName(String? email) async {
+    _authorFullname =
+        await _userSharedNotes.fetchSharedNoteAuthorFullName(email);
+  }
+
   List<NoteCard> buildOtherUserSharedNotes(
       AsyncSnapshot<dynamic> snapshot, BuildContext context) {
     List<NoteCard> otherUserSharedNotes = [];
     final noteData = snapshot.data;
+    final user = _userAuthentication.getCurrentUserEmail();
+
     if (_otherUsersSharedNotesDataList.isNotEmpty) {
       for (int i = 0; i < noteData.length; i++) {
+        String? author =
+            _otherUsersSharedNotesDataList[i].noteRef.parent.parent?.id;
+        // String authorFullName =
+        //     _userSharedNotes.fetchSharedNoteAuthorFullName(author);
+        _sharedNoteAuthorFullName(author);
+        // print(authorFullName);
+
         otherUserSharedNotes.add(NoteCard(
           title: noteData[i].note_title,
           date_created: noteData[i].date_created,
           last_modified: noteData[i].last_modified,
           status: _otherUsersSharedNotesDataList[i].access,
+          author: _authorFullname,
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
               return CreateNoteScreen(
@@ -94,6 +113,8 @@ class SharedNotesViewModel {
                 documentID: noteData[0].documentID,
                 title: noteData[0].note_title,
                 access: _otherUsersSharedNotesDataList[i].access,
+                user: user,
+                author: author ?? '',
               );
             }));
           },
