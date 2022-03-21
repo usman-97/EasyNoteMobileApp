@@ -8,13 +8,16 @@ import 'package:flutter_quill/flutter_quill.dart';
 class CreateNoteScreen extends StatefulWidget {
   static const String id = 'create_note_screen';
   final bool isEditable;
-  final String documentID, title;
+  final String documentID, title, user, author, access;
 
   const CreateNoteScreen({
     Key? key,
     this.documentID = '',
     this.title = 'Untitled',
     this.isEditable = true,
+    this.access = '',
+    this.user = '',
+    this.author = '',
   }) : super(key: key);
 
   @override
@@ -28,7 +31,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
   final TextEditingController _titleTextFieldController =
       TextEditingController();
   late bool _isNoteEditable, _isToolBarExpanded = false;
-  late String _documentID, _title;
+  late String _documentID, _title, _access;
 
   @override
   void initState() {
@@ -36,6 +39,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
     _titleTextFieldController.text = _title = widget.title;
     _isNoteEditable = widget.isEditable;
     _documentID = widget.documentID;
+    _access = widget.access;
     _loadDoc(_documentID);
 
     // _createNoteViewModel.listAllFiles();
@@ -181,7 +185,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
               ),
             ),
             Visibility(
-              visible: !_isNoteEditable,
+              visible: !_isNoteEditable && _access.isEmpty,
               child: Align(
                 alignment: FractionalOffset.bottomCenter,
                 child: CircleButton(
