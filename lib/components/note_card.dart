@@ -11,9 +11,10 @@ class NoteCard extends StatelessWidget {
     required this.onTap,
     this.onShare,
     this.onDelete,
+    this.author = '',
   }) : super(key: key);
 
-  final String title, date_created, last_modified, status;
+  final String title, date_created, last_modified, status, author;
   final void Function() onTap;
   final void Function(BuildContext context)? onShare, onDelete;
 
@@ -149,10 +150,24 @@ class NoteCard extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
+                              Visibility(
+                                visible: author.isNotEmpty,
+                                child: Text('Author: $author'),
+                              ),
                               Text('Created: $date_created'),
                               Text('Last Modified: $last_modified'),
                             ],
                           ),
+                          // Column(
+                          //   crossAxisAlignment: CrossAxisAlignment.end,
+                          //   children: <Widget>[
+                          //     Visibility(
+                          //       visible: author.isNotEmpty,
+                          //       child: Text('Author: $author'),
+                          //     ),
+                          //     Text(status),
+                          //   ],
+                          // ),
                           Padding(
                             padding: const EdgeInsets.all(5.0),
                             child: Text(status),
