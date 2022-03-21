@@ -12,10 +12,10 @@ class NoteStorage {
   final FirebaseStorage _firebaseStorage =
       CloudStorage.firebaseStorageInstance();
   final UserAuthentication _userAuthentication = UserAuthentication();
-  late String _userEmail; // Current signed in user email
+  late String userEmail; // Current signed in user email
 
   NoteStorage() {
-    _userEmail = _userAuthentication.getCurrentUserEmail();
+    userEmail = _userAuthentication.getCurrentUserEmail();
   }
 
   /// Upload note file to the Firebase Storage
@@ -31,7 +31,7 @@ class NoteStorage {
 
     // Create path for the file
     Reference fileRef =
-        _firebaseStorage.ref('$_userEmail/notes/$filename/$filename');
+        _firebaseStorage.ref('$userEmail/notes/$filename/$filename');
 
     try {
       // Upload file on created path in Firebase Storage
@@ -62,7 +62,7 @@ class NoteStorage {
     try {
       // Download file to given path
       await _firebaseStorage
-          .ref('$_userEmail/notes/$filename/$filename')
+          .ref('$userEmail/notes/$filename/$filename')
           .writeToFile(fileToDownload);
     } on FirebaseException catch (e) {}
 
@@ -89,13 +89,13 @@ class NoteStorage {
           File attachmentFile = entity;
           // File reference in the cloud storage
           Reference attachmentRef = _firebaseStorage
-              .ref('$_userEmail/notes/$documentID/attachments/$filename');
+              .ref('$userEmail/notes/$documentID/attachments/$filename');
           // If file exist in the temp directory but not in the document
           if (!document.contains(filename)) {
             // Look for a file in the cloud storage, if file found then
             // then delete the file
             ListResult allFilesInCloudRef = await _firebaseStorage
-                .ref('$_userEmail/notes/$documentID/attachments')
+                .ref('$userEmail/notes/$documentID/attachments')
                 .listAll();
             for (var element in allFilesInCloudRef.items) {
               if (element.name == filename) {
@@ -120,14 +120,14 @@ class NoteStorage {
     try {
       // Get the list of all files in the cloud storage
       ListResult allFilesInCloudRef = await _firebaseStorage
-          .ref('$_userEmail/notes/$documentID/attachments')
+          .ref('$userEmail/notes/$documentID/attachments')
           .listAll();
 
       // Download all files in the temp directory
       for (var element in allFilesInCloudRef.items) {
         File attachmentFile = File('${tempDir.path}/${element.name}');
         await _firebaseStorage
-            .ref('$_userEmail/notes/$documentID/attachments/${element.name}')
+            .ref('$userEmail/notes/$documentID/attachments/${element.name}')
             .writeToFile(attachmentFile);
       }
     } on FirebaseException catch (e) {}
@@ -137,19 +137,19 @@ class NoteStorage {
   Future<void> deleteUserNoteFiles(String documentID) async {
     try {
       ListResult userNoteFiles =
-          await _firebaseStorage.ref('$_userEmail/notes/$documentID').listAll();
+          await _firebaseStorage.ref('$userEmail/notes/$documentID').listAll();
       for (final file in userNoteFiles.items) {
         Reference fileRef =
-            _firebaseStorage.ref('$_userEmail/notes/$documentID/${file.name}');
+            _firebaseStorage.ref('$userEmail/notes/$documentID/${file.name}');
         await fileRef.delete();
       }
 
       ListResult attachmentFiles = await _firebaseStorage
-          .ref('$_userEmail/notes/$documentID/attachments')
+          .ref('$userEmail/notes/$documentID/attachments')
           .listAll();
       for (final attachment in attachmentFiles.items) {
         Reference attachmentFile = _firebaseStorage.ref(
-            '$_userEmail/notes/$documentID.json/attachments/${attachment.name}');
+            '$userEmail/notes/$documentID.json/attachments/${attachment.name}');
         await attachmentFile.delete();
       }
     } on FirebaseException catch (e) {}
