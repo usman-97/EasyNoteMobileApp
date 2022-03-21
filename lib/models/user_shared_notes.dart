@@ -237,4 +237,29 @@ class UserSharedNotes {
 
     return userNoteData;
   }
+
+  Future<String> fetchSharedNoteAuthorFullName(String? email) async {
+    String fullname = '';
+    try {
+      await _firestore
+          .collection('users')
+          .where('email', isEqualTo: email)
+          .get()
+          .then((value) async {
+        if (value.docs.isNotEmpty) {
+          await _firestore
+              .collection('users')
+              .doc(value.docs.first.id)
+              .get()
+              .then((value) {
+            // print(value.get('firstname'));
+            fullname = '${value.get('firstname')} ${value.get('lastname')}';
+          });
+        }
+      });
+    } on FirebaseException catch (e) {}
+    // print(fullname);
+
+    return fullname;
+  }
 }
