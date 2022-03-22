@@ -87,6 +87,7 @@ class _SharedNoteScreenState extends State<SharedNoteScreen> {
             ),
             Row(
               children: <Widget>[
+                const Text('Note shared by '),
                 TextButton(
                   onPressed: () {
                     setState(() {
@@ -101,7 +102,7 @@ class _SharedNoteScreenState extends State<SharedNoteScreen> {
                       _option = 1;
                     });
                   },
-                  child: const Text('Other'),
+                  child: const Text('Others'),
                 ),
               ],
             ),
@@ -137,8 +138,8 @@ class _SharedNoteScreenState extends State<SharedNoteScreen> {
                     if (!snapshot.hasData) {
                       return Container();
                     }
-                    print(_sharedNotesViewModel
-                        .otherUsersSharedNotesDataList.length);
+                    // print(_sharedNotesViewModel
+                    //     .otherUsersSharedNotesDataList.length);
                     List<NoteCard> otherSharedUserNoteCards =
                         _sharedNotesViewModel.buildOtherUserSharedNotes(
                             snapshot, context);
