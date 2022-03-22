@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:note_taking_app/components/circle_button.dart';
 import 'package:note_taking_app/components/app_menu.dart';
 import 'package:note_taking_app/components/custom_app_bar.dart';
@@ -21,6 +22,7 @@ class NoteListScreen extends StatefulWidget {
 class _NoteListScreenState extends State<NoteListScreen> {
   final NoteListViewModel _noteListViewModel = NoteListViewModel();
   final CreateNoteViewModel _createNoteViewModel = CreateNoteViewModel();
+  bool _isScreenLoading = false;
 
   @override
   void initState() {
@@ -41,101 +43,111 @@ class _NoteListScreenState extends State<NoteListScreen> {
       drawer: AppMenu(),
       backgroundColor: kLightPrimaryColour,
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Container(
-              color: kPrimaryColour,
-              height: 150.0,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  TextButton(
-                    key: const Key('note_list_back_button'),
-                    onPressed: () {
-                      Navigator.pushNamed(context, HomeScreen.id);
-                    },
-                    child: const Padding(
-                      padding: EdgeInsets.only(bottom: 10.0),
-                      child: Icon(
-                        Icons.arrow_back_rounded,
-                        color: kTextIconColour,
-                        size: 40.0,
+        child: ModalProgressHUD(
+          inAsyncCall: _isScreenLoading,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Container(
+                color: kPrimaryColour,
+                height: 150.0,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    TextButton(
+                      key: const Key('note_list_back_button'),
+                      onPressed: () {
+                        Navigator.pushNamed(context, HomeScreen.id);
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.only(bottom: 10.0),
+                        child: Icon(
+                          Icons.arrow_back_rounded,
+                          color: kTextIconColour,
+                          size: 40.0,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    width: 20.0,
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: 15.0),
-                    child: Text(
-                      'Notes',
-                      key: Key('note_list_screen_heading'),
-                      style: TextStyle(
-                        color: kTextIconColour,
-                        fontSize: 40.0,
-                        fontWeight: FontWeight.bold,
+                    const SizedBox(
+                      width: 20.0,
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 15.0),
+                      child: Text(
+                        'Notes',
+                        key: Key('note_list_screen_heading'),
+                        style: TextStyle(
+                          color: kTextIconColour,
+                          fontSize: 40.0,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            Expanded(
-              child: Stack(
-                children: [
-                  StreamBuilder(
-                    stream: _noteListViewModel.fetchAllUserNotes(),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<dynamic> snapshot) {
-                      if (!snapshot.hasData) {
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: const <Widget>[
-                            Icon(
-                              Icons.note_rounded,
-                              size: 200.0,
-                              color: kPrimaryColour,
-                            ),
-                            Center(
-                              child: Text(
-                                'Tap + button to create a new note.',
-                                style: TextStyle(
-                                  color: kPrimaryTextColour,
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold,
+              Expanded(
+                child: Stack(
+                  children: [
+                    StreamBuilder(
+                      stream: _noteListViewModel.fetchAllUserNotes(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<dynamic> snapshot) {
+                        if (!snapshot.hasData) {
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: const <Widget>[
+                              Icon(
+                                Icons.note_rounded,
+                                size: 200.0,
+                                color: kPrimaryColour,
+                              ),
+                              Center(
+                                child: Text(
+                                  'Tap + button to create a new note.',
+                                  style: TextStyle(
+                                    color: kPrimaryTextColour,
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        );
-                      }
+                            ],
+                          );
+                        }
 
-                      List<NoteCard> userNotes = _noteListViewModel
-                          .buildUserNoteCards(snapshot, context);
-                      // print(_noteListViewModel.noteMenuValue);
-                      return ListView(
-                        children: userNotes,
-                      );
-                    },
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 20.0),
-                    child: Align(
-                      alignment: FractionalOffset.bottomCenter,
-                      child: CircleButton(
-                        onPressed: () {
-                          Navigation.navigateToCreateNote(context);
-                        },
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          _isScreenLoading = true;
+                        } else {
+                          _isScreenLoading = false;
+                        }
+
+                        List<NoteCard> userNotes = _noteListViewModel
+                            .buildUserNoteCards(snapshot, context);
+                        // print(_noteListViewModel.noteMenuValue);
+                        return ListView(
+                          children: userNotes,
+                        );
+                      },
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 20.0),
+                      child: Align(
+                        alignment: FractionalOffset.bottomCenter,
+                        child: CircleButton(
+                          onPressed: () {
+                            Navigation.navigateToCreateNote(context);
+                          },
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
