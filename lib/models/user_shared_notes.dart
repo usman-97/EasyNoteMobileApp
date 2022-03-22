@@ -93,6 +93,7 @@ class UserSharedNotes {
     } on FirebaseException catch (e) {}
   }
 
+  /// Gets note document by [documentID] reference
   Future<DocumentReference> getNoteReference(String documentID) async {
     late DocumentReference noteRef;
     try {
@@ -171,6 +172,7 @@ class UserSharedNotes {
     return isNoteSharedWithUser;
   }
 
+  /// Fetch all user shared notes to other users
   StreamController<List<UserNoteData>> fetchUserSharedNotes() {
     try {
       _firestore
@@ -192,14 +194,15 @@ class UserSharedNotes {
     return _sharedNotesController;
   }
 
+  /// Fetch all shared notes which were shared by other users with current user
   StreamController<List<SharedNoteUsersData>> fetchOtherSharedNotes() {
-    // List<SharedNoteUsersData> sharedNoteUserData = [];
     try {
+      // Get all documents in shared notes collection
       _firestore.collection('shared_notes').snapshots().listen((event) async {
-        // print(event.docs.length);
         if (event.docs.isNotEmpty) {
           List<SharedNoteUsersData> sharedNoteUserData = [];
           for (final doc in event.docs) {
+            // Fetch the notes which were shared with current user
             await _firestore
                 .collection('shared_notes')
                 .doc(doc.id)
@@ -219,11 +222,11 @@ class UserSharedNotes {
       });
     } on FirebaseException catch (e) {}
 
-    // print(sharedNoteUserData.length);
-    // return sharedNoteUserData;
     return _otherSharedNotesController;
   }
 
+  /// Fetch the note document with [noteRef] reference
+  /// use reference to fetch the note from the database
   Future<UserNoteData?> fetchOtherUserSharedNote(
       DocumentReference noteRef) async {
     UserNoteData? userNoteData;
@@ -238,6 +241,7 @@ class UserSharedNotes {
     return userNoteData;
   }
 
+  /// Get the shared note author name with [email]
   Future<String> fetchSharedNoteAuthorFullName(String? email) async {
     String fullname = '';
     try {
