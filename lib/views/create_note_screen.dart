@@ -41,7 +41,11 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
     _documentID = widget.documentID;
     _access = widget.access;
     _author = widget.author;
-    _createNoteViewModel.setAuthor(_author);
+
+    if (_author.isNotEmpty) {
+      _createNoteViewModel.setAuthor(_author);
+    }
+
     _loadDoc(_documentID);
 
     // _createNoteViewModel.listAllFiles();
@@ -187,7 +191,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
               ),
             ),
             Visibility(
-              visible: !_isNoteEditable && _access.isEmpty,
+              visible: !_isNoteEditable && _access != 'Read-only',
               child: Align(
                 alignment: FractionalOffset.bottomCenter,
                 child: CircleButton(
