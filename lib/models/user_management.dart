@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:note_taking_app/models/user_authentication.dart';
 
@@ -7,10 +9,13 @@ class UserManagement {
   final FirebaseFirestore _firestore = FirestoreCloud.firebaseCloudInstance();
   final UserAuthentication _userAuthentication = UserAuthentication();
   late String _currentUserEmail;
+  String _error = '';
 
   UserManagement() {
     _currentUserEmail = _userAuthentication.getCurrentUserEmail();
   }
+
+  String get error => _error;
 
   /// Add user data to database
   Future<void> addUserData(
@@ -35,5 +40,49 @@ class UserManagement {
     }
 
     return doesUserExist;
+  }
+
+  Stream<String> fetchCurrentUserFirstname() {
+    StreamController<String> firstname = StreamController.broadcast();
+    try {
+      _firestore
+          .collection('users')
+          .where('email', isEqualTo: _currentUserEmail)
+          .snapshots()
+          .listen((value) {
+        if (value.docs.isNotEmpty) {
+          _firestore
+              .collection('users')
+              .doc(value.docs.first.id)
+              .snapshots()
+              .listen((value) {
+            if (value.exists) {
+              firstname.add(value.get('firstname'));
+            }
+          });
+        }
+      });
+    } on FirebaseException catch (e) {
+      _error = e.code;
+    }
+
+    return firstname.stream;
+  }
+
+  Future<bool> isUserExist(String email) async {
+    bool isUserExist = true;
+    try {
+      await _firestore
+          .collection('users')
+          .where('email', isEqualTo: email)
+          .get()
+          .then((value) {
+        if (value.docs.isEmpty) {
+          isUserExist = false;
+        }
+      });
+    } on FirebaseException catch (e) {}
+
+    return isUserExist;
   }
 }
