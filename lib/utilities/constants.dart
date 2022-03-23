@@ -64,3 +64,22 @@ const TextStyle kAppBarTextFieldStyle = TextStyle(
   fontSize: 25.0,
   fontWeight: FontWeight.bold,
 );
+
+const TextStyle kHomeGreetingTextStyle = TextStyle(
+  color: kTextIconColour,
+  fontSize: 25.0,
+  fontWeight: FontWeight.bold,
+);
+
+const BoxDecoration kNoteCardBorder = BoxDecoration(
+  border: Border(
+    bottom: BorderSide(
+      color: kPrimaryColour,
+      width: 5.0,
+    ),
+    left: BorderSide(
+      color: kPrimaryColour,
+      width: 6.0,
+    ),
+  ),
+);
