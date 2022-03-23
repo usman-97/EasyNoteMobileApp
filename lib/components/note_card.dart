@@ -17,7 +17,8 @@ class NoteCard extends StatelessWidget {
 
   final String title, date_created, last_modified, status, author;
   final void Function() onTap;
-  final void Function(BuildContext context)? onShare, onDelete;
+  final void Function(BuildContext context)? onShare;
+  final Future<void> Function(BuildContext context)? onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +75,7 @@ class NoteCard extends StatelessWidget {
                     label: 'Share',
                   ),
                   SlidableAction(
-                    onPressed: (value) {},
+                    onPressed: onDelete ?? (context) {},
                     backgroundColor: const Color(0xFFFE4A49),
                     foregroundColor: Colors.white,
                     icon: Icons.delete_rounded,
