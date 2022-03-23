@@ -13,7 +13,7 @@ class UserSharedNotes {
   final FirebaseFirestore _firestore = FirestoreCloud.firebaseCloudInstance();
   final UserManagement _userManagement = UserManagement();
   final UserAuthentication _userAuthentication = UserAuthentication();
-  String _userEmail = '';
+  String _userEmail = '', _error = '';
 
   final StreamController<List<UserNoteData>> _sharedNotesController =
       StreamController.broadcast();
@@ -32,6 +32,7 @@ class UserSharedNotes {
       _otherSharedNotesController;
   StreamController<List<UserNoteData>> get otherUserSharedNotesController =>
       _otherUserSharedNotesController;
+  get error => _error;
 
   /// Add user shared note data to shared notes collection using
   /// notes [documentID]
@@ -62,7 +63,9 @@ class UserSharedNotes {
           });
         }
       });
-    } on FirebaseException catch (e) {}
+    } on FirebaseException catch (e) {
+      _error = e.code;
+    }
   }
 
   /// Add user [email] which has access to shared note using note [documentID]
@@ -90,7 +93,9 @@ class UserSharedNotes {
           });
         }
       });
-    } on FirebaseException catch (e) {}
+    } on FirebaseException catch (e) {
+      _error = e.code;
+    }
   }
 
   /// Gets note document by [documentID] reference
@@ -112,7 +117,9 @@ class UserSharedNotes {
               .doc(event.docs.first.id);
         }
       });
-    } on FirebaseException catch (e) {}
+    } on FirebaseException catch (e) {
+      _error = e.code;
+    }
 
     return noteRef;
   }
@@ -130,7 +137,9 @@ class UserSharedNotes {
           });
         }
       });
-    } on FirebaseException catch (e) {}
+    } on FirebaseException catch (e) {
+      _error = e.code;
+    }
   }
 
   /// Check if note with [documentID] has already been shared with
@@ -167,7 +176,9 @@ class UserSharedNotes {
           }
         });
       }
-    } on FirebaseException catch (e) {}
+    } on FirebaseException catch (e) {
+      _error = e.code;
+    }
 
     return isNoteSharedWithUser;
   }
@@ -189,7 +200,9 @@ class UserSharedNotes {
           _sharedNotesController.add(sharedNoteData);
         }
       });
-    } on FirebaseException catch (e) {}
+    } on FirebaseException catch (e) {
+      _error = e.code;
+    }
 
     return _sharedNotesController;
   }
@@ -220,7 +233,9 @@ class UserSharedNotes {
           _otherSharedNotesController.add(sharedNoteUserData);
         }
       });
-    } on FirebaseException catch (e) {}
+    } on FirebaseException catch (e) {
+      _error = e.code;
+    }
 
     return _otherSharedNotesController;
   }
@@ -236,7 +251,9 @@ class UserSharedNotes {
           userNoteData = UserNoteData.fromDocumentSnapshot(event);
         }
       });
-    } on FirebaseException catch (e) {}
+    } on FirebaseException catch (e) {
+      _error = e.code;
+    }
 
     return userNoteData;
   }
@@ -261,7 +278,9 @@ class UserSharedNotes {
           });
         }
       });
-    } on FirebaseException catch (e) {}
+    } on FirebaseException catch (e) {
+      _error = e.code;
+    }
     // print(fullname);
 
     return fullname;
