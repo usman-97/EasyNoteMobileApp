@@ -49,7 +49,9 @@ class NoteListViewModel with ChangeNotifier {
             );
           }));
         },
-        onDelete: (context) {},
+        onDelete: (context) async {
+          await _userNote.deleteUserNote(noteData.documentID);
+        },
       ));
     }
 
