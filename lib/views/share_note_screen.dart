@@ -18,7 +18,7 @@ class _ShareNoteScreenState extends State<ShareNoteScreen> {
   final TextEditingController _shareController = TextEditingController();
 
   bool _isReadOnly = true;
-  String _userAccess = 'Read-only';
+  String _userAccess = 'Read-only', _error = '';
   late String _noteID;
 
   @override
@@ -62,6 +62,18 @@ class _ShareNoteScreenState extends State<ShareNoteScreen> {
                       hintText: 'user@example.com',
                       fillColor: kTextIconColour,
                       filled: true,
+                    ),
+                  ),
+                ),
+                Visibility(
+                  visible: _shareNoteViewModel.error.isNotEmpty,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 45.0),
+                    child: Text(
+                      _shareNoteViewModel.error,
+                      style: kErrorMessageStyle.copyWith(
+                        fontSize: 16.0,
+                      ),
                     ),
                   ),
                 ),
@@ -122,11 +134,12 @@ class _ShareNoteScreenState extends State<ShareNoteScreen> {
                     label: 'Share',
                     backgroundColour: kAccentColour,
                     colour: kTextIconColour,
-                    onPressed: () {
-                      // print(_userAccess);
-                      // print(_shareController.text);
-                      _shareNoteViewModel.shareUserNote(
+                    onPressed: () async {
+                      await _shareNoteViewModel.shareUserNote(
                           _noteID, _shareController.text, _userAccess);
+                      setState(() {
+                        // _error = _shareNoteViewModel.error;
+                      });
                     }),
               ],
             ),
