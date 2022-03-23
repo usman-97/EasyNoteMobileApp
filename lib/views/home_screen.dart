@@ -4,6 +4,7 @@ import 'package:note_taking_app/components/app_menu.dart';
 import 'package:note_taking_app/components/custom_app_bar.dart';
 import 'package:note_taking_app/utilities/constants.dart';
 import 'package:note_taking_app/utilities/navigation.dart';
+import 'package:note_taking_app/viewModels/home_view_model.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String id = 'home_screen';
@@ -15,6 +16,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final HomeViewModel _homeViewModel = HomeViewModel();
+  String _todayDate = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _todayDate = _homeViewModel.getTodayData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,52 +34,91 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       drawer: AppMenu(),
-      backgroundColor: kLightPrimaryColour,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Container(
               height: kTopContainerHeight,
-              color: kPrimaryColour,
+              // color: kPrimaryColour,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('images/home_background.jpg'),
+                  colorFilter: ColorFilter.srgbToLinearGamma(),
+                  fit: BoxFit.cover,
+                ),
+              ),
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
-                    const Text('Hello user'),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        TextButton(
-                          key: const Key('home_button'),
-                          onPressed: () {
-                            Navigation.navigateToHome(context);
-                          },
-                          child: const Icon(
-                            Icons.home_rounded,
-                            color: kTextIconColour,
-                            size: 50.0,
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          StreamBuilder(
+                            stream: _homeViewModel.setUserFirstName(),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<dynamic> snapshot) {
+                              if (!snapshot.hasData) {
+                                return const Text('');
+                              }
+
+                              return Text(
+                                'Hello, ${snapshot.data.toString()}',
+                                style: kHomeGreetingTextStyle,
+                              );
+                            },
                           ),
-                        ),
-                        TextButton(
-                          key: const Key('mode_change_button'),
-                          onPressed: () {},
-                          child: const Icon(
-                            Icons.brightness_2_rounded,
-                            color: kTextIconColour,
-                            size: 40.0,
+                          const SizedBox(
+                            height: 5.0,
                           ),
-                        ),
-                      ],
+                          Text(
+                            _todayDate,
+                            style: kHomeGreetingTextStyle.copyWith(
+                              fontSize: 16.0,
+                              // fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //   children: <Widget>[
+                    //     TextButton(
+                    //       key: const Key('home_button'),
+                    //       onPressed: () {
+                    //         Navigation.navigateToHome(context);
+                    //       },
+                    //       child: const Icon(
+                    //         Icons.home_rounded,
+                    //         color: kTextIconColour,
+                    //         size: 50.0,
+                    //       ),
+                    //     ),
+                    //     TextButton(
+                    //       key: const Key('mode_change_button'),
+                    //       onPressed: () {},
+                    //       child: const Icon(
+                    //         Icons.brightness_2_rounded,
+                    //         color: kTextIconColour,
+                    //         size: 40.0,
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
                   ],
                 ),
               ),
             ),
             Container(
-              color: kTextIconColour,
+              color: kLightPrimaryColour,
               height: 70.0,
               child: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -83,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           const Text(
-                            'Note Board',
+                            'Sticky Note Board',
                             style: TextStyle(
                               fontSize: 22.0,
                               fontWeight: FontWeight.bold,
@@ -96,46 +145,46 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                     ),
-                    Row(
-                      children: <Widget>[
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: kPrimaryTextColour,
-                              width: 2.0,
-                            ),
-                            borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(10.0),
-                                bottomLeft: Radius.circular(10.0)),
-                          ),
-                          child: const Padding(
-                            padding: EdgeInsets.all(5.0),
-                            child: Text(
-                              'Recent',
-                              style: TextStyle(fontSize: 18.0),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: kPrimaryTextColour,
-                              width: 2.0,
-                            ),
-                            borderRadius: const BorderRadius.only(
-                                topRight: Radius.circular(10.0),
-                                bottomRight: Radius.circular(10.0)),
-                          ),
-                          child: const Padding(
-                            padding: EdgeInsets.all(5.0),
-                            child: Text(
-                              'Categories',
-                              style: TextStyle(fontSize: 18.0),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    // Row(
+                    //   children: <Widget>[
+                    //     Container(
+                    //       decoration: BoxDecoration(
+                    //         border: Border.all(
+                    //           color: kPrimaryTextColour,
+                    //           width: 2.0,
+                    //         ),
+                    //         borderRadius: const BorderRadius.only(
+                    //             topLeft: Radius.circular(10.0),
+                    //             bottomLeft: Radius.circular(10.0)),
+                    //       ),
+                    //       child: const Padding(
+                    //         padding: EdgeInsets.all(5.0),
+                    //         child: Text(
+                    //           'Recent',
+                    //           style: TextStyle(fontSize: 18.0),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //     Container(
+                    //       decoration: BoxDecoration(
+                    //         border: Border.all(
+                    //           color: kPrimaryTextColour,
+                    //           width: 2.0,
+                    //         ),
+                    //         borderRadius: const BorderRadius.only(
+                    //             topRight: Radius.circular(10.0),
+                    //             bottomRight: Radius.circular(10.0)),
+                    //       ),
+                    //       child: const Padding(
+                    //         padding: EdgeInsets.all(5.0),
+                    //         child: Text(
+                    //           'Categories',
+                    //           style: TextStyle(fontSize: 18.0),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
                   ],
                 ),
               ),

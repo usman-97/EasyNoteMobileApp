@@ -44,7 +44,7 @@ class _SharedNoteScreenState extends State<SharedNoteScreen> {
         ],
       ),
       drawer: AppMenu(),
-      backgroundColor: kLightPrimaryColour,
+      backgroundColor: kTextIconColour,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -85,26 +85,39 @@ class _SharedNoteScreenState extends State<SharedNoteScreen> {
                 ],
               ),
             ),
-            Row(
-              children: <Widget>[
-                const Text('Note shared by '),
-                TextButton(
-                  onPressed: () {
-                    setState(() {
-                      _option = 0;
-                    });
-                  },
-                  child: const Text('You'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    setState(() {
-                      _option = 1;
-                    });
-                  },
-                  child: const Text('Others'),
-                ),
-              ],
+            Container(
+              color: kDarkPrimaryColour,
+              child: Row(
+                children: <Widget>[
+                  const Text('Note shared by '),
+                  TextButton(
+                    onPressed: () {
+                      setState(() {
+                        _option = 0;
+                      });
+                    },
+                    child: const Text(
+                      'You',
+                      style: TextStyle(
+                        color: kLightPrimaryColour,
+                      ),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      setState(() {
+                        _option = 1;
+                      });
+                    },
+                    child: const Text(
+                      'Others',
+                      style: TextStyle(
+                        color: kLightPrimaryColour,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
             Visibility(
               visible: _option == 0,

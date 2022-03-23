@@ -41,7 +41,7 @@ class _NoteListScreenState extends State<NoteListScreen> {
         ],
       ),
       drawer: AppMenu(),
-      backgroundColor: kLightPrimaryColour,
+      backgroundColor: kTextIconColour,
       body: SafeArea(
         child: ModalProgressHUD(
           inAsyncCall: _isScreenLoading,
