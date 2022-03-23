@@ -176,22 +176,20 @@ class UserNote {
   /// Delete user note which has [documentID]
   Future<void> deleteUserNote(String documentID) async {
     try {
-      _firestore
+      await _firestore
           .collection('notes')
           .doc(_userEmail)
           .collection('notes')
           .where('id', isEqualTo: documentID)
           .get()
-          .then((value) {
+          .then((value) async {
         if (value.docs.isNotEmpty) {
-          for (final value in value.docs) {
-            _firestore
-                .collection('notes')
-                .doc(_userEmail)
-                .collection('notes')
-                .doc(value.id)
-                .delete();
-          }
+          await _firestore
+              .collection('notes')
+              .doc(_userEmail)
+              .collection('notes')
+              .doc(value.docs.first.id)
+              .delete();
         }
       });
       int totalNotes = await _note.fetchTotalNotes();
