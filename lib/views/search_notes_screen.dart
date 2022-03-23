@@ -22,7 +22,7 @@ class _SearchNoteScreenState extends State<SearchNoteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kLightPrimaryColour,
+      backgroundColor: kTextIconColour,
       appBar: AppBar(
         leading: TextButton(
           onPressed: () {
