@@ -4,25 +4,17 @@ import 'package:note_taking_app/models/user_management.dart';
 import '../models/note.dart';
 
 class RegisterScreenViewModel {
-  late final UserAuthentication _userAuthentication;
-  late final UserManagement _userManagement;
-  late final Note _note;
-  late String _error;
-  late bool _isRegistered;
+  final UserAuthentication _userAuthentication = UserAuthentication();
+  final UserManagement _userManagement = UserManagement();
+  late final Note _note = Note();
+  String _error = '';
+  bool _isRegistered = false;
 
   String email = '',
       password = '',
       confirmPassword = '',
       firstname = '',
       lastname = '';
-
-  RegisterScreenViewModel() {
-    _userAuthentication = UserAuthentication();
-    _userManagement = UserManagement();
-    _note = Note();
-    _error = '';
-    _isRegistered = false;
-  }
 
   Future<void> registerUser() async {
     if (email.isNotEmpty) {
@@ -63,7 +55,7 @@ class RegisterScreenViewModel {
   }
 
   bool isPasswordStrong() {
-    if (doesPasswordContainerUppercase() &&
+    if (doesPasswordContainsUppercase() &&
         doesPasswordContainNumber() &&
         doesPasswordContainSymbol() &&
         password.length >= 8) {
@@ -73,7 +65,7 @@ class RegisterScreenViewModel {
     }
   }
 
-  bool doesPasswordContainerUppercase() {
+  bool doesPasswordContainsUppercase() {
     RegExp uppercaseMatch = RegExp(r'[A-Z]');
     if (uppercaseMatch.firstMatch(password) != null) {
       return true;
