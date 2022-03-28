@@ -2,6 +2,7 @@ stages:
   - update
   - test
   - build
+  - deploy
 
 default:
   image: "cirrusci/flutter:latest"
@@ -47,3 +48,12 @@ android_build:
     paths:
       - build/app/outputs/apk/release/app-release.apk
   interruptible: true
+
+deploy_android_for_testing:
+  stage: deploy
+  dependencies: [android_build]
+  script:
+    - npm install -g firebase-tools
+    - firebase appdistribution:distribute build/app/outputs/apk/release/app-release.apk --app $FIREBASE_APP_ID --release-notes-files release-notes.txt --groups "androidTesters" --token "$FIREBASE_CI_TOKEN"
+  only:
+    - main
