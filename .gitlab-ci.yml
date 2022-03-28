@@ -55,6 +55,6 @@ deploy_android_for_testing:
   dependencies: [android_build]
   script:
     - npm install -g firebase-tools
-    - firebase appdistribution:distribute build/app/outputs/apk/release/app-release.apk --app $FIREBASE_APP_ID --release-notes-files release-notes.txt --groups "androidTesters" --token "$FIREBASE_CI_TOKEN"
+    - firebase appdistribution:distribute build/app/outputs/apk/release/app-release.apk --app "$FIREBASE_APP_ID" --release-notes release-notes.txt --groups "androidTesters" --token "$FIREBASE_CI_TOKEN"
   only:
     - main
