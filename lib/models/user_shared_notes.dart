@@ -36,12 +36,12 @@ class UserSharedNotes {
 
   /// Add user shared note data to shared notes collection using
   /// notes [documentID]
-  Future<void> addSharedNoteData(String documentID) async {
+  Future<void> addSharedNoteData(String documentID, String author) async {
     try {
       // Get note id
       await _firestore
           .collection('notes')
-          .doc(_userEmail)
+          .doc(author)
           .collection('notes')
           .where('id', isEqualTo: documentID)
           .get()
@@ -51,13 +51,13 @@ class UserSharedNotes {
           // Get note reference
           DocumentReference noteRef = _firestore
               .collection('notes')
-              .doc(_userEmail)
+              .doc(author)
               .collection('notes')
               .doc(noteID);
 
           // Add note to shared_notes collection
           _firestore.collection('shared_notes').add({
-            'author': _userEmail,
+            'author': author,
             'note_id': documentID,
             'note': noteRef,
           });
@@ -72,12 +72,12 @@ class UserSharedNotes {
   /// Give user [userAccess] for the shared note.
   Future<void> addUsers(
       String email, String userAccess, String documentID) async {
-    DocumentReference noteRef = await getNoteReference(documentID);
+    DocumentReference noteRef = await getNoteReference(documentID, email);
     try {
       await _firestore
           .collection('shared_notes')
           .where('note_id', isEqualTo: documentID)
-          .where('author', isEqualTo: _userEmail)
+          .where('author', isEqualTo: email)
           .get()
           .then((value) {
         if (value.docs.isNotEmpty) {
@@ -87,7 +87,7 @@ class UserSharedNotes {
               .doc(noteID)
               .collection('user_with_access')
               .add({
-            'user': email,
+            'user': _userEmail,
             'access': userAccess,
             'note': noteRef,
           });
@@ -99,12 +99,13 @@ class UserSharedNotes {
   }
 
   /// Gets note document by [documentID] reference
-  Future<DocumentReference> getNoteReference(String documentID) async {
-    late DocumentReference noteRef;
+  Future<DocumentReference> getNoteReference(
+      String documentID, String email) async {
+    DocumentReference noteRef = _firestore.collection('notes').doc(email);
     try {
       await _firestore
           .collection('notes')
-          .doc(_userEmail)
+          .doc(email)
           .collection('notes')
           .where('id', isEqualTo: documentID)
           .get()
@@ -112,7 +113,7 @@ class UserSharedNotes {
         if (event.docs.isNotEmpty) {
           noteRef = _firestore
               .collection('notes')
-              .doc(_userEmail)
+              .doc(email)
               .collection('notes')
               .doc(event.docs.first.id);
         }
@@ -125,10 +126,10 @@ class UserSharedNotes {
   }
 
   /// Update shared note [documentID] status from private to shared
-  Future<void> updateNoteStatus(String documentID) async {
+  Future<void> updateNoteStatus(String documentID, String author) async {
     try {
       final noteColRef =
-          _firestore.collection('notes').doc(_userEmail).collection('notes');
+          _firestore.collection('notes').doc(author).collection('notes');
       await noteColRef.where('id', isEqualTo: documentID).get().then((value) {
         if (value.docs.isNotEmpty) {
           String noteID = value.docs.first.id;
