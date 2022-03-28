@@ -69,6 +69,28 @@ class UserManagement {
     return firstname.stream;
   }
 
+  Future<String> fetchUserFullName({String email = ''}) async {
+    if (email.isEmpty) {
+      email = _currentUserEmail;
+    }
+
+    String userFullName = '';
+    try {
+      await _firestore
+          .collection('users')
+          .where('email', isEqualTo: email)
+          .get()
+          .then((event) {
+        if (event.docs.isNotEmpty) {
+          userFullName =
+              '${event.docs.first.get('firstname')} ${event.docs.first.get('lastname')}';
+        }
+      });
+    } on FirebaseException catch (e) {}
+
+    return userFullName;
+  }
+
   Future<bool> isUserExist(String email) async {
     bool isUserExist = true;
     try {
