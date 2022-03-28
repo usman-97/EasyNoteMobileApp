@@ -128,7 +128,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
                 }
               },
               child: const Icon(
-                Icons.close_outlined,
+                Icons.close_rounded,
                 color: kTextIconColour,
                 size: 35.0,
               ),
