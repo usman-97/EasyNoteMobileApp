@@ -95,6 +95,29 @@ class UserNote {
     return _noteDataStreamController.stream;
   }
 
+  Future<String> fetchNoteTitle(String documentID, {String email = ''}) async {
+    if (email.isEmpty) {
+      email = _userEmail;
+    }
+
+    String noteTitle = '';
+    try {
+      await _firestore
+          .collection('notes')
+          .doc(email)
+          .collection('notes')
+          .where('id', isEqualTo: documentID)
+          .get()
+          .then((event) {
+        if (event.docs.isNotEmpty) {
+          noteTitle = event.docs.first.get('title');
+        }
+      });
+    } on FirebaseException catch (e) {}
+
+    return noteTitle;
+  }
+
   ///  Checks if given note exist in the database
   Future<bool> isNoteDocumentExist(String documentID) async {
     bool isDocExist = true;
