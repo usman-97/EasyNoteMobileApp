@@ -50,10 +50,10 @@ android_build:
   interruptible: true
 
 deploy_android_for_testing:
+  image: "node:latest"
   stage: deploy
   dependencies: [android_build]
   script:
-    - sudo apt install npm nodejs
     - npm install -g firebase-tools
     - firebase appdistribution:distribute build/app/outputs/apk/release/app-release.apk --app $FIREBASE_APP_ID --release-notes-files release-notes.txt --groups "androidTesters" --token "$FIREBASE_CI_TOKEN"
   only:
