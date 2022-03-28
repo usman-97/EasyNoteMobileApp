@@ -21,13 +21,13 @@ void main() {
       ));
 
       final appBar = find.byType(CustomAppBar);
-      final homeButton = find.byKey(const Key('home_button'));
-      final modeChangeButton = find.byKey(const Key('mode_change_button'));
+      // final homeButton = find.byKey(const Key('home_button'));
+      // final modeChangeButton = find.byKey(const Key('mode_change_button'));
       final addNoteButton = find.byType(CircleButton);
 
       expect(appBar, findsOneWidget);
-      expect(homeButton, findsOneWidget);
-      expect(modeChangeButton, findsOneWidget);
+      // expect(homeButton, findsOneWidget);
+      // expect(modeChangeButton, findsOneWidget);
       expect(addNoteButton, findsOneWidget);
     });
   });
