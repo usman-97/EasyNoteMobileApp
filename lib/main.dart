@@ -3,6 +3,7 @@ import 'package:note_taking_app/views/create_note_screen.dart';
 import 'package:note_taking_app/views/home_screen.dart';
 import 'package:note_taking_app/views/login_screen.dart';
 import 'package:note_taking_app/views/note_list_screen.dart';
+import 'package:note_taking_app/views/notifications_screen.dart';
 import 'package:note_taking_app/views/register_screen.dart';
 import 'package:note_taking_app/views/search_notes_screen.dart';
 import 'package:note_taking_app/views/share_note_screen.dart';
@@ -44,6 +45,7 @@ class EasyNote extends StatelessWidget {
         SearchNoteScreen.id: (context) => const SearchNoteScreen(),
         SharedNoteScreen.id: (context) => const SharedNoteScreen(),
         ShareNoteScreen.id: (context) => const ShareNoteScreen(),
+        NotificationsScreen.id: (context) => const NotificationsScreen(),
       },
     );
   }
