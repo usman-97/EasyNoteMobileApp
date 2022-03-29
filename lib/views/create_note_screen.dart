@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:note_taking_app/components/circle_button.dart';
 import 'package:note_taking_app/utilities/constants.dart';
 import 'package:note_taking_app/utilities/navigation.dart';
@@ -33,9 +34,10 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
   late bool _isNoteEditable, _isToolBarExpanded = false;
   late String _documentID, _title, _access, _author;
 
+  bool _isScreenLoading = false;
+
   @override
   void initState() {
-    super.initState();
     _titleTextFieldController.text = _title = widget.title;
     _isNoteEditable = widget.isEditable;
     _documentID = widget.documentID;
@@ -49,10 +51,12 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
     _loadDoc(_documentID);
 
     // _createNoteViewModel.listAllFiles();
+    super.initState();
   }
 
   void _loadDoc(String filename) async {
     if (filename.isNotEmpty) {
+      _isScreenLoading = true;
       await _createNoteViewModel.downloadAttachmentFiles(filename);
       final doc = await _createNoteViewModel.downloadNoteFromCloud(filename);
       // _createNoteViewModel.listAllFiles();
@@ -61,6 +65,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
             document: doc,
             selection: const TextSelection(baseOffset: 0, extentOffset: 0),
             keepStyleOnNewLine: true);
+        _isScreenLoading = false;
       });
     }
   }
@@ -84,6 +89,9 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
             } else {
               var document = _quillController.document.toDelta().toJson();
 
+              setState(() {
+                _isScreenLoading = true;
+              });
               await _createNoteViewModel.addNote(
                   _documentID, _titleTextFieldController.text, _title);
               if (_documentID.isEmpty) {
@@ -97,6 +105,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
               _title = _titleTextFieldController.text;
               // _createNoteViewModel.listAllFiles();
               setState(() {
+                _isScreenLoading = false;
                 _isNoteEditable = false;
                 FocusManager.instance.primaryFocus?.unfocus();
               });
@@ -138,73 +147,77 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
       ),
       // drawer: AppMenu(),
       body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            Visibility(
-              visible: _isNoteEditable,
-              child: Column(
-                children: <Widget>[
-                  QuillToolbar.basic(
-                    controller: _quillController,
-                    onImagePickCallback:
-                        _createNoteViewModel.onImagePickCallback,
-                    onVideoPickCallback:
-                        _createNoteViewModel.onVideoPickCallBack,
-                    showAlignmentButtons: true,
-                    multiRowsDisplay: _isToolBarExpanded,
+        child: ModalProgressHUD(
+          inAsyncCall: _isScreenLoading,
+          child: Column(
+            children: <Widget>[
+              Visibility(
+                visible: _isNoteEditable,
+                child: Column(
+                  children: <Widget>[
+                    QuillToolbar.basic(
+                      controller: _quillController,
+                      onImagePickCallback:
+                          _createNoteViewModel.onImagePickCallback,
+                      onVideoPickCallback:
+                          _createNoteViewModel.onVideoPickCallBack,
+                      showAlignmentButtons: true,
+                      multiRowsDisplay: _isToolBarExpanded,
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          _isToolBarExpanded =
+                              _isToolBarExpanded ? false : true;
+                        });
+                      },
+                      child: Icon(
+                        _isToolBarExpanded
+                            ? Icons.arrow_upward_rounded
+                            : Icons.arrow_downward_rounded,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                // flex: 10,
+                child: Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.only(
+                    top: 10.0,
+                    left: 16.0,
+                    right: 16.0,
                   ),
-                  TextButton(
+                  child: QuillEditor(
+                    controller: _quillController,
+                    focusNode: _focusNode,
+                    scrollController: ScrollController(),
+                    scrollable: true,
+                    padding: EdgeInsets.zero,
+                    autoFocus: true,
+                    readOnly: !_isNoteEditable,
+                    expands: true,
+                    showCursor: _isNoteEditable,
+                  ),
+                ),
+              ),
+              Visibility(
+                visible: !_isNoteEditable && _access != 'Read-only',
+                child: Align(
+                  alignment: FractionalOffset.bottomCenter,
+                  child: CircleButton(
                     onPressed: () {
                       setState(() {
-                        _isToolBarExpanded = _isToolBarExpanded ? false : true;
+                        _isNoteEditable = true;
                       });
                     },
-                    child: Icon(
-                      _isToolBarExpanded
-                          ? Icons.arrow_upward_rounded
-                          : Icons.arrow_downward_rounded,
-                    ),
+                    icon: Icons.edit_rounded,
                   ),
-                ],
-              ),
-            ),
-            Expanded(
-              // flex: 10,
-              child: Container(
-                color: Colors.white,
-                padding: const EdgeInsets.only(
-                  top: 10.0,
-                  left: 16.0,
-                  right: 16.0,
-                ),
-                child: QuillEditor(
-                  controller: _quillController,
-                  focusNode: _focusNode,
-                  scrollController: ScrollController(),
-                  scrollable: true,
-                  padding: EdgeInsets.zero,
-                  autoFocus: true,
-                  readOnly: !_isNoteEditable,
-                  expands: true,
-                  showCursor: _isNoteEditable,
                 ),
               ),
-            ),
-            Visibility(
-              visible: !_isNoteEditable && _access != 'Read-only',
-              child: Align(
-                alignment: FractionalOffset.bottomCenter,
-                child: CircleButton(
-                  onPressed: () {
-                    setState(() {
-                      _isNoteEditable = true;
-                    });
-                  },
-                  icon: Icons.edit_rounded,
-                ),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
