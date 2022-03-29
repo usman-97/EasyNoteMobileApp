@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:note_taking_app/models/data/shared_note_data.dart';
 import 'package:note_taking_app/models/data/user_note_data.dart';
 import 'package:note_taking_app/models/user_authentication.dart';
 import 'package:note_taking_app/models/user_management.dart';
@@ -141,6 +140,26 @@ class UserSharedNotes {
     } on FirebaseException catch (e) {
       _error = e.code;
     }
+  }
+
+  /// Check if selected note is not already has been shared by using
+  /// [documentID] of the note
+  Future<bool> isNotAlreadyShared(String documentID) async {
+    bool isNoteShared = false;
+    try {
+      await _firestore
+          .collection('shared_notes')
+          .where('author', isEqualTo: _userEmail)
+          .where('note_id', isEqualTo: documentID)
+          .get()
+          .then((value) {
+        if (value.docs.isNotEmpty) {
+          isNoteShared = true;
+        }
+      });
+    } on FirebaseException catch (e) {}
+
+    return isNoteShared;
   }
 
   /// Check if note with [documentID] has already been shared with
@@ -285,5 +304,24 @@ class UserSharedNotes {
     // print(fullname);
 
     return fullname;
+  }
+
+  /// Delete shared note reference from the database using its [documentID]
+  Future<void> deleteSharedNoteReference(String documentID) async {
+    try {
+      await _firestore
+          .collection('shared_notes')
+          .where('author', isEqualTo: _userEmail)
+          .where('note_id', isEqualTo: documentID)
+          .get()
+          .then((value) async {
+        if (value.docs.isNotEmpty) {
+          await _firestore
+              .collection('shared_notes')
+              .doc(value.docs.first.id)
+              .delete();
+        }
+      });
+    } on FirebaseException catch (e) {}
   }
 }
