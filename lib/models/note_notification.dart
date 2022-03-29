@@ -110,7 +110,13 @@ class NoteNotification {
         .doc(sender)
         .collection('sharing_requests');
     try {
-      await sharingRequestColRef.get().then((value) async {
+      await sharingRequestColRef
+          .where('sender', isEqualTo: sender)
+          .where('note', isEqualTo: note)
+          .where('recipient', isEqualTo: recipient)
+          .where('access', isEqualTo: access)
+          .get()
+          .then((value) async {
         if (value.docs.isNotEmpty) {
           await sharingRequestColRef.doc(value.docs.first.id).delete();
         }
