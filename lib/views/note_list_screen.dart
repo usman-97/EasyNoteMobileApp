@@ -8,6 +8,7 @@ import 'package:note_taking_app/utilities/constants.dart';
 import 'package:note_taking_app/utilities/navigation.dart';
 import 'package:note_taking_app/viewModels/create_note_view_model.dart';
 import 'package:note_taking_app/viewModels/note_list_view_model.dart';
+import 'package:note_taking_app/views/create_note_screen.dart';
 import 'package:note_taking_app/views/home_screen.dart';
 
 class NoteListScreen extends StatefulWidget {
@@ -93,7 +94,9 @@ class _NoteListScreenState extends State<NoteListScreen> {
                       stream: _noteListViewModel.fetchAllUserNotes(),
                       builder: (BuildContext context,
                           AsyncSnapshot<dynamic> snapshot) {
+                        _isScreenLoading = true;
                         if (!snapshot.hasData) {
+                          print('No data found.');
                           return Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -116,6 +119,7 @@ class _NoteListScreenState extends State<NoteListScreen> {
                             ],
                           );
                         }
+                        _isScreenLoading = false;
 
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
@@ -124,8 +128,11 @@ class _NoteListScreenState extends State<NoteListScreen> {
                           _isScreenLoading = false;
                         }
 
+                        print(snapshot.data);
+
                         List<NoteCard> userNotes = _noteListViewModel
                             .buildUserNoteCards(snapshot, context);
+                        print(userNotes.length);
                         // print(_noteListViewModel.noteMenuValue);
                         return ListView(
                           children: userNotes,
@@ -138,7 +145,7 @@ class _NoteListScreenState extends State<NoteListScreen> {
                         alignment: FractionalOffset.bottomCenter,
                         child: CircleButton(
                           onPressed: () {
-                            Navigation.navigateToCreateNote(context);
+                            Navigator.pushNamed(context, CreateNoteScreen.id);
                           },
                         ),
                       ),
