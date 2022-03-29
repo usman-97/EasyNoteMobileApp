@@ -70,6 +70,8 @@ class NotificationsViewModel {
           await _userSharedNotes.addSharedNoteData(noteID, sender);
           await _userSharedNotes.addUsers(sender, requestData.access, noteID);
           await _userSharedNotes.updateNoteStatus(noteID, sender);
+          await deleteRequestCard(
+              sender, requestData.recipient, noteID, requestData.access);
         },
         onDecline: () async {
           await deleteRequestCard(
