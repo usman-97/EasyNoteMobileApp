@@ -12,7 +12,7 @@ import 'package:note_taking_app/views/verification_screen.dart';
 
 class Navigation {
   static void navigateToHome(BuildContext context) {
-    Navigator.popAndPushNamed(context, HomeScreen.id);
+    Navigator.pushNamed(context, HomeScreen.id);
   }
 
   static void navigateToLogin(BuildContext context) {
@@ -28,7 +28,7 @@ class Navigation {
   }
 
   static void navigateToNoteList(BuildContext context) {
-    Navigator.popAndPushNamed(context, NoteListScreen.id);
+    Navigator.pushNamed(context, NoteListScreen.id);
   }
 
   static void navigateToCreateNote(BuildContext context) {
@@ -40,7 +40,7 @@ class Navigation {
   }
 
   static void navigateToSharedNotesScreen(BuildContext context) {
-    Navigator.popAndPushNamed(context, SharedNoteScreen.id);
+    Navigator.pushNamed(context, SharedNoteScreen.id);
   }
 
   static void navigateToShareNoteScreen(BuildContext context) {
@@ -48,6 +48,6 @@ class Navigation {
   }
 
   static void navigateToNotificationsScreen(BuildContext context) {
-    Navigator.popAndPushNamed(context, NotificationsScreen.id);
+    Navigator.pushNamed(context, NotificationsScreen.id);
   }
 }
