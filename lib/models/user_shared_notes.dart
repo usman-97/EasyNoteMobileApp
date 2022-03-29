@@ -316,6 +316,29 @@ class UserSharedNotes {
           .get()
           .then((value) async {
         if (value.docs.isNotEmpty) {
+          String sharedNoteDocID =
+              value.docs.first.id; // Shared note document reference
+
+          // Get all user who have access to this shared note
+          await _firestore
+              .collection('shared_notes')
+              .doc(sharedNoteDocID)
+              .collection('user_with_access')
+              .get()
+              .then((value) async {
+            if (value.docs.isNotEmpty) {
+              for (final doc in value.docs) {
+                // Delete access to all users
+                await _firestore
+                    .collection('shared_notes')
+                    .doc(sharedNoteDocID)
+                    .collection('user_with_access')
+                    .doc(doc.id)
+                    .delete();
+              }
+            }
+          });
+
           await _firestore
               .collection('shared_notes')
               .doc(value.docs.first.id)
