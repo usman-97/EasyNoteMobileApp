@@ -26,8 +26,11 @@ class NoteListViewModel with ChangeNotifier {
     final String userAndAuthor = _userAuthentication.getCurrentUserEmail();
 
     for (var noteData in notesData) {
+      String noteID = noteData.documentID;
+      String noteTitle = noteData.note_title;
+
       _userNoteCards.add(NoteCard(
-        title: noteData.note_title,
+        title: noteTitle,
         date_created: noteData.date_created,
         last_modified: noteData.last_modified,
         status: noteData.status,
@@ -35,8 +38,8 @@ class NoteListViewModel with ChangeNotifier {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
             return CreateNoteScreen(
               isEditable: false,
-              documentID: noteData.documentID,
-              title: noteData.note_title,
+              documentID: noteID,
+              title: noteTitle,
               user: userAndAuthor,
               author: userAndAuthor,
             );
@@ -45,12 +48,16 @@ class NoteListViewModel with ChangeNotifier {
         onShare: (context) {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
             return ShareNoteScreen(
-              noteID: noteData.documentID,
+              noteID: noteID,
             );
           }));
         },
         onDelete: (context) async {
-          await _userNote.deleteUserNote(noteData.documentID);
+          await _userNote.deleteUserNote(noteID);
+          bool isNoteShared = await _sharedUserNotes.isNotAlreadyShared(noteID);
+          if (isNoteShared) {
+            await _sharedUserNotes.deleteSharedNoteReference(noteID);
+          }
         },
       ));
     }
