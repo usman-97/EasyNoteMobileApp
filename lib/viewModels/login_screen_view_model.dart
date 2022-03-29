@@ -16,6 +16,8 @@ class LoginScreenViewModel {
   }
 
   Future<void> loginUser(BuildContext context) async {
+    email = email.trim();
+
     if (email.isNotEmpty) {
       if (password.isNotEmpty) {
         bool isUserSignedIn =
