@@ -7,6 +7,7 @@ import 'package:note_taking_app/models/user_authentication.dart';
 import 'package:note_taking_app/models/user_note.dart';
 import 'package:note_taking_app/utilities/navigation.dart';
 import 'package:note_taking_app/views/create_note_screen.dart';
+import 'package:note_taking_app/views/note_list_screen.dart';
 import 'package:note_taking_app/views/share_note_screen.dart';
 import '../models/user_shared_notes.dart';
 
@@ -30,6 +31,7 @@ class NoteListViewModel with ChangeNotifier {
       String noteTitle = noteData.note_title;
 
       _userNoteCards.add(NoteCard(
+        noteID: noteID,
         title: noteTitle,
         date_created: noteData.date_created,
         last_modified: noteData.last_modified,
