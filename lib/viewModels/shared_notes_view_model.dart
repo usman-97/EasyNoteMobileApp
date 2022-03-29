@@ -101,6 +101,7 @@ class SharedNotesViewModel {
         // print(authorFullName);
 
         otherUserSharedNotes.add(NoteCard(
+          noteID: noteData[i].documentID,
           title: noteData[i].note_title,
           date_created: noteData[i].date_created,
           last_modified: noteData[i].last_modified,
