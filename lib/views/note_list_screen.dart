@@ -96,7 +96,8 @@ class _NoteListScreenState extends State<NoteListScreen> {
                           AsyncSnapshot<dynamic> snapshot) {
                         _isScreenLoading = true;
                         if (!snapshot.hasData) {
-                          print('No data found.');
+                          // print('No data found.');
+                          _isScreenLoading = false;
                           return Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -121,18 +122,16 @@ class _NoteListScreenState extends State<NoteListScreen> {
                         }
                         _isScreenLoading = false;
 
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          _isScreenLoading = true;
-                        } else {
-                          _isScreenLoading = false;
-                        }
-
-                        print(snapshot.data);
+                        // if (snapshot.connectionState ==
+                        //     ConnectionState.waiting) {
+                        //   _isScreenLoading = true;
+                        // } else {
+                        //   _isScreenLoading = false;
+                        // }
 
                         List<NoteCard> userNotes = _noteListViewModel
                             .buildUserNoteCards(snapshot, context);
-                        print(userNotes.length);
+                        // print(userNotes.length);
                         // print(_noteListViewModel.noteMenuValue);
                         return ListView(
                           children: userNotes,
