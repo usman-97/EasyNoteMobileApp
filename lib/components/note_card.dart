@@ -13,9 +13,10 @@ class NoteCard extends StatelessWidget {
     this.onShare,
     this.onDelete,
     this.author = '',
+    required this.noteID,
   }) : super(key: key);
 
-  final String title, date_created, last_modified, status, author;
+  final String noteID, title, date_created, last_modified, status, author;
   final void Function() onTap;
   final void Function(BuildContext context)? onShare;
   final Future<void> Function(BuildContext context)? onDelete;
