@@ -6,6 +6,8 @@ import 'package:note_taking_app/utilities/constants.dart';
 import 'package:note_taking_app/utilities/navigation.dart';
 import 'package:note_taking_app/viewModels/home_view_model.dart';
 
+import '../components/sticky_note_cards.dart';
+
 class HomeScreen extends StatefulWidget {
   static const String id = 'home_screen';
 
@@ -202,7 +204,35 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: Stack(
                 children: <Widget>[
-                  ListView(),
+                  Container(
+                    margin: const EdgeInsets.all(10.0),
+                    // color: const Color(0xFFe6c7b1),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFe6c7b1),
+                      border: Border.all(
+                        width: 5.0,
+                        color: Colors.brown,
+                      ),
+                    ),
+                    child: ListView(
+                      children: <Widget>[
+                        Row(
+                          children: const <Widget>[
+                            StickyNoteCard(
+                              noteID: '',
+                              title: 'title',
+                              text: '',
+                            ),
+                            StickyNoteCard(
+                              noteID: '',
+                              title: 'title',
+                              text: '',
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                   Align(
                     alignment: FractionalOffset.bottomCenter,
                     child: Padding(
