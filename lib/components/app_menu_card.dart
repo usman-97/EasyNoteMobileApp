@@ -12,12 +12,19 @@ class AppMenuCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: kDarkPrimaryColour,
       child: ListTile(
         leading: Icon(
           icon,
-          color: kPrimaryTextColour,
+          color: kTextIconColour,
         ),
-        title: Text(cardTitle),
+        title: Text(
+          cardTitle,
+          style: const TextStyle(
+            color: kTextIconColour,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         onTap: onTap,
       ),
     );
