@@ -33,7 +33,12 @@ class ShareNoteViewModel {
 
   Future<void> sendNoteSharingRequest(
       String recipient, String documentID, String access) async {
-    await _notification.sendSharingRequest(recipient, documentID, access);
-    await _notification.addSharingRequest(recipient, documentID, access);
+    bool doesRecipientExist = await _userManagement.doesUserExist(recipient);
+    if (doesRecipientExist) {
+      await _notification.sendSharingRequest(recipient, documentID, access);
+      await _notification.addSharingRequest(recipient, documentID, access);
+    } else {
+      _error = "Invalid email.";
+    }
   }
 }
