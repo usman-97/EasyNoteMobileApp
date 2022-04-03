@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:note_taking_app/components/app_menu.dart';
 import 'package:note_taking_app/components/custom_app_bar.dart';
+import 'package:note_taking_app/components/no_data_message_widget.dart';
 import 'package:note_taking_app/components/note_card.dart';
 import 'package:note_taking_app/utilities/constants.dart';
 import 'package:note_taking_app/viewModels/note_list_view_model.dart';
@@ -15,6 +16,11 @@ class SharedNoteScreen extends StatefulWidget {
 
   @override
   State<SharedNoteScreen> createState() => _SharedNoteScreenState();
+}
+
+enum SharingOptions {
+  userSharedNotes,
+  otherUserSharedNotes,
 }
 
 class _SharedNoteScreenState extends State<SharedNoteScreen> {
@@ -120,7 +126,7 @@ class _SharedNoteScreenState extends State<SharedNoteScreen> {
               ),
             ),
             Visibility(
-              visible: _option == 0,
+              visible: _option == SharingOptions.userSharedNotes.index,
               child: Expanded(
                 child: StreamBuilder(
                     stream: _sharedNotesViewModel.getUserSharedNotes(),
@@ -128,7 +134,9 @@ class _SharedNoteScreenState extends State<SharedNoteScreen> {
                         AsyncSnapshot<dynamic> snapshot) {
                       // _sharedNotesViewModel.getUserSharedNotes();
                       if (!snapshot.hasData) {
-                        return Container();
+                        return const NoDataMessageWidget(
+                            message: 'No shared notes found.',
+                            icon: Icons.share_rounded);
                       }
 
                       List<NoteCard> sharedNoteCardList = _noteListViewModel
@@ -141,7 +149,7 @@ class _SharedNoteScreenState extends State<SharedNoteScreen> {
               ),
             ),
             Visibility(
-              visible: _option == 1,
+              visible: _option == SharingOptions.otherUserSharedNotes.index,
               child: Expanded(
                 child: StreamBuilder(
                   stream: _sharedNotesViewModel.getOtherSharedNotes(),
@@ -149,7 +157,9 @@ class _SharedNoteScreenState extends State<SharedNoteScreen> {
                       (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                     // _sharedNotesViewModel.getOtherUserSharedNoteData();
                     if (!snapshot.hasData) {
-                      return Container();
+                      return const NoDataMessageWidget(
+                          message: 'No shared note by other user found.',
+                          icon: Icons.share_rounded);
                     }
                     // print(_sharedNotesViewModel
                     //     .otherUsersSharedNotesDataList.length);
