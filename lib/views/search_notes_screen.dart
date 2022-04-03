@@ -24,42 +24,80 @@ class _SearchNoteScreenState extends State<SearchNoteScreen> {
     return Scaffold(
       backgroundColor: kTextIconColour,
       appBar: AppBar(
-        leading: TextButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Icon(
-            Icons.arrow_back_outlined,
-            color: kTextIconColour,
-            size: 30.0,
+        title: Container(
+          margin: const EdgeInsets.only(bottom: 10.0),
+          decoration: const BoxDecoration(
+            color: kPrimaryColour,
+            // border: Border(
+            //   bottom: BorderSide(),
+            // ),
+          ),
+          child: Row(
+            children: <Widget>[
+              // TextButton(
+              //   onPressed: () {},
+              //   child: Container(
+              //     padding: const EdgeInsets.all(10.0),
+              //     color: kPrimaryColour,
+              //     child: const Icon(
+              //       Icons.search_rounded,
+              //       color: kTextIconColour,
+              //     ),
+              //   ),
+              // ),
+              Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5.0),
+                  child: TextField(
+                    controller: _searchTextFieldController,
+                    onChanged: (value) {
+                      if (value.isNotEmpty) {
+                        _searchNotesViewModel.keyword = value;
+                        // print(_searchNotesViewModel.keyword);
+                        _searchNotesViewModel.getAllSearchUserNotes();
+                        setState(() {});
+                      }
+                    },
+                    style: kAppBarTextFieldStyle.copyWith(
+                        color: kTextIconColour, fontSize: 16.0),
+                    decoration: const InputDecoration(
+                      fillColor: kPrimaryColour,
+                      filled: true,
+                      hintText: 'Search...',
+                      hintStyle: TextStyle(
+                        color: Colors.white70,
+                      ),
+                      prefixIcon: Icon(
+                        Icons.search_rounded,
+                        color: kDarkPrimaryColour,
+                        size: 30.0,
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    _searchTextFieldController.clear();
+                  });
+                },
+                child: Visibility(
+                  visible: _searchTextFieldController.text.isNotEmpty,
+                  child: const Icon(
+                    Icons.close_rounded,
+                    color: kTextIconColour,
+                    size: 20.0,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
-        title: TextField(
-          controller: _searchTextFieldController,
-          onChanged: (value) {
-            if (value.isNotEmpty) {
-              _searchNotesViewModel.keyword = value;
-              // print(_searchNotesViewModel.keyword);
-              _searchNotesViewModel.getAllSearchUserNotes();
-            }
-          },
-          style: kAppBarTextFieldStyle.copyWith(color: kPrimaryTextColour),
-          decoration: kRoundTextFieldInputDecoration.copyWith(
-            fillColor: kTextIconColour,
-            hintStyle: const TextStyle(color: kTextFieldHintColour),
-            hintText: 'Search...',
-          ),
-        ),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {},
-            child: const Icon(
-              Icons.search_rounded,
-              color: kTextIconColour,
-              size: 40.0,
-            ),
-          ),
-        ],
       ),
       body: SafeArea(
         child: Column(
