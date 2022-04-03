@@ -11,6 +11,8 @@ import 'package:note_taking_app/viewModels/note_list_view_model.dart';
 import 'package:note_taking_app/views/create_note_screen.dart';
 import 'package:note_taking_app/views/home_screen.dart';
 
+import '../components/no_data_message_widget.dart';
+
 class NoteListScreen extends StatefulWidget {
   static const String id = 'note_list_screen';
 
@@ -98,26 +100,9 @@ class _NoteListScreenState extends State<NoteListScreen> {
                         if (!snapshot.hasData) {
                           // print('No data found.');
                           _isScreenLoading = false;
-                          return Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: const <Widget>[
-                              Icon(
-                                Icons.note_rounded,
-                                size: 200.0,
-                                color: kPrimaryColour,
-                              ),
-                              Center(
-                                child: Text(
-                                  'Tap + button to create a new note.',
-                                  style: TextStyle(
-                                    color: kPrimaryTextColour,
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ],
+                          return const NoDataMessageWidget(
+                            message: 'Tap + button to create a new note.',
+                            icon: Icons.note_rounded,
                           );
                         }
                         _isScreenLoading = false;
