@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:note_taking_app/components/app_menu.dart';
 import 'package:note_taking_app/components/custom_app_bar.dart';
+import 'package:note_taking_app/components/no_data_message_widget.dart';
 import 'package:note_taking_app/components/notification_card.dart';
 import 'package:note_taking_app/utilities/constants.dart';
 import 'package:note_taking_app/viewModels/notifications_view_model.dart';
@@ -26,7 +27,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           CustomAppBar(),
         ],
       ),
-      drawer: AppMenu(),
+      // drawer: AppMenu(),
       body: SafeArea(
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -37,10 +38,13 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 builder:
                     (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                   if (!snapshot.hasData) {
-                    return Container();
+                    return const NoDataMessageWidget(
+                      message: 'You have got no notifications.',
+                      icon: Icons.mail_rounded,
+                    );
                   }
 
-                  final data = snapshot.data;
+                  // final data = snapshot.data;
 
                   List<NotificationCard> notifications =
                       _notificationsViewModel.buildNotificationCards(snapshot);
