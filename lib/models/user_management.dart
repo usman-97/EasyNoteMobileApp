@@ -74,6 +74,7 @@ class UserManagement {
       email = _currentUserEmail;
     }
 
+    // StreamController<String> _controller = StreamController.broadcast();
     String userFullName = '';
     try {
       await _firestore
@@ -86,7 +87,9 @@ class UserManagement {
               '${event.docs.first.get('firstname')} ${event.docs.first.get('lastname')}';
         }
       });
-    } on FirebaseException catch (e) {}
+    } on FirebaseException catch (e) {
+      _error = e.code;
+    }
 
     return userFullName;
   }
@@ -103,7 +106,9 @@ class UserManagement {
           isUserExist = false;
         }
       });
-    } on FirebaseException catch (e) {}
+    } on FirebaseException catch (e) {
+      _error = e.code;
+    }
 
     return isUserExist;
   }
