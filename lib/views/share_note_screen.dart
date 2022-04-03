@@ -137,6 +137,9 @@ class _ShareNoteScreenState extends State<ShareNoteScreen> {
                     onPressed: () async {
                       await _shareNoteViewModel.sendNoteSharingRequest(
                           _shareController.text, _noteID, _userAccess);
+                      setState(() {
+                        // print(_shareNoteViewModel.error);
+                      });
                       // await _shareNoteViewModel.shareUserNote(
                       //     _noteID, _shareController.text, _userAccess);
                       // setState(() {
