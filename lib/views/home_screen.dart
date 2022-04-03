@@ -5,6 +5,7 @@ import 'package:note_taking_app/components/custom_app_bar.dart';
 import 'package:note_taking_app/utilities/constants.dart';
 import 'package:note_taking_app/utilities/navigation.dart';
 import 'package:note_taking_app/viewModels/home_view_model.dart';
+import 'package:note_taking_app/views/create_note_screen.dart';
 
 import '../components/sticky_note_cards.dart';
 
@@ -20,6 +21,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final HomeViewModel _homeViewModel = HomeViewModel();
   String _todayDate = '';
+  bool _showNoteMenu = false;
 
   @override
   void initState() {
@@ -147,15 +149,56 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigation.navigateToNotificationsScreen(context);
-                      },
-                      child: const Icon(
-                        Icons.notifications_rounded,
-                        color: kDarkPrimaryColour,
-                        size: 40.0,
-                      ),
+                    Stack(
+                      children: <Widget>[
+                        GestureDetector(
+                          onTap: () async {
+                            await _homeViewModel.readAllNotification();
+                            Navigation.navigateToNotificationsScreen(context);
+                          },
+                          child: const Icon(
+                            Icons.notifications_rounded,
+                            color: kDarkPrimaryColour,
+                            size: 40.0,
+                          ),
+                        ),
+                        StreamBuilder(
+                            stream: _homeViewModel.getTotalUnreadNotification(),
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData) {
+                                // print('no data');
+                                return Container();
+                              }
+
+                              final totalNotifications = snapshot.data;
+                              String notificationText = '';
+                              if (totalNotifications != null) {
+                                notificationText = '$totalNotifications';
+                              }
+                              // print(notificationText);
+
+                              return notificationText.isEmpty
+                                  ? Container()
+                                  : Container(
+                                      padding: const EdgeInsets.all(5.0),
+                                      // color: Colors.red,
+                                      decoration: BoxDecoration(
+                                        color: Colors.red,
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                      ),
+                                      child: Text(
+                                        notificationText,
+                                        style: const TextStyle(
+                                          fontSize: 15.0,
+                                          color: kTextIconColour,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    );
+                            }),
+                        //  ),
+                      ],
                     ),
                     // Row(
                     //   children: <Widget>[
@@ -235,15 +278,80 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Align(
                     alignment: FractionalOffset.bottomCenter,
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 20.0),
-                      child: CircleButton(
-                        onPressed: () {
-                          Navigation.navigateToCreateNote(context);
-                        },
-                      ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        Visibility(
+                          visible: _showNoteMenu,
+                          child: Flexible(
+                            child: Card(
+                              color: kAccentColour,
+                              child: Column(
+                                children: <Widget>[
+                                  Container(
+                                    color: kAccentColour,
+                                    child: TextButton(
+                                      onPressed: () {
+                                        Navigation.navigateToCreateNote(
+                                            context);
+                                      },
+                                      child: const Text(
+                                        'Note',
+                                        style:
+                                            TextStyle(color: kTextIconColour),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    color: kAccentColour,
+                                    child: TextButton(
+                                      onPressed: () {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                          return const CreateNoteScreen(
+                                            type: 'Sticky Note',
+                                          );
+                                        }));
+                                      },
+                                      child: const Text(
+                                        'Sticky Note',
+                                        style:
+                                            TextStyle(color: kTextIconColour),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 20.0),
+                          child: CircleButton(
+                            onPressed: () {
+                              // Navigation.navigateToCreateNote(context);
+                              setState(() {
+                                _showNoteMenu = !_showNoteMenu ? true : false;
+                                // print(_showNoteMenu);
+                              });
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   ),
+                  // Align(
+                  //   alignment: FractionalOffset.bottomCenter,
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.only(bottom: 20.0),
+                  //     child: CircleButton(
+                  //       onPressed: () {
+                  //         Navigation.navigateToCreateNote(context);
+                  //       },
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
