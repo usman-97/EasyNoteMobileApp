@@ -1,8 +1,10 @@
+import 'package:note_taking_app/models/note_notification.dart';
 import 'package:note_taking_app/models/user_management.dart';
 import 'package:intl/intl.dart';
 
 class HomeViewModel {
   final UserManagement _userManagement = UserManagement();
+  final NoteNotification _noteNotification = NoteNotification();
   String _userFirstname = '';
 
   get userFirstname => _userFirstname;
@@ -20,5 +22,13 @@ class HomeViewModel {
     String todayDate = '$weekDay, $day $month $year';
 
     return todayDate;
+  }
+
+  Stream<int> getTotalUnreadNotification() {
+    return _noteNotification.fetchTotalUnreadNotification();
+  }
+
+  Future<void> readAllNotification() async {
+    await _noteNotification.updateUnreadStatus();
   }
 }
