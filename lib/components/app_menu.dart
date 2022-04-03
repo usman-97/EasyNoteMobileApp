@@ -4,22 +4,64 @@ import 'package:note_taking_app/utilities/constants.dart';
 import 'package:note_taking_app/utilities/navigation.dart';
 import 'package:note_taking_app/viewModels/user_view_model.dart';
 
-class AppMenu extends StatelessWidget {
-  final UserViewModel _userViewModel = UserViewModel();
+class AppMenu extends StatefulWidget {
+  const AppMenu({Key? key}) : super(key: key);
 
-  AppMenu();
+  @override
+  _AppMenuState createState() => _AppMenuState();
+}
+
+class _AppMenuState extends State<AppMenu> {
+  final UserViewModel _userViewModel = UserViewModel();
+  String _userFullName = '';
+
+  @override
+  void initState() {
+    setUserFullName();
+    super.initState();
+  }
+
+  void setUserFullName() async {
+    _userFullName = await _userViewModel.getUserFullName();
+    setState(() {});
+    // print(_userFullName);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: kLightPrimaryColour,
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
-          const DrawerHeader(
-            decoration: BoxDecoration(
-              color: kPrimaryColour,
+          DrawerHeader(
+            decoration: const BoxDecoration(
+              color: kDarkPrimaryColour,
             ),
-            child: Text('EasyNote'),
+            child: Column(
+              children: <Widget>[
+                const Expanded(
+                  child: Icon(
+                    Icons.account_circle_rounded,
+                    size: 120.0,
+                    color: kLightPrimaryColour,
+                  ),
+                ),
+                Expanded(
+                  child: Align(
+                    alignment: FractionalOffset.bottomCenter,
+                    child: Text(
+                      _userFullName,
+                      style: const TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                        color: kTextIconColour,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
           AppMenuCard(
             cardTitle: 'Home',
