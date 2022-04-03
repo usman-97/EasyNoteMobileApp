@@ -83,6 +83,85 @@ class NoteNotification {
     return controller.stream;
   }
 
+  Stream<int> fetchTotalUnreadNotification() {
+    StreamController<int> totalNotificationController =
+        StreamController.broadcast();
+
+    try {
+      _firestore
+          .collection('notifications')
+          .doc(_userEmail)
+          .collection('sharing_requests')
+          .where('status', isEqualTo: 'unread')
+          .snapshots()
+          .listen((event) {
+        if (event.docs.isNotEmpty) {
+          totalNotificationController.add(event.docs.length);
+        }
+      });
+    } on FirebaseException catch (e) {}
+
+    return totalNotificationController.stream;
+  }
+
+  Future<void> updateUnreadStatus() async {
+    try {
+      await _firestore
+          .collection('notifications')
+          .doc(_userEmail)
+          .collection('sharing_requests')
+          .where('status', isEqualTo: 'unread')
+          .get()
+          .then((value) async {
+        if (value.docs.isNotEmpty) {
+          for (final doc in value.docs) {
+            await _firestore
+                .collection('notifications')
+                .doc(_userEmail)
+                .collection('sharing_requests')
+                .doc(doc.id)
+                .update({
+              'status': 'read',
+            });
+          }
+        }
+      });
+    } on FirebaseException catch (e) {}
+  }
+
+  Future<void> updateSharingNotificationStatus(String notificationID) async {
+    try {
+      await _firestore
+          .collection('notifications')
+          .doc(_userEmail)
+          .collection('sharing_Requests')
+          .doc(notificationID)
+          .update({
+        'status': 'read',
+      });
+    } on FirebaseException catch (e) {}
+  }
+
+  Future<bool> hasUserGotUnreadNotification() async {
+    bool hasUserGotUnreadNotification = false;
+
+    try {
+      await _firestore
+          .collection('notifications')
+          .doc(_userEmail)
+          .collection('sharing_requests')
+          .where('status', isEqualTo: 'unread')
+          .get()
+          .then((value) {
+        if (value.docs.isNotEmpty) {
+          hasUserGotUnreadNotification = true;
+        }
+      });
+    } on FirebaseException catch (e) {}
+
+    return hasUserGotUnreadNotification;
+  }
+
   Future<void> deleteSharingRequest(
       String sender, String note, String access) async {
     CollectionReference sharingRequestColRef = _firestore
