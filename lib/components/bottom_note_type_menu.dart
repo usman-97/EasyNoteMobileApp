@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_taking_app/utilities/navigation.dart';
 
 import '../utilities/constants.dart';
 import 'bottom_menu_button.dart';
@@ -21,12 +22,16 @@ class BottomNoteTypeMenu extends StatelessWidget {
               BottomMenuButton(
                 label: 'Note',
                 icon: Icons.note_rounded,
-                onPressed: () {},
+                onPressed: () {
+                  Navigation.navigateToCreateNote(context);
+                },
               ),
               BottomMenuButton(
                 label: 'Sticky Note',
                 icon: Icons.sticky_note_2_rounded,
-                onPressed: () {},
+                onPressed: () {
+                  Navigation.navigateToCreateStickyNoteScreen(context);
+                },
               ),
             ],
           ),
