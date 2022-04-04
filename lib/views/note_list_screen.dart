@@ -8,7 +8,7 @@ import 'package:note_taking_app/utilities/constants.dart';
 import 'package:note_taking_app/utilities/navigation.dart';
 import 'package:note_taking_app/viewModels/create_note_view_model.dart';
 import 'package:note_taking_app/viewModels/note_list_view_model.dart';
-import 'package:note_taking_app/views/create_note_screen.dart';
+import 'package:note_taking_app/views/note_screen/create_note_screen.dart';
 import 'package:note_taking_app/views/home_screen.dart';
 
 import '../components/no_data_message_widget.dart';
