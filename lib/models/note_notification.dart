@@ -24,7 +24,7 @@ class NoteNotification {
     String userName = await _userManagement.fetchUserFullName();
     String noteTitle = await _userNote.fetchNoteTitle(documentID);
 
-    print('name: $userName title: $noteTitle');
+    // print('name: $userName title: $noteTitle');
 
     try {
       _firestore
@@ -88,17 +88,22 @@ class NoteNotification {
         StreamController.broadcast();
 
     try {
-      _firestore
-          .collection('notifications')
-          .doc(_userEmail)
-          .collection('sharing_requests')
-          .where('status', isEqualTo: 'unread')
-          .snapshots()
-          .listen((event) {
-        if (event.docs.isNotEmpty) {
-          totalNotificationController.add(event.docs.length);
-        }
-      });
+      if (_userEmail.isNotEmpty) {
+        _firestore
+            .collection('notifications')
+            .doc(_userEmail)
+            .collection('sharing_requests')
+            .where('status', isEqualTo: 'unread')
+            .snapshots()
+            .listen((event) {
+          if (event.docs.isNotEmpty) {
+            totalNotificationController.add(event.docs.length);
+          }
+          // else {
+          //   totalNotificationController.add(0);
+          // }
+        });
+      }
     } on FirebaseException catch (e) {}
 
     return totalNotificationController.stream;
