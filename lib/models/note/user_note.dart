@@ -5,7 +5,7 @@ import 'package:note_taking_app/models/data/user_note_data.dart';
 import 'package:note_taking_app/models/note.dart';
 import 'package:note_taking_app/models/user_authentication.dart';
 import 'package:note_taking_app/models/user_management.dart';
-import '../services/firestore_cloud.dart';
+import '../../services/firestore_cloud.dart';
 
 class UserNote {
   final FirebaseFirestore _firestore = FirestoreCloud.firebaseCloudInstance();
