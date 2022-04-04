@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:note_taking_app/views/create_note_screen.dart';
+import 'package:note_taking_app/views/note_screen/create_note_screen.dart';
 import 'package:note_taking_app/views/home_screen.dart';
 import 'package:note_taking_app/views/login_screen.dart';
 import 'package:note_taking_app/views/note_list_screen.dart';
+import 'package:note_taking_app/views/note_screen/create_sticky_note_screen.dart';
 import 'package:note_taking_app/views/notifications_screen.dart';
 import 'package:note_taking_app/views/register_screen.dart';
 import 'package:note_taking_app/views/search_notes_screen.dart';
@@ -49,5 +50,9 @@ class Navigation {
 
   static void navigateToNotificationsScreen(BuildContext context) {
     Navigator.pushNamed(context, NotificationsScreen.id);
+  }
+
+  static void navigateToCreateStickyNoteScreen(BuildContext context) {
+    Navigator.pushNamed(context, CreateStickyNoteScreen.id);
   }
 }
