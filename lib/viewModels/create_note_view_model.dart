@@ -4,8 +4,9 @@ import 'dart:io';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:note_taking_app/models/note_storage.dart';
-import 'package:note_taking_app/models/user_note.dart';
+import 'package:note_taking_app/models/note/user_note.dart';
 import 'package:note_taking_app/models/note.dart';
+import 'package:note_taking_app/utilities/custom_date.dart';
 import 'package:path_provider/path_provider.dart';
 
 class CreateNoteViewModel {
@@ -13,6 +14,7 @@ class CreateNoteViewModel {
   final NoteStorage _noteStorage = NoteStorage();
   final UserNote _userNote = UserNote();
   final Note _note = Note();
+  final CustomDate _date = CustomDate();
   String _error = '';
   String attachmentName = '';
   String currentDocumentID = '';
@@ -72,7 +74,7 @@ class CreateNoteViewModel {
   /// update note title with [currentDocumentID]
   Future<void> addNote(String currentDocumentID, String newNoteTitle,
       String currentNoteTitle) async {
-    String date = _getDate();
+    String date = _date.getShortFormatDate();
     bool isDocExist = await _userNote.isNoteDocumentExist(currentDocumentID);
     if (isDocExist) {
       await _userNote.updateLastModified(currentDocumentID, date);
@@ -86,12 +88,12 @@ class CreateNoteViewModel {
   }
 
   /// Get current data
-  String _getDate() {
-    DateTime now = DateTime.now().toLocal();
-    String date = '${now.day}/${now.month}/${now.year}';
-
-    return date;
-  }
+  // String _getDate() {
+  //   DateTime now = DateTime.now().toLocal();
+  //   String date = '${now.day}/${now.month}/${now.year}';
+  //
+  //   return date;
+  // }
 
   // Future<String> _generateNewDocumentID(String currentDocumentID,
   //     String newNoteTitle, String currentNoteTitle) async {
