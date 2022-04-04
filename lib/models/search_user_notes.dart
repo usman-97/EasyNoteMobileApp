@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:note_taking_app/models/data/user_note_data.dart';
 import 'package:note_taking_app/models/user_authentication.dart';
-import 'package:note_taking_app/models/user_note.dart';
+import 'package:note_taking_app/models/note/user_note.dart';
 import 'package:note_taking_app/services/firestore_cloud.dart';
 
 class SearchUserNotes {
