@@ -11,7 +11,7 @@ import 'package:note_taking_app/models/data/user_note_data.dart';
 import 'package:note_taking_app/models/user_authentication.dart';
 import 'package:note_taking_app/models/user_shared_notes.dart';
 
-import '../views/create_note_screen.dart';
+import '../views/note_screen/create_note_screen.dart';
 
 class SharedNotesViewModel {
   final UserSharedNotes _userSharedNotes = UserSharedNotes();

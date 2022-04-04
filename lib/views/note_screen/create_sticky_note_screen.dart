@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:note_taking_app/utilities/navigation.dart';
+import 'package:note_taking_app/viewModels/create_sticky_note_view_model.dart';
 import 'package:note_taking_app/views/note_screen/note_screen_interface.dart';
 import 'package:flutter_quill/flutter_quill.dart' as text_editor;
 
@@ -27,6 +28,8 @@ class CreateStickyNoteScreen extends StatefulWidget {
 
 class _CreateStickyNoteScreenState extends State<CreateStickyNoteScreen>
     implements INoteScreen {
+  final CreateStickyNoteViewModel _createStickyNoteViewModel =
+      CreateStickyNoteViewModel();
   final text_editor.QuillController _quillController =
       text_editor.QuillController.basic();
   final TextEditingController _titleTextFieldController =
@@ -65,6 +68,14 @@ class _CreateStickyNoteScreenState extends State<CreateStickyNoteScreen>
           onPressed: () async {
             if (_isNoteEditable) {
               setState(() {
+                _isScreenLoading = true;
+              });
+
+              await _createStickyNoteViewModel.addUserStickyNote(
+                  _documentID, _title, _titleTextFieldController.text);
+
+              setState(() {
+                _isScreenLoading = false;
                 _isNoteEditable = false;
               });
             } else {

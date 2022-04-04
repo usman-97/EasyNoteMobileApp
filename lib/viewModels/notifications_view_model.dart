@@ -7,7 +7,7 @@ import 'package:note_taking_app/models/data/sharing_request_data.dart';
 import 'package:note_taking_app/models/note_notification.dart';
 import 'package:note_taking_app/models/user_authentication.dart';
 import 'package:note_taking_app/models/user_management.dart';
-import 'package:note_taking_app/models/user_note.dart';
+import 'package:note_taking_app/models/note/user_note.dart';
 import 'package:note_taking_app/models/user_shared_notes.dart';
 
 class NotificationsViewModel {
