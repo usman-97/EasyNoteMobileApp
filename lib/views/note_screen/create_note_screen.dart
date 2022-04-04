@@ -35,7 +35,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen>
   final TextEditingController _titleTextFieldController =
       TextEditingController();
   late bool _isNoteEditable, _isToolBarExpanded = false;
-  late String _documentID, _title, _access, _author, _type;
+  late String _documentID, _title, _access, _author;
 
   bool _isScreenLoading = false;
 
@@ -51,7 +51,9 @@ class _CreateNoteScreenState extends State<CreateNoteScreen>
       _createNoteViewModel.setAuthor(_author);
     }
 
-    loadDoc(_documentID);
+    if (_documentID.isNotEmpty) {
+      loadDoc(_documentID);
+    }
 
     // _createNoteViewModel.listAllFiles();
     super.initState();
