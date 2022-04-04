@@ -65,7 +65,7 @@ deploy_android_for_testing:
     - main
 
 deploy_android_for_stagging:
-  image: "note:latest"
+  image: "node:latest"
   stage: deploy
   dependencies:
     - android_build
