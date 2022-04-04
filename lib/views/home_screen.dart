@@ -22,7 +22,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final HomeViewModel _homeViewModel = HomeViewModel();
   String _todayDate = '';
-  bool _showNoteMenu = false;
   String value = '';
 
   @override
@@ -94,31 +93,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                     ),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: <Widget>[
-                    //     TextButton(
-                    //       key: const Key('home_button'),
-                    //       onPressed: () {
-                    //         Navigation.navigateToHome(context);
-                    //       },
-                    //       child: const Icon(
-                    //         Icons.home_rounded,
-                    //         color: kTextIconColour,
-                    //         size: 50.0,
-                    //       ),
-                    //     ),
-                    //     TextButton(
-                    //       key: const Key('mode_change_button'),
-                    //       onPressed: () {},
-                    //       child: const Icon(
-                    //         Icons.brightness_2_rounded,
-                    //         color: kTextIconColour,
-                    //         size: 40.0,
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
                   ],
                 ),
               ),
@@ -202,46 +176,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         //  ),
                       ],
                     ),
-                    // Row(
-                    //   children: <Widget>[
-                    //     Container(
-                    //       decoration: BoxDecoration(
-                    //         border: Border.all(
-                    //           color: kPrimaryTextColour,
-                    //           width: 2.0,
-                    //         ),
-                    //         borderRadius: const BorderRadius.only(
-                    //             topLeft: Radius.circular(10.0),
-                    //             bottomLeft: Radius.circular(10.0)),
-                    //       ),
-                    //       child: const Padding(
-                    //         padding: EdgeInsets.all(5.0),
-                    //         child: Text(
-                    //           'Recent',
-                    //           style: TextStyle(fontSize: 18.0),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //     Container(
-                    //       decoration: BoxDecoration(
-                    //         border: Border.all(
-                    //           color: kPrimaryTextColour,
-                    //           width: 2.0,
-                    //         ),
-                    //         borderRadius: const BorderRadius.only(
-                    //             topRight: Radius.circular(10.0),
-                    //             bottomRight: Radius.circular(10.0)),
-                    //       ),
-                    //       child: const Padding(
-                    //         padding: EdgeInsets.all(5.0),
-                    //         child: Text(
-                    //           'Categories',
-                    //           style: TextStyle(fontSize: 18.0),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
                   ],
                 ),
               ),
@@ -283,91 +217,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        // Visibility(
-                        //   visible: _showNoteMenu,
-                        //   child: Flexible(
-                        //     child: Card(
-                        //       color: kAccentColour,
-                        //       child: Column(
-                        //         children: <Widget>[
-                        //           Container(
-                        //             color: kAccentColour,
-                        //             child: TextButton(
-                        //               onPressed: () {
-                        //                 Navigation.navigateToCreateNote(
-                        //                     context);
-                        //               },
-                        //               child: const Text(
-                        //                 'Note',
-                        //                 style:
-                        //                     TextStyle(color: kTextIconColour),
-                        //               ),
-                        //             ),
-                        //           ),
-                        //           Container(
-                        //             color: kAccentColour,
-                        //             child: TextButton(
-                        //               onPressed: () {
-                        //                 Navigator.push(context,
-                        //                     MaterialPageRoute(
-                        //                         builder: (context) {
-                        //                   return const CreateNoteScreen(
-                        //                     type: 'Sticky Note',
-                        //                   );
-                        //                 }));
-                        //               },
-                        //               child: const Text(
-                        //                 'Sticky Note',
-                        //                 style:
-                        //                     TextStyle(color: kTextIconColour),
-                        //               ),
-                        //             ),
-                        //           ),
-                        //         ],
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-                        // Visibility(
-                        //   visible: _showNoteMenu,
-                        //   child: PopupMenuButton<String>(
-                        //     onSelected: (String result) {
-                        //       setState(() {
-                        //         value = result;
-                        //       });
-                        //     },
-                        //     itemBuilder: (BuildContext context) =>
-                        //         <PopupMenuEntry<String>>[
-                        //       const PopupMenuItem<String>(
-                        //         value: '',
-                        //         child: Text('Working a lot harder'),
-                        //       ),
-                        //       const PopupMenuItem<String>(
-                        //         value: '',
-                        //         child: Text('Being a lot smarter'),
-                        //       ),
-                        //       const PopupMenuItem<String>(
-                        //         value: '',
-                        //         child: Text('Being a self-starter'),
-                        //       ),
-                        //       const PopupMenuItem<String>(
-                        //         value: '',
-                        //         child:
-                        //             Text('Placed in charge of trading charter'),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 20.0),
                           child: CircleButton(
                             onPressed: () {
-                              // Navigation.navigateToCreateNote(context);
-                              // setState(() {
-                              //   _showNoteMenu = !_showNoteMenu ? true : false;
-                              //   // print(_showNoteMenu);
-                              // });
-
                               showModalBottomSheet(
                                   context: context,
                                   builder: (BuildContext context) {
@@ -379,17 +232,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
-                  // Align(
-                  //   alignment: FractionalOffset.bottomCenter,
-                  //   child: Padding(
-                  //     padding: const EdgeInsets.only(bottom: 20.0),
-                  //     child: CircleButton(
-                  //       onPressed: () {
-                  //         Navigation.navigateToCreateNote(context);
-                  //       },
-                  //     ),
-                  //   ),
-                  // ),
                 ],
               ),
             ),
