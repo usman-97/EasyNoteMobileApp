@@ -5,6 +5,7 @@ import 'package:note_taking_app/utilities/constants.dart';
 import 'package:note_taking_app/utilities/navigation.dart';
 import 'package:note_taking_app/viewModels/create_note_view_model.dart';
 import 'package:flutter_quill/flutter_quill.dart' as text_editor;
+import 'package:note_taking_app/views/note_screen/note_screen_interface.dart';
 
 class CreateNoteScreen extends StatefulWidget {
   static const String id = 'create_note_screen';
@@ -25,7 +26,8 @@ class CreateNoteScreen extends StatefulWidget {
   _CreateNoteScreenState createState() => _CreateNoteScreenState();
 }
 
-class _CreateNoteScreenState extends State<CreateNoteScreen> {
+class _CreateNoteScreenState extends State<CreateNoteScreen>
+    implements INoteScreen {
   text_editor.QuillController _quillController =
       text_editor.QuillController.basic();
   final CreateNoteViewModel _createNoteViewModel = CreateNoteViewModel();
@@ -49,13 +51,14 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
       _createNoteViewModel.setAuthor(_author);
     }
 
-    _loadDoc(_documentID);
+    loadDoc(_documentID);
 
     // _createNoteViewModel.listAllFiles();
     super.initState();
   }
 
-  void _loadDoc(String filename) async {
+  @override
+  void loadDoc(String filename) async {
     if (filename.isNotEmpty) {
       _isScreenLoading = true;
       await _createNoteViewModel.downloadAttachmentFiles(filename);
@@ -133,7 +136,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
               onPressed: () {
                 if (_documentID.isNotEmpty) {
                   _isNoteEditable = false;
-                  _loadDoc(_documentID);
+                  loadDoc(_documentID);
                 } else {
                   Navigation.navigateToNoteList(context);
                 }
