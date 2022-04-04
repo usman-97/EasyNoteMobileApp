@@ -35,7 +35,7 @@ code_quality:
     - mkdir reports
     - dart pub global run dart_code_metrics:metrics analyze lib -r gitlab > reports/code-quality-report.json
   artifacts:
-    expire_in: 1 week
+    expire_in: 1 day
     reports:
       codequality: reports/code-quality-report.json
     paths:
@@ -61,5 +61,17 @@ deploy_android_for_testing:
   script:
     - npm install -g firebase-tools
     - firebase appdistribution:distribute android_build/app-release.apk --app "$FIREBASE_APP_ID" --release-notes release-notes.txt --groups "androidTesters" --token "$FIREBASE_CI_TOKEN"
+  only:
+    - main
+
+deploy_android_for_stagging:
+  image: "note:latest"
+  stage: deploy
+  dependencies:
+    - android_build
+  script:
+    - npm install -g appcenter-cli
+    - appcenter login --token $APPCENTER_API_TOKEN
+    - appcenter distribute release -f android_build/app-release.apk -g Collaborators --app usmanshabir/EasyNote
   only:
     - main
