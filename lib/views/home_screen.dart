@@ -5,8 +5,9 @@ import 'package:note_taking_app/components/custom_app_bar.dart';
 import 'package:note_taking_app/utilities/constants.dart';
 import 'package:note_taking_app/utilities/navigation.dart';
 import 'package:note_taking_app/viewModels/home_view_model.dart';
-import 'package:note_taking_app/views/create_note_screen.dart';
+import 'package:note_taking_app/views/note_screen/create_note_screen.dart';
 
+import '../components/bottom_note_type_menu.dart';
 import '../components/sticky_note_cards.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -22,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final HomeViewModel _homeViewModel = HomeViewModel();
   String _todayDate = '';
   bool _showNoteMenu = false;
+  String value = '';
 
   @override
   void initState() {
@@ -37,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
           CustomAppBar(),
         ],
       ),
-      drawer: AppMenu(),
+      drawer: const AppMenu(),
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
@@ -281,60 +283,96 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
-                        Visibility(
-                          visible: _showNoteMenu,
-                          child: Flexible(
-                            child: Card(
-                              color: kAccentColour,
-                              child: Column(
-                                children: <Widget>[
-                                  Container(
-                                    color: kAccentColour,
-                                    child: TextButton(
-                                      onPressed: () {
-                                        Navigation.navigateToCreateNote(
-                                            context);
-                                      },
-                                      child: const Text(
-                                        'Note',
-                                        style:
-                                            TextStyle(color: kTextIconColour),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    color: kAccentColour,
-                                    child: TextButton(
-                                      onPressed: () {
-                                        Navigator.push(context,
-                                            MaterialPageRoute(
-                                                builder: (context) {
-                                          return const CreateNoteScreen(
-                                            type: 'Sticky Note',
-                                          );
-                                        }));
-                                      },
-                                      child: const Text(
-                                        'Sticky Note',
-                                        style:
-                                            TextStyle(color: kTextIconColour),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
+                        // Visibility(
+                        //   visible: _showNoteMenu,
+                        //   child: Flexible(
+                        //     child: Card(
+                        //       color: kAccentColour,
+                        //       child: Column(
+                        //         children: <Widget>[
+                        //           Container(
+                        //             color: kAccentColour,
+                        //             child: TextButton(
+                        //               onPressed: () {
+                        //                 Navigation.navigateToCreateNote(
+                        //                     context);
+                        //               },
+                        //               child: const Text(
+                        //                 'Note',
+                        //                 style:
+                        //                     TextStyle(color: kTextIconColour),
+                        //               ),
+                        //             ),
+                        //           ),
+                        //           Container(
+                        //             color: kAccentColour,
+                        //             child: TextButton(
+                        //               onPressed: () {
+                        //                 Navigator.push(context,
+                        //                     MaterialPageRoute(
+                        //                         builder: (context) {
+                        //                   return const CreateNoteScreen(
+                        //                     type: 'Sticky Note',
+                        //                   );
+                        //                 }));
+                        //               },
+                        //               child: const Text(
+                        //                 'Sticky Note',
+                        //                 style:
+                        //                     TextStyle(color: kTextIconColour),
+                        //               ),
+                        //             ),
+                        //           ),
+                        //         ],
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                        // Visibility(
+                        //   visible: _showNoteMenu,
+                        //   child: PopupMenuButton<String>(
+                        //     onSelected: (String result) {
+                        //       setState(() {
+                        //         value = result;
+                        //       });
+                        //     },
+                        //     itemBuilder: (BuildContext context) =>
+                        //         <PopupMenuEntry<String>>[
+                        //       const PopupMenuItem<String>(
+                        //         value: '',
+                        //         child: Text('Working a lot harder'),
+                        //       ),
+                        //       const PopupMenuItem<String>(
+                        //         value: '',
+                        //         child: Text('Being a lot smarter'),
+                        //       ),
+                        //       const PopupMenuItem<String>(
+                        //         value: '',
+                        //         child: Text('Being a self-starter'),
+                        //       ),
+                        //       const PopupMenuItem<String>(
+                        //         value: '',
+                        //         child:
+                        //             Text('Placed in charge of trading charter'),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 20.0),
                           child: CircleButton(
                             onPressed: () {
                               // Navigation.navigateToCreateNote(context);
-                              setState(() {
-                                _showNoteMenu = !_showNoteMenu ? true : false;
-                                // print(_showNoteMenu);
-                              });
+                              // setState(() {
+                              //   _showNoteMenu = !_showNoteMenu ? true : false;
+                              //   // print(_showNoteMenu);
+                              // });
+
+                              showModalBottomSheet(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return const BottomNoteTypeMenu();
+                                  });
                             },
                           ),
                         ),
