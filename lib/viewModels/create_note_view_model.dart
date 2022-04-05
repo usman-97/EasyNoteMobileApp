@@ -87,27 +87,9 @@ class CreateNoteViewModel {
     }
   }
 
-  /// Get current data
-  // String _getDate() {
-  //   DateTime now = DateTime.now().toLocal();
-  //   String date = '${now.day}/${now.month}/${now.year}';
-  //
-  //   return date;
-  // }
-
-  // Future<String> _generateNewDocumentID(String currentDocumentID,
-  //     String newNoteTitle, String currentNoteTitle) async {
-  //   String finalID = currentDocumentID;
-  //   if (finalID.isEmpty) {
-  //     finalID = newNoteTitle;
-  //   }
-  //   this.currentDocumentID = finalID;
-  //   return finalID;
-  // }
-
   /// Upload new or existing user note file to cloud storage
-  Future<void> uploadNoteToCloud(
-      Object obj, String currentDocumentID, String newDocumentID) async {
+  Future<void> uploadNoteToCloud(Object obj, String currentDocumentID,
+      String newDocumentID, String type) async {
     // String filename =
     //     await _generateNewDocumentName(currentDocumentID, newDocumentID);
 
@@ -124,7 +106,8 @@ class CreateNoteViewModel {
     // Convert note file to json
     var jsonFile = jsonEncode(obj);
     // Finally upload json file to cloud storage
-    bool isUploaded = await _noteStorage.uploadFileToCloud(jsonFile, filename);
+    bool isUploaded =
+        await _noteStorage.uploadFileToCloud(jsonFile, filename, type);
     if (!isUploaded) {
       _error = 'File not uploaded';
     }
@@ -132,11 +115,11 @@ class CreateNoteViewModel {
 
   /// Download file with [filename] from cloud storage
   /// and return [doc]
-  Future<Document> downloadNoteFromCloud(String filename) async {
+  Future<Document> downloadNoteFromCloud(String filename, String type) async {
     Document doc;
     try {
       final File noteFilePath =
-          await _noteStorage.downloadFileFromCloud(filename);
+          await _noteStorage.downloadFileFromCloud(filename, type);
       final String fileAsString = await noteFilePath.readAsString();
       // Check for attachment file path because Android and iOS temp folder path
       // is different
