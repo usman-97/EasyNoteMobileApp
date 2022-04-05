@@ -64,7 +64,8 @@ class _CreateNoteScreenState extends State<CreateNoteScreen>
     if (filename.isNotEmpty) {
       _isScreenLoading = true;
       await _createNoteViewModel.downloadAttachmentFiles(filename);
-      final doc = await _createNoteViewModel.downloadNoteFromCloud(filename);
+      final doc =
+          await _createNoteViewModel.downloadNoteFromCloud(filename, 'notes');
       // _createNoteViewModel.listAllFiles();
       setState(() {
         _quillController = text_editor.QuillController(
@@ -105,8 +106,8 @@ class _CreateNoteScreenState extends State<CreateNoteScreen>
                 _documentID = _createNoteViewModel.currentDocumentID;
               }
 
-              await _createNoteViewModel.uploadNoteToCloud(
-                  document, _documentID, _titleTextFieldController.text);
+              await _createNoteViewModel.uploadNoteToCloud(document,
+                  _documentID, _titleTextFieldController.text, 'notes');
               _createNoteViewModel.uploadUserAttachment(_documentID,
                   _titleTextFieldController.text, document.toString());
               _title = _titleTextFieldController.text;
