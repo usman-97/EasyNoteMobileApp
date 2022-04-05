@@ -11,6 +11,7 @@ class UserStickyNotes {
     _userEmail = _userAuthentication.getCurrentUserEmail();
   }
 
+  /// Add user sticky note data [noteTitle] and [date] to database
   Future<void> addUserStickyNote(String noteTitle, String date) async {
     String newStickyNoteID = await _generateNewID();
 
@@ -28,20 +29,28 @@ class UserStickyNotes {
     } on FirebaseException catch (e) {}
   }
 
+  /// Generate new ID for new note in the database
   Future<String> _generateNewID() async {
     int lastIDNumber = await _getLastIDNumber();
     return 'StickyNote0${lastIDNumber + 1}';
   }
 
+  /// Get the last number from the last note in the database
   Future<int> _getLastIDNumber() async {
     int lastIDNumber = 0;
 
     try {
       await _firestore.collection('sticky_notes').get().then((value) {
         if (value.docs.isNotEmpty) {
-          String lastNoteID = value.docs.last.data()['id'];
-          String lastNoteNumStr = lastNoteID.replaceAll(RegExp(r'[^0-9]'), '');
-          lastIDNumber = int.parse(lastNoteNumStr);
+          for (final doc in value.docs) {
+            String lastNoteID = doc.data()['id'];
+            String lastNoteNumStr =
+                lastNoteID.replaceAll(RegExp(r'[^0-9]'), '');
+            int lastNoteNum = int.parse(lastNoteNumStr);
+            if (lastNoteNum > lastIDNumber) {
+              lastIDNumber = lastNoteNum;
+            }
+          }
         }
       });
     } on FirebaseException catch (e) {}
@@ -49,6 +58,7 @@ class UserStickyNotes {
     return lastIDNumber;
   }
 
+  /// Check if sticky note with [documentID] already exist
   Future<bool> isStickyNoteAlreadyExist(String documentID) async {
     bool isStickyNoteAlreadyExist = false;
 
@@ -69,6 +79,7 @@ class UserStickyNotes {
     return isStickyNoteAlreadyExist;
   }
 
+  /// Update sticky note with [documentID] last modified date to [currentDate]
   Future<void> updateLastModified(String documentID, String currentDate) async {
     try {
       await _firestore
@@ -82,6 +93,7 @@ class UserStickyNotes {
     } on FirebaseException catch (e) {}
   }
 
+  /// Update sticky note with [documentID] title to [newTitle]
   Future<void> updateNoteTitle(String documentID, String newTitle) async {
     try {
       await _firestore
@@ -95,6 +107,7 @@ class UserStickyNotes {
     } on FirebaseException catch (e) {}
   }
 
+  /// Fetch total number of user created sticky notes
   Future<int> fetchTotalStickyNotes() async {
     int totalStickyNotes = 0;
 
