@@ -90,12 +90,6 @@ class CreateNoteViewModel {
   /// Upload new or existing user note file to cloud storage
   Future<void> uploadNoteToCloud(
       Object obj, String currentDocumentID, String type) async {
-    // String filename =
-    //     await _generateNewDocumentName(currentDocumentID, newDocumentID);
-
-    // if (filename != currentDocumentID && currentDocumentID.isNotEmpty) {
-    //   await _noteStorage.deleteUserNoteFiles(currentDocumentID);
-    // }
     // Existing note filename
     String filename = currentDocumentID;
     if (filename.isEmpty) {
@@ -155,9 +149,6 @@ class CreateNoteViewModel {
   /// Upload all attachments files to cloud storage
   void uploadUserAttachment(
       String currentDocumentID, String newDocumentID, String document) async {
-    // String documentName =
-    //     await _generateNewDocumentName(currentDocumentID, newDocumentID);
-    // Existing note file attachments
     String documentName = currentDocumentID;
     if (documentName.isEmpty) {
       // New note file attachments
@@ -170,21 +161,6 @@ class CreateNoteViewModel {
   Future<void> downloadAttachmentFiles(String documentID) async {
     await _noteStorage.downloadAttachmentFilesFromCloud(documentID);
   }
-
-  // Future<String> _generateNewDocumentName(
-  //     String currentDocumentID, String newDocumentName) async {
-  //   String noteDocId = currentDocumentID;
-  //   int totalNotes = await getTotalUserNotes();
-  //   if (currentDocumentID.isEmpty) {
-  //     noteDocId = '$newDocumentName${totalNotes + 1}';
-  //   }
-  //   // else if (noteTitle != newDocumentName) {
-  //   //   noteDocId = await _generateNewDocumentID(
-  //   //       currentDocumentID, newDocumentName, noteTitle);
-  //   // }
-  //
-  //   return noteDocId;
-  // }
 
   /// Get total number of existing user notes
   Future<int> getTotalUserNotes() async {
