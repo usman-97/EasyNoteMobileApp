@@ -64,9 +64,15 @@ class UserNote {
           .get()
           .then((value) {
         if (value.docs.isNotEmpty) {
-          String lastNoteID = value.docs.last.data()['id'];
-          String lastNoteNumStr = lastNoteID.replaceAll(RegExp(r'[^0-9]'), '');
-          totalNotes = int.parse(lastNoteNumStr);
+          for (final doc in value.docs) {
+            String lastNoteID = doc.data()['id'];
+            String lastNoteNumStr =
+                lastNoteID.replaceAll(RegExp(r'[^0-9]'), '');
+            int lastNoteNum = int.parse(lastNoteNumStr);
+            if (lastNoteNum > totalNotes) {
+              totalNotes = lastNoteNum;
+            }
+          }
         }
       });
     } on FirebaseException catch (e) {}
