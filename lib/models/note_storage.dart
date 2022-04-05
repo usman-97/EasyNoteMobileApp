@@ -21,7 +21,8 @@ class NoteStorage {
   /// Upload note file to the Firebase Storage
   /// [filename] is the name of the file to upload
   /// [file] is the file to upload to Firebase Storage
-  Future<bool> uploadFileToCloud(String file, String filename) async {
+  Future<bool> uploadFileToCloud(
+      String file, String filename, String type) async {
     bool isUploaded = false;
 
     // Convert json string to base64
@@ -31,7 +32,7 @@ class NoteStorage {
 
     // Create path for the file
     Reference fileRef =
-        _firebaseStorage.ref('$userEmail/notes/$filename/$filename');
+        _firebaseStorage.ref('$userEmail/$type/$filename/$filename');
 
     try {
       // Upload file on created path in Firebase Storage
@@ -45,7 +46,7 @@ class NoteStorage {
 
   /// Download the note file from Firebase Storage
   /// [filename] is the name of the file to download from cloud storage
-  Future<File> downloadFileFromCloud(String filename) async {
+  Future<File> downloadFileFromCloud(String filename, String type) async {
     // Temp directory where file will be download and made available for user
     Directory appDirectory = await getTemporaryDirectory();
 
@@ -62,7 +63,7 @@ class NoteStorage {
     try {
       // Download file to given path
       await _firebaseStorage
-          .ref('$userEmail/notes/$filename/$filename')
+          .ref('$userEmail/$type/$filename/$filename')
           .writeToFile(fileToDownload);
     } on FirebaseException catch (e) {}
 
