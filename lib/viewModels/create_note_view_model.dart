@@ -88,8 +88,8 @@ class CreateNoteViewModel {
   }
 
   /// Upload new or existing user note file to cloud storage
-  Future<void> uploadNoteToCloud(Object obj, String currentDocumentID,
-      String newDocumentID, String type) async {
+  Future<void> uploadNoteToCloud(
+      Object obj, String currentDocumentID, String type) async {
     // String filename =
     //     await _generateNewDocumentName(currentDocumentID, newDocumentID);
 

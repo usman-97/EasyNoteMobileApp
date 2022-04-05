@@ -106,8 +106,8 @@ class _CreateNoteScreenState extends State<CreateNoteScreen>
                 _documentID = _createNoteViewModel.currentDocumentID;
               }
 
-              await _createNoteViewModel.uploadNoteToCloud(document,
-                  _documentID, _titleTextFieldController.text, 'notes');
+              await _createNoteViewModel.uploadNoteToCloud(
+                  document, _documentID, 'notes');
               _createNoteViewModel.uploadUserAttachment(_documentID,
                   _titleTextFieldController.text, document.toString());
               _title = _titleTextFieldController.text;
