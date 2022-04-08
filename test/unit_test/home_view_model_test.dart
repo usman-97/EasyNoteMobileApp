@@ -22,6 +22,6 @@ Future<void> main() async {
     String year = date.year.toString();
     String todayDate = '$weekDay, $day $month $year';
 
-    expect(homeViewModel.getTodayData(), todayDate);
+    expect(homeViewModel.getTodayDate(), todayDate);
   });
 }
