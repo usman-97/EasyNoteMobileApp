@@ -9,12 +9,14 @@ import 'package:note_taking_app/utilities/navigation.dart';
 import 'package:note_taking_app/views/note_screen/create_note_screen.dart';
 import 'package:note_taking_app/views/note_list_screen.dart';
 import 'package:note_taking_app/views/share_note_screen.dart';
+import '../models/note_storage.dart';
 import '../models/user_shared_notes.dart';
 
 class NoteListViewModel with ChangeNotifier {
   final UserNote _userNote = UserNote();
   final UserAuthentication _userAuthentication = UserAuthentication();
   final UserSharedNotes _sharedUserNotes = UserSharedNotes();
+  final NoteStorage _noteStorage = NoteStorage();
 
   Stream<List<UserNoteData>> fetchAllUserNotes() {
     return _userNote.fetchAllUserNoteData();
@@ -56,6 +58,7 @@ class NoteListViewModel with ChangeNotifier {
         },
         onDelete: (context) async {
           await _userNote.deleteUserNote(noteID);
+          await _noteStorage.deleteUserNoteFiles(noteID);
           bool isNoteShared = await _sharedUserNotes.isNotAlreadyShared(noteID);
           if (isNoteShared) {
             await _sharedUserNotes.deleteSharedNoteReference(noteID);
@@ -67,7 +70,7 @@ class NoteListViewModel with ChangeNotifier {
     return _userNoteCards;
   }
 
-  void _deleteNote(String documentID) async {
-    await _userNote.deleteUserNote(documentID);
-  }
+  // void _deleteNote(String documentID) async {
+  //   await _userNote.deleteUserNote(documentID);
+  // }
 }
