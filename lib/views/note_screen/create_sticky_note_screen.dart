@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:note_taking_app/utilities/navigation.dart';
+import 'package:note_taking_app/viewModels/create_note_view_model.dart';
 import 'package:note_taking_app/viewModels/create_sticky_note_view_model.dart';
 import 'package:note_taking_app/views/note_screen/note_screen_interface.dart';
 import 'package:flutter_quill/flutter_quill.dart' as text_editor;
@@ -30,7 +31,8 @@ class _CreateStickyNoteScreenState extends State<CreateStickyNoteScreen>
     implements INoteScreen {
   final CreateStickyNoteViewModel _createStickyNoteViewModel =
       CreateStickyNoteViewModel();
-  final text_editor.QuillController _quillController =
+  final CreateNoteViewModel _createNoteViewModel = CreateNoteViewModel();
+  text_editor.QuillController _quillController =
       text_editor.QuillController.basic();
   final TextEditingController _titleTextFieldController =
       TextEditingController();
@@ -46,6 +48,8 @@ class _CreateStickyNoteScreenState extends State<CreateStickyNoteScreen>
     _titleTextFieldController.text = _title = widget.title;
     _author = widget.author;
     _isNoteEditable = widget.isEditable;
+
+    loadDoc(_documentID);
     super.initState();
   }
 
@@ -56,8 +60,20 @@ class _CreateStickyNoteScreenState extends State<CreateStickyNoteScreen>
   }
 
   @override
-  void loadDoc(String filename) {
-    // TODO: implement loadFile
+  void loadDoc(String filename) async {
+    if (filename.isNotEmpty) {
+      _isScreenLoading = true;
+      final doc = await _createNoteViewModel.downloadNoteFromCloud(
+          filename, 'sticky_notes');
+      setState(() {
+        _quillController = text_editor.QuillController(
+          document: doc,
+          selection: const TextSelection(baseOffset: 0, extentOffset: 0),
+          keepStyleOnNewLine: true,
+        );
+        _isScreenLoading = false;
+      });
+    }
   }
 
   @override
@@ -71,8 +87,17 @@ class _CreateStickyNoteScreenState extends State<CreateStickyNoteScreen>
                 _isScreenLoading = true;
               });
 
+              var document = _quillController.document.toDelta().toJson();
               await _createStickyNoteViewModel.addUserStickyNote(
                   _documentID, _title, _titleTextFieldController.text);
+              await _createStickyNoteViewModel.uploadStickyNoteToCloud(
+                  document, _documentID, 'sticky_notes');
+
+              // if (_documentID.isEmpty) {
+              //   _documentID = _createStickyNoteViewModel.currentDocumentID;
+              // }
+              // await _createNoteViewModel.uploadNoteToCloud(
+              //     document, _documentID, 'sticky_notes');
 
               setState(() {
                 _isScreenLoading = false;
