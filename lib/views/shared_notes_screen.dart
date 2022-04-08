@@ -49,8 +49,38 @@ class _SharedNoteScreenState extends State<SharedNoteScreen> {
           CustomAppBar(),
         ],
       ),
-      drawer: AppMenu(),
+      drawer: const AppMenu(),
       backgroundColor: kTextIconColour,
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.person_rounded,
+              // color: kTextIconColour,
+              size: 30.0,
+            ),
+            label: '',
+            // icon: Icon(Icons.account_box_multiple_rounded, color: kTextIconColour),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.people_alt_rounded,
+              // color: kTextIconColour,
+              size: 30.0,
+            ),
+            label: '',
+          ),
+        ],
+        currentIndex: _option,
+        backgroundColor: kDarkPrimaryColour,
+        unselectedItemColor: kTextIconColour,
+        selectedItemColor: kLightPrimaryColour,
+        onTap: (index) {
+          setState(() {
+            _option = index;
+          });
+        },
+      ),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -91,40 +121,40 @@ class _SharedNoteScreenState extends State<SharedNoteScreen> {
                 ],
               ),
             ),
-            Container(
-              color: kDarkPrimaryColour,
-              child: Row(
-                children: <Widget>[
-                  const Text('Note shared by '),
-                  TextButton(
-                    onPressed: () {
-                      setState(() {
-                        _option = 0;
-                      });
-                    },
-                    child: const Text(
-                      'You',
-                      style: TextStyle(
-                        color: kLightPrimaryColour,
-                      ),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      setState(() {
-                        _option = 1;
-                      });
-                    },
-                    child: const Text(
-                      'Others',
-                      style: TextStyle(
-                        color: kLightPrimaryColour,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            // Container(
+            //   color: kDarkPrimaryColour,
+            //   child: Row(
+            //     children: <Widget>[
+            //       const Text('Note shared by '),
+            //       TextButton(
+            //         onPressed: () {
+            //           setState(() {
+            //             _option = 0;
+            //           });
+            //         },
+            //         child: const Text(
+            //           'You',
+            //           style: TextStyle(
+            //             color: kLightPrimaryColour,
+            //           ),
+            //         ),
+            //       ),
+            //       TextButton(
+            //         onPressed: () {
+            //           setState(() {
+            //             _option = 1;
+            //           });
+            //         },
+            //         child: const Text(
+            //           'Others',
+            //           style: TextStyle(
+            //             color: kLightPrimaryColour,
+            //           ),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
             Visibility(
               visible: _option == SharingOptions.userSharedNotes.index,
               child: Expanded(
