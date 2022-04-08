@@ -61,14 +61,15 @@ class CreateNoteViewModel {
   Future<void> addNote(String currentDocumentID, String newNoteTitle,
       String currentNoteTitle) async {
     String date = _date.getShortFormatDate();
+    String time = _date.getTime();
     bool isDocExist = await _userNote.isNoteDocumentExist(currentDocumentID);
     if (isDocExist) {
-      await _userNote.updateLastModified(currentDocumentID, date);
+      await _userNote.updateLastModified(currentDocumentID, date, time);
       if (currentNoteTitle != newNoteTitle) {
         await _userNote.updateNoteTitle(currentDocumentID, newNoteTitle);
       }
     } else {
-      await _userNote.addNote(newNoteTitle, date);
+      await _userNote.addNote(newNoteTitle, date, time);
       this.currentDocumentID = _userNote.currentNoteID;
     }
   }
