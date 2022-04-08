@@ -7,10 +7,12 @@ class NoDataMessageWidget extends StatelessWidget {
     Key? key,
     required this.message,
     required this.icon,
+    this.colour = kPrimaryColour,
   }) : super(key: key);
 
   final String message;
   final IconData icon;
+  final Color colour;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class NoDataMessageWidget extends StatelessWidget {
         Icon(
           icon,
           size: 200.0,
-          color: kPrimaryColour,
+          color: colour,
         ),
         Center(
           child: Text(
