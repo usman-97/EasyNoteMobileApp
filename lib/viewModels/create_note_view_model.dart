@@ -8,6 +8,7 @@ import 'package:note_taking_app/models/note/user_note.dart';
 import 'package:note_taking_app/models/note.dart';
 import 'package:note_taking_app/utilities/custom_date.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart';
 
 class CreateNoteViewModel {
   final ImagePicker _imagePicker = ImagePicker();
@@ -21,50 +22,63 @@ class CreateNoteViewModel {
 
   String get getError => _error;
 
-  // void listAllFiles() async {
-  //   Directory dir = await getTemporaryDirectory();
-  //   print(dir.path);
-  //   List<FileSystemEntity> list = await dir.list().toList();
-  //   for (var element in list) {
-  //     print(element);
-  //     // if (element is File) {
-  //     // await element.delete(recursive: false);
-  //     // }
-  //   }
-  // }
+  void listAllFiles() async {
+    Directory dir = await getTemporaryDirectory();
+    print('Directory path: ${dir.path}');
+    List<FileSystemEntity> list = await dir.list().toList();
+    for (var element in list) {
+      print(element);
+      // if (element is File) {
+      // await element.delete(recursive: false);
+      // }
+    }
+  }
 
   /// Open phone gallery for user and get image path to add into
   /// the document
   /// [file] is image picked by user from photo gallery
   Future<String> onImagePickCallback(File file) async {
     // Cross platform file
-    final XFile? image =
-        await _imagePicker.pickImage(source: ImageSource.gallery);
-    attachmentName = image!.name;
-    String imagePath = image.path;
+    // final XFile? image =
+    //     await _imagePicker.pickImage(source: ImageSource.gallery);
+    // attachmentName = image!.name;
+    // String imagePath = image.path;
+
+    // Directory cacheDir = await getTemporaryDirectory();
 
     // If platform is iOS
-    if (Platform.isIOS) {
-      // Then move the image file to temp directory;
-      Directory cacheDir = await getTemporaryDirectory();
-      File imageFile = File(image.path);
-      File newImageFile =
-          await imageFile.copy('${cacheDir.path}/${image.name}');
-      await imageFile.delete();
-      imagePath = newImageFile.path;
-      // print(newImageFile.path);
-    }
+    // if (Platform.isIOS) {
+    //   //  Then move the image file to temp directory;
+    //   Directory cacheDir = await getTemporaryDirectory();
+    //   File imageFile = File(image.path);
+    //   File newImageFile =
+    //       await file.copy('${cacheDir.path}/${basename(file.path)}');
+    //   await imageFile.delete();
+    //   imagePath = newImageFile.path;
+    //   // print(newImageFile.path);
+    // }
 
-    // print(image.path);
-    return imagePath;
+    // print(imagePath);
+    // return imagePath;
+
+    Directory cacheDir = await getTemporaryDirectory();
+    File copiedFile =
+        await file.copy('${cacheDir.path}/${basename(file.path)}');
+    // print(copiedFile.path.toString());
+    return copiedFile.path.toString();
   }
 
   /// Open gallery to allow user to pick video
   Future<String> onVideoPickCallBack(File file) async {
-    final XFile? video =
-        await _imagePicker.pickVideo(source: ImageSource.gallery);
+    // final XFile? video =
+    //     await _imagePicker.pickVideo(source: ImageSource.gallery);
+    //
+    // return video!.path;
 
-    return video!.path;
+    Directory cacheDir = await getTemporaryDirectory();
+    File copiedFile =
+        await file.copy('${cacheDir.path}/${basename(file.path)}');
+    return copiedFile.path.toString();
   }
 
   /// Add new or existing note, if user note with [currentDocumentID] does not
@@ -118,7 +132,7 @@ class CreateNoteViewModel {
       // Check for attachment file path because Android and iOS temp folder path
       // is different
       final String fileAsStringPlatformCompatible =
-          await _checkImagePlatformCompatibility(fileAsString);
+          await checkImagePlatformCompatibility(fileAsString);
       doc = Document.fromJson(jsonDecode(fileAsStringPlatformCompatible));
     } catch (e) {
       doc = Document();
@@ -128,7 +142,7 @@ class CreateNoteViewModel {
   }
 
   /// Check attachment files path
-  Future<String> _checkImagePlatformCompatibility(String fileAsString) async {
+  Future<String> checkImagePlatformCompatibility(String fileAsString) async {
     Directory localTempDir = await getTemporaryDirectory();
     const String androidTempDir = '/data/user/0/com.usk.easynote/cache';
     const String iosTempDir =
