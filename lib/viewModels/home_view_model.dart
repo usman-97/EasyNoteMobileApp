@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
@@ -11,10 +10,9 @@ import 'package:note_taking_app/models/note/user_sticky_notes.dart';
 import 'package:note_taking_app/models/note_notification.dart';
 import 'package:note_taking_app/models/note_storage.dart';
 import 'package:note_taking_app/models/user_management.dart';
-import 'package:intl/intl.dart';
+import 'package:note_taking_app/utilities/custom_date.dart';
 import 'package:note_taking_app/viewModels/create_note_view_model.dart';
 import 'package:note_taking_app/views/note_screen/create_sticky_note_screen.dart';
-import 'package:path_provider/path_provider.dart';
 
 class HomeViewModel {
   final UserManagement _userManagement = UserManagement();
@@ -22,6 +20,7 @@ class HomeViewModel {
   final UserStickyNotes _userStickyNotes = UserStickyNotes();
   final NoteStorage _noteStorage = NoteStorage();
   final CreateNoteViewModel _createNoteViewModel = CreateNoteViewModel();
+  final CustomDate _customDate = CustomDate();
   String _userFirstname = '', _currentStickyNoteText = '';
   // StreamController<String> _controller = StreamController.broadcast();
 
@@ -32,14 +31,7 @@ class HomeViewModel {
   }
 
   String getTodayData() {
-    DateTime date = DateTime.now().toLocal();
-    String weekDay = DateFormat.EEEE().format(date);
-    String day = date.day.toString();
-    String month = DateFormat.MMMM().format(date);
-    String year = date.year.toString();
-    String todayDate = '$weekDay, $day $month $year';
-
-    return todayDate;
+    return _customDate.getLongFormatDateWithDay();
   }
 
   Stream<int> getTotalUnreadNotification() {
@@ -65,7 +57,6 @@ class HomeViewModel {
       String noteID = data[i].noteID;
       String noteTitle = data[i].noteTitle;
       String noteText = await getStickyNoteFile(noteID);
-      // print(noteText);
 
       userStickyNoteDataList.add(StickyNoteCard(
         noteID: noteID,
@@ -96,10 +87,6 @@ class HomeViewModel {
         index = 0;
 
         userStickyNoteDataList = [];
-        // userStickyNoteDataList.removeAt(index);
-        // if (userStickyNoteDataList.length > 1) {
-        //   userStickyNoteDataList.removeAt(index + 1);
-        // }
       } else {
         index++;
       }
@@ -125,8 +112,6 @@ class HomeViewModel {
   Future<String> getStickyNoteFile(String filename) async {
     Document doc = await _createNoteViewModel.downloadNoteFromCloud(
         filename, 'sticky_notes');
-    // _currentStickyNoteText = doc.toPlainText();
-    // _controller.add(doc.toPlainText());
     return doc.toPlainText();
   }
 }
