@@ -51,9 +51,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen>
       _createNoteViewModel.setAuthor(_author);
     }
 
-    if (_documentID.isNotEmpty) {
-      loadDoc(_documentID);
-    }
+    loadDoc(_documentID);
 
     // _createNoteViewModel.listAllFiles();
     super.initState();
@@ -80,6 +78,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen>
 
   @override
   void dispose() {
+    _createNoteViewModel.clearCache();
     _quillController.dispose();
     super.dispose();
   }
@@ -92,7 +91,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen>
         leading: TextButton(
           onPressed: () async {
             if (!_isNoteEditable) {
-              _createNoteViewModel.clearCache();
+              // _createNoteViewModel.clearCache();
               Navigator.pop(context);
             } else {
               var document = _quillController.document.toDelta().toJson();
