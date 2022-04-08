@@ -46,6 +46,7 @@ dependencies:
   json_serializable: ^6.1.4
   modal_progress_hud_nsn: ^0.1.0-nullsafety-1
   flutter_slidable: ^1.2.0
+  font_awesome_flutter: ^10.1.0
 
 dev_dependencies:
   flutter_test:
