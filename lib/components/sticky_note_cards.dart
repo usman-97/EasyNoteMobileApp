@@ -8,11 +8,13 @@ class StickyNoteCard extends StatelessWidget {
     required this.title,
     required this.text,
     required this.onEdit,
+    required this.onDelete,
     required this.backgroundColour,
   }) : super(key: key);
 
   final String noteID, title, text;
   final void Function() onEdit;
+  final Future<void> Function() onDelete;
   final Color backgroundColour;
 
   @override
@@ -45,7 +47,7 @@ class StickyNoteCard extends StatelessWidget {
                     ),
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: onDelete,
                     child: const Icon(
                       Icons.delete_rounded,
                       size: 30.0,
