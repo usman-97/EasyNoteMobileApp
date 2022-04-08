@@ -12,28 +12,31 @@ class BottomNoteTypeMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 130,
+      height: 200,
       color: kLightPrimaryColour,
       child: Column(
         children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              BottomMenuButton(
-                label: 'Note',
-                icon: Icons.note_rounded,
-                onPressed: () {
-                  Navigation.navigateToCreateNote(context);
-                },
-              ),
-              BottomMenuButton(
-                label: 'Sticky Note',
-                icon: Icons.sticky_note_2_rounded,
-                onPressed: () {
-                  Navigation.navigateToCreateStickyNoteScreen(context);
-                },
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                BottomMenuButton(
+                  label: 'Note',
+                  icon: Icons.note_rounded,
+                  onPressed: () {
+                    Navigation.navigateToCreateNote(context);
+                  },
+                ),
+                BottomMenuButton(
+                  label: 'Sticky Note',
+                  icon: Icons.sticky_note_2_rounded,
+                  onPressed: () {
+                    Navigation.navigateToCreateStickyNoteScreen(context);
+                  },
+                ),
+              ],
+            ),
           ),
         ],
       ),
