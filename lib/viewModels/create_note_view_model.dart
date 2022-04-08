@@ -38,29 +38,6 @@ class CreateNoteViewModel {
   /// the document
   /// [file] is image picked by user from photo gallery
   Future<String> onImagePickCallback(File file) async {
-    // Cross platform file
-    // final XFile? image =
-    //     await _imagePicker.pickImage(source: ImageSource.gallery);
-    // attachmentName = image!.name;
-    // String imagePath = image.path;
-
-    // Directory cacheDir = await getTemporaryDirectory();
-
-    // If platform is iOS
-    // if (Platform.isIOS) {
-    //   //  Then move the image file to temp directory;
-    //   Directory cacheDir = await getTemporaryDirectory();
-    //   File imageFile = File(image.path);
-    //   File newImageFile =
-    //       await file.copy('${cacheDir.path}/${basename(file.path)}');
-    //   await imageFile.delete();
-    //   imagePath = newImageFile.path;
-    //   // print(newImageFile.path);
-    // }
-
-    // print(imagePath);
-    // return imagePath;
-
     Directory cacheDir = await getTemporaryDirectory();
     File copiedFile =
         await file.copy('${cacheDir.path}/${basename(file.path)}');
@@ -70,11 +47,6 @@ class CreateNoteViewModel {
 
   /// Open gallery to allow user to pick video
   Future<String> onVideoPickCallBack(File file) async {
-    // final XFile? video =
-    //     await _imagePicker.pickVideo(source: ImageSource.gallery);
-    //
-    // return video!.path;
-
     Directory cacheDir = await getTemporaryDirectory();
     File copiedFile =
         await file.copy('${cacheDir.path}/${basename(file.path)}');
