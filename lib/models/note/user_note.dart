@@ -26,7 +26,7 @@ class UserNote {
   String get currentNoteID => _currentNoteID;
 
   /// Add note data to Firebase FireStore
-  Future<void> addNote(String noteTitle, String date) async {
+  Future<void> addNote(String noteTitle, String date, String time) async {
     // int totalNotes =
     //     await getTotalUserNotes(); // Fetch total number of created notes
     // String documentID = 'Note0${totalNotes + 1}';
@@ -37,6 +37,7 @@ class UserNote {
         'title': noteTitle,
         'date_created': date,
         'last_modified': date,
+        'last_modified_time': time,
         'status': 'private',
       });
       int currentTotalNotes = await _note.fetchTotalNotes();
@@ -177,7 +178,8 @@ class UserNote {
   }
 
   /// Updates last modified date and time in the database
-  Future<void> updateLastModified(String documentID, String date) async {
+  Future<void> updateLastModified(
+      String documentID, String date, String time) async {
     try {
       _firestore
           .collection('notes')
@@ -195,6 +197,7 @@ class UserNote {
                 .doc(value.id)
                 .update({
               'last_modified': date,
+              'last_modified_time': time,
             });
           }
         }
