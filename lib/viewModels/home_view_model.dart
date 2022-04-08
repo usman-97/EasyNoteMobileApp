@@ -81,6 +81,9 @@ class HomeViewModel {
             );
           }));
         },
+        onDelete: () async {
+          await _userStickyNotes.deleteStickyNoteCard(noteID);
+        },
       ));
 
       if ((i + 1) % 2 == 0 ||
