@@ -1,9 +1,19 @@
+import 'dart:convert';
+
 import 'package:note_taking_app/models/note/user_sticky_notes.dart';
+import 'package:note_taking_app/models/note_storage.dart';
 import 'package:note_taking_app/utilities/custom_date.dart';
+import 'package:note_taking_app/viewModels/create_note_view_model.dart';
 
 class CreateStickyNoteViewModel {
   final UserStickyNotes _userStickyNotes = UserStickyNotes();
+  final NoteStorage _noteStorage = NoteStorage();
+  final CreateNoteViewModel _createNoteViewModel = CreateNoteViewModel();
   final CustomDate _date = CustomDate();
+  String _currentDocumentID = '', _error = '';
+
+  String get currentDocumentID => _currentDocumentID;
+  String get error => _error;
 
   /// Add new sticky note with new [noteID] and [newNoteTitle]
   /// if sticky note already exist then update the last modified date
@@ -21,7 +31,36 @@ class CreateStickyNoteViewModel {
         _userStickyNotes.updateNoteTitle(noteID, newNoteTitle);
       }
     } else {
-      _userStickyNotes.addUserStickyNote(newNoteTitle, date);
+      await _userStickyNotes.addUserStickyNote(newNoteTitle, date);
+      _currentDocumentID = _userStickyNotes.currentStickyNoteID;
     }
   }
+
+  Future<void> uploadStickyNoteToCloud(
+      Object object, String currentDocumentID, String type) async {
+    String filename = currentDocumentID;
+    if (currentDocumentID.isEmpty) {
+      filename = _currentDocumentID;
+    }
+
+    final jsonFile = jsonEncode(object);
+    bool isUploaded =
+        await _noteStorage.uploadFileToCloud(jsonFile, filename, type);
+    if (!isUploaded) {
+      _error = 'File is not uploaded';
+    }
+  }
+
+  // Future<Document> downloadStickyNoteFromCloud(
+  //     String filename, String type) async {
+  //   Document doc;
+  //   try {
+  //     final file = await _noteStorage.downloadFileFromCloud(filename, type);
+  //     final String fileAsString = await file.readAsString();
+  //
+  //     final String fileAsStringPlatformCompatible =
+  //     await checkImagePlatformCompatibility(fileAsString);
+  //     doc = Document.fromJson(jsonDecode(fileAsStringPlatformCompatible));
+  //   }
+  // }
 }
