@@ -30,7 +30,7 @@ class HomeViewModel {
     return _userManagement.fetchCurrentUserFirstname();
   }
 
-  String getTodayData() {
+  String getTodayDate() {
     return _customDate.getLongFormatDateWithDay();
   }
 
