@@ -12,7 +12,7 @@ class NoteStorage {
   final FirebaseStorage _firebaseStorage =
       CloudStorage.firebaseStorageInstance();
   final UserAuthentication _userAuthentication = UserAuthentication();
-  late String userEmail; // Current signed in user email
+  String userEmail = ''; // Current signed in user email
 
   NoteStorage() {
     userEmail = _userAuthentication.getCurrentUserEmail();
@@ -137,21 +137,25 @@ class NoteStorage {
   /// Delete all user note files from the cloud storage using [documentID]
   Future<void> deleteUserNoteFiles(String documentID) async {
     try {
+      // Get all reference path for note attachment files
+      ListResult attachmentFiles = await _firebaseStorage
+          .ref('$userEmail/notes/$documentID/attachments')
+          .listAll();
+      // Delete all note attachment files
+      for (final attachment in attachmentFiles.items) {
+        Reference attachmentFile = _firebaseStorage
+            .ref('$userEmail/notes/$documentID/attachments/${attachment.name}');
+        await attachmentFile.delete();
+      }
+
+      // Get path for any note file saved for the note with documentID
       ListResult userNoteFiles =
           await _firebaseStorage.ref('$userEmail/notes/$documentID').listAll();
+      // Delete all note files from cloud
       for (final file in userNoteFiles.items) {
         Reference fileRef =
             _firebaseStorage.ref('$userEmail/notes/$documentID/${file.name}');
         await fileRef.delete();
-      }
-
-      ListResult attachmentFiles = await _firebaseStorage
-          .ref('$userEmail/notes/$documentID/attachments')
-          .listAll();
-      for (final attachment in attachmentFiles.items) {
-        Reference attachmentFile = _firebaseStorage.ref(
-            '$userEmail/notes/$documentID.json/attachments/${attachment.name}');
-        await attachmentFile.delete();
       }
     } on FirebaseException catch (e) {}
   }
