@@ -229,7 +229,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             _isScreenLoading = false;
                             return Container(
                               padding: const EdgeInsets.only(
-                                  left: 20.0, right: 20.0, bottom: 30.0),
+                                  left: 20.0, right: 20.0, bottom: 55.0),
                               child: const NoDataMessageWidget(
                                 message:
                                     'Tap on + button to create a sticky note',
