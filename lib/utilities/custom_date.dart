@@ -19,4 +19,15 @@ class CustomDate {
 
     return todayDate;
   }
+
+  String getTime() {
+    DateTime now = DateTime.now().toLocal();
+    String hour = now.hour.toString();
+    String minute = now.minute.toString();
+    String seconds = now.second.toString();
+
+    String time = '$hour:$minute:$seconds';
+
+    return time;
+  }
 }
