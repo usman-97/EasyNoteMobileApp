@@ -1,12 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserNoteData {
-  final String documentID, note_title, date_created, last_modified, status;
+  final String documentID,
+      note_title,
+      date_created,
+      last_modified,
+      lastModifiedTime,
+      status;
   UserNoteData(
       {required this.documentID,
       required this.note_title,
       required this.date_created,
       required this.last_modified,
+      required this.lastModifiedTime,
       required this.status});
 
   UserNoteData.fromDocumentSnapshot(DocumentSnapshot snapshot)
@@ -14,6 +20,7 @@ class UserNoteData {
         note_title = snapshot.get('title'),
         date_created = snapshot.get('date_created'),
         last_modified = snapshot.get('last_modified'),
+        lastModifiedTime = snapshot.get('last_modified_time'),
         status = snapshot.get('status');
 
   UserNoteData.fromJson(Map<String, dynamic> jsonData)
@@ -21,6 +28,7 @@ class UserNoteData {
         note_title = jsonData['title'],
         date_created = jsonData['date_created'],
         last_modified = jsonData['last_modified'],
+        lastModifiedTime = jsonData['last_modified_time'],
         status = jsonData['status'];
 
   Map<String, dynamic> toJson() => {
