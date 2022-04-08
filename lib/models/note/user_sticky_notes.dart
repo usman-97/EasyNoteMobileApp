@@ -154,4 +154,21 @@ class UserStickyNotes {
 
     return streamController.stream;
   }
+
+  Future<void> deleteStickyNoteCard(String noteID) async {
+    CollectionReference stickyNoteColRef = _firestore
+        .collection('notes')
+        .doc(_userEmail)
+        .collection('sticky_notes');
+    try {
+      await stickyNoteColRef
+          .where('id', isEqualTo: noteID)
+          .get()
+          .then((value) async {
+        if (value.docs.isNotEmpty) {
+          await stickyNoteColRef.doc(value.docs.first.id).delete();
+        }
+      });
+    } on FirebaseException catch (e) {}
+  }
 }
