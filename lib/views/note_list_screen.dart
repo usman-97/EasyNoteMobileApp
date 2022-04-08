@@ -43,7 +43,7 @@ class _NoteListScreenState extends State<NoteListScreen> {
           CustomAppBar(),
         ],
       ),
-      drawer: AppMenu(),
+      drawer: const AppMenu(),
       backgroundColor: kTextIconColour,
       body: SafeArea(
         child: ModalProgressHUD(
