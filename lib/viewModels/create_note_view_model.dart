@@ -38,11 +38,12 @@ class CreateNoteViewModel {
   /// the document
   /// [file] is image picked by user from photo gallery
   Future<String> onImagePickCallback(File file) async {
-    Directory cacheDir = await getTemporaryDirectory();
-    File copiedFile =
-        await file.copy('${cacheDir.path}/${basename(file.path)}');
+    // Directory cacheDir = await getTemporaryDirectory();
+    // File copiedFile =
+    //     await file.copy('${cacheDir.path}/${basename(file.path)}');
+    // print(file.path);
     // print(copiedFile.path.toString());
-    return copiedFile.path.toString();
+    return file.path;
   }
 
   /// Open gallery to allow user to pick video
