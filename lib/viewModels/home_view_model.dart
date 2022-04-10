@@ -74,6 +74,7 @@ class HomeViewModel {
         },
         onDelete: () async {
           await _userStickyNotes.deleteStickyNoteCard(noteID);
+          await _noteStorage.deleteUserStickyNote(noteID);
         },
       ));
 
