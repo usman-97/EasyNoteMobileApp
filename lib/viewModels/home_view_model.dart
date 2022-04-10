@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:note_taking_app/components/custom_alert_dialog.dart';
 import 'package:note_taking_app/components/sticky_note_cards.dart';
 import 'package:note_taking_app/models/data/user_sticky_note_data.dart';
 import 'package:note_taking_app/models/note/user_sticky_notes.dart';
@@ -73,8 +74,27 @@ class HomeViewModel {
           }));
         },
         onDelete: () async {
-          await _userStickyNotes.deleteStickyNoteCard(noteID);
-          await _noteStorage.deleteUserStickyNote(noteID);
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return CustomAlertDialog(
+                  noteTitle: 'Delete $noteTitle',
+                  message: 'Are you sure?',
+                  onAccept: () async {
+                    await _userStickyNotes.deleteStickyNoteCard(noteID);
+                    await _noteStorage.deleteUserStickyNote(noteID);
+                    Navigator.of(context).pop();
+                  },
+                  onRefuse: () {
+                    Navigator.of(context).pop();
+                  },
+                  acceptIcon: const Icon(Icons.check_rounded),
+                  refuseIcon: const Icon(
+                    Icons.close_rounded,
+                    color: Colors.redAccent,
+                  ),
+                );
+              });
         },
       ));
 
