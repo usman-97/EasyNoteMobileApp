@@ -159,4 +159,17 @@ class NoteStorage {
       }
     } on FirebaseException catch (e) {}
   }
+
+  Future<void> deleteUserStickyNote(String documentID) async {
+    try {
+      ListResult userStickyNote = await _firebaseStorage
+          .ref('$userEmail/sticky_notes/$documentID')
+          .listAll();
+      for (final file in userStickyNote.items) {
+        Reference fileRef = _firebaseStorage
+            .ref('$userEmail/sticky_notes/$documentID/${file.name}');
+        await fileRef.delete();
+      }
+    } on FirebaseException catch (e) {}
+  }
 }
