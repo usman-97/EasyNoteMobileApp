@@ -5,6 +5,7 @@ import 'package:note_taking_app/components/note_card.dart';
 import 'package:note_taking_app/models/data/user_note_data.dart';
 import 'package:note_taking_app/models/user_authentication.dart';
 import 'package:note_taking_app/models/note/user_note.dart';
+import 'package:note_taking_app/utilities/custom_date.dart';
 import 'package:note_taking_app/utilities/navigation.dart';
 import 'package:note_taking_app/views/note_screen/create_note_screen.dart';
 import 'package:note_taking_app/views/note_list_screen.dart';
@@ -17,6 +18,7 @@ class NoteListViewModel with ChangeNotifier {
   final UserAuthentication _userAuthentication = UserAuthentication();
   final UserSharedNotes _sharedUserNotes = UserSharedNotes();
   final NoteStorage _noteStorage = NoteStorage();
+  final CustomDate _date = CustomDate();
 
   Stream<List<UserNoteData>> fetchAllUserNotes() {
     return _userNote.fetchAllUserNoteData();
@@ -30,14 +32,22 @@ class NoteListViewModel with ChangeNotifier {
 
     for (var noteData in notesData) {
       String noteID = noteData.documentID;
-      String noteTitle = noteData.note_title;
+      String noteTitle = noteData.noteTitle;
+      String dateCreated =
+          _date.getMediumFormatDate(customDate: noteData.dateCreated);
+      String lastModified = _date.getLastModifiedDateTime(
+          noteData.lastModified, noteData.lastModifiedTime);
+      IconData status = getStatusIcon(noteData.status);
+      // if (noteData.status == 'shared') {
+      //   status = Icons.visibility_off_rounded;
+      // }
 
       _userNoteCards.add(NoteCard(
         noteID: noteID,
         title: noteTitle,
-        date_created: noteData.date_created,
-        last_modified: noteData.last_modified,
-        status: noteData.status,
+        dateCreated: dateCreated,
+        lastModified: lastModified,
+        status: status,
         onTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
             return CreateNoteScreen(
@@ -68,6 +78,15 @@ class NoteListViewModel with ChangeNotifier {
     }
 
     return _userNoteCards;
+  }
+
+  IconData getStatusIcon(String status) {
+    IconData statusIcon = Icons.lock_rounded;
+    if (status == 'shared') {
+      statusIcon = Icons.share_rounded;
+    }
+
+    return statusIcon;
   }
 
   // void _deleteNote(String documentID) async {
