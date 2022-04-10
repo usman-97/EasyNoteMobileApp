@@ -72,7 +72,8 @@ class NoteListViewModel with ChangeNotifier {
               context: context,
               builder: (BuildContext context) {
                 return CustomAlertDialog(
-                  noteTitle: noteTitle,
+                  noteTitle: ' Delete $noteTitle',
+                  message: 'Are you sure?',
                   onAccept: () async {
                     await _userNote.deleteUserNote(noteID);
                     await _noteStorage.deleteUserNoteFiles(noteID);
