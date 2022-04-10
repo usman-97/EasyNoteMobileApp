@@ -29,11 +29,16 @@ class StickyNoteCard extends StatelessWidget {
               Text(
                 title,
                 style: const TextStyle(
-                    fontSize: 16.0, fontWeight: FontWeight.bold),
+                    fontSize: 16.0,
+                    fontFamily: 'Righteous Regular',
+                    fontWeight: FontWeight.bold),
               ),
               Text(
                 text,
-                style: const TextStyle(fontSize: 14.0),
+                style: const TextStyle(
+                  fontSize: 14.0,
+                  fontFamily: 'Merienda Regular',
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
