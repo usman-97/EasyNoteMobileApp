@@ -4,13 +4,14 @@ class CustomAlertDialog extends StatelessWidget {
   const CustomAlertDialog(
       {Key? key,
       required this.noteTitle,
+      required this.message,
       required this.onAccept,
       required this.onRefuse,
       required this.acceptIcon,
       required this.refuseIcon})
       : super(key: key);
 
-  final String noteTitle;
+  final String noteTitle, message;
   final Future<void> Function() onAccept;
   final void Function() onRefuse;
   final Icon acceptIcon, refuseIcon;
@@ -21,8 +22,8 @@ class CustomAlertDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
       ),
-      title: Text('Delete $noteTitle'),
-      content: const Text('Are you sure?'),
+      title: Text(noteTitle),
+      content: Text(message),
       actions: <Widget>[
         TextButton(
           onPressed: onAccept,
