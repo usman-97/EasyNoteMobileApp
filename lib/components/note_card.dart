@@ -6,8 +6,8 @@ class NoteCard extends StatelessWidget {
   const NoteCard({
     Key? key,
     required this.title,
-    required this.date_created,
-    required this.last_modified,
+    required this.dateCreated,
+    required this.lastModified,
     required this.status,
     required this.onTap,
     this.onShare,
@@ -16,7 +16,8 @@ class NoteCard extends StatelessWidget {
     required this.noteID,
   }) : super(key: key);
 
-  final String noteID, title, date_created, last_modified, status, author;
+  final String noteID, title, dateCreated, lastModified, author;
+  final IconData status;
   final void Function() onTap;
   final void Function(BuildContext context)? onShare;
   final Future<void> Function(BuildContext context)? onDelete;
@@ -98,7 +99,10 @@ class NoteCard extends StatelessWidget {
                           children: <Widget>[
                             Text(
                               title,
-                              style: const TextStyle(fontSize: 40.0),
+                              style: const TextStyle(
+                                fontSize: 40.0,
+                                fontFamily: 'Righteous Regular',
+                              ),
                             ),
                           ],
                         ),
@@ -112,13 +116,28 @@ class NoteCard extends StatelessWidget {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text('Created: $date_created'),
-                                Text('Last Modified: $last_modified'),
+                                Text(
+                                  dateCreated,
+                                  style: const TextStyle(
+                                    fontSize: 16.0,
+                                    fontFamily: 'Merienda Regular',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 5.0,
+                                ),
+                                Text(
+                                  lastModified,
+                                  style: const TextStyle(
+                                    fontFamily: 'Merienda Regular',
+                                  ),
+                                ),
                               ],
                             ),
                             Padding(
                               padding: const EdgeInsets.all(5.0),
-                              child: Text(status),
+                              child: Icon(status),
                             ),
                           ],
                         ),
@@ -160,8 +179,8 @@ class NoteCard extends StatelessWidget {
                                 visible: author.isNotEmpty,
                                 child: Text('Author: $author'),
                               ),
-                              Text('Created: $date_created'),
-                              Text('Last Modified: $last_modified'),
+                              Text('Created: $dateCreated'),
+                              Text('Last Modified: $lastModified'),
                             ],
                           ),
                           // Column(
@@ -176,7 +195,7 @@ class NoteCard extends StatelessWidget {
                           // ),
                           Padding(
                             padding: const EdgeInsets.all(5.0),
-                            child: Text(status),
+                            child: Icon(status),
                           ),
                         ],
                       ),
