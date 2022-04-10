@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:note_taking_app/components/custom_alert_dialog.dart';
 import 'package:note_taking_app/components/note_card.dart';
 import 'package:note_taking_app/models/data/user_note_data.dart';
 import 'package:note_taking_app/models/user_authentication.dart';
@@ -67,12 +68,60 @@ class NoteListViewModel with ChangeNotifier {
           }));
         },
         onDelete: (context) async {
-          await _userNote.deleteUserNote(noteID);
-          await _noteStorage.deleteUserNoteFiles(noteID);
-          bool isNoteShared = await _sharedUserNotes.isNotAlreadyShared(noteID);
-          if (isNoteShared) {
-            await _sharedUserNotes.deleteSharedNoteReference(noteID);
-          }
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return CustomAlertDialog(
+                  noteTitle: noteTitle,
+                  onAccept: () async {
+                    await _userNote.deleteUserNote(noteID);
+                    await _noteStorage.deleteUserNoteFiles(noteID);
+                    bool isNoteShared =
+                        await _sharedUserNotes.isNotAlreadyShared(noteID);
+                    if (isNoteShared) {
+                      await _sharedUserNotes.deleteSharedNoteReference(noteID);
+                    }
+                    Navigator.of(context).pop();
+                  },
+                  onRefuse: () {
+                    Navigator.of(context).pop();
+                  },
+                  acceptIcon: const Icon(Icons.check_rounded),
+                  refuseIcon: const Icon(
+                    Icons.close_rounded,
+                    color: Colors.redAccent,
+                  ),
+                );
+                //   AlertDialog(
+                //   shape: RoundedRectangleBorder(
+                //     borderRadius: BorderRadius.circular(20.0),
+                //   ),
+                //   title: Text('Delete $noteTitle'),
+                //   content: const Text('Are you sure?'),
+                //   actions: <Widget>[
+                //     TextButton(
+                //       onPressed: () async {
+                //         await _userNote.deleteUserNote(noteID);
+                //         await _noteStorage.deleteUserNoteFiles(noteID);
+                //         bool isNoteShared =
+                //             await _sharedUserNotes.isNotAlreadyShared(noteID);
+                //         if (isNoteShared) {
+                //           await _sharedUserNotes
+                //               .deleteSharedNoteReference(noteID);
+                //         }
+                //         Navigator.of(context).pop();
+                //       },
+                //       child: const Icon(Icons.check_rounded),
+                //     ),
+                //     TextButton(
+                //       onPressed: () {
+                //         Navigator.of(context).pop();
+                //       },
+                //       child: const Icon(Icons.close_rounded),
+                //     ),
+                //   ],
+                // );
+              });
         },
       ));
     }
