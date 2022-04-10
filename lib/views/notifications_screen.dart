@@ -4,6 +4,7 @@ import 'package:note_taking_app/components/custom_app_bar.dart';
 import 'package:note_taking_app/components/no_data_message_widget.dart';
 import 'package:note_taking_app/components/notification_card.dart';
 import 'package:note_taking_app/utilities/constants.dart';
+import 'package:note_taking_app/utilities/navigation.dart';
 import 'package:note_taking_app/viewModels/notifications_view_model.dart';
 
 class NotificationsScreen extends StatefulWidget {
@@ -23,6 +24,15 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: TextButton(
+          onPressed: () {
+            Navigation.navigateToHome(context);
+          },
+          child: const Icon(
+            Icons.arrow_back,
+            color: kTextIconColour,
+          ),
+        ),
         actions: const <Widget>[
           CustomAppBar(),
         ],
