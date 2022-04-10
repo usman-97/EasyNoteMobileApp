@@ -100,19 +100,22 @@ class SharedNotesViewModel {
         _sharedNoteAuthorFullName(author);
         // print(authorFullName);
 
+        IconData access =
+            getAccessIcon(_otherUsersSharedNotesDataList[i].access);
+
         otherUserSharedNotes.add(NoteCard(
           noteID: noteData[i].documentID,
-          title: noteData[i].note_title,
-          date_created: noteData[i].date_created,
-          last_modified: noteData[i].last_modified,
-          status: _otherUsersSharedNotesDataList[i].access,
+          title: noteData[i].noteTitle,
+          dateCreated: noteData[i].dateCreated,
+          lastModified: noteData[i].lastModified,
+          status: access,
           author: _authorFullname,
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
               return CreateNoteScreen(
                 isEditable: false,
                 documentID: noteData[0].documentID,
-                title: noteData[0].note_title,
+                title: noteData[0].noteTitle,
                 access: _otherUsersSharedNotesDataList[i].access,
                 user: user,
                 author: author ?? '',
@@ -124,5 +127,14 @@ class SharedNotesViewModel {
     }
 
     return otherUserSharedNotes;
+  }
+
+  IconData getAccessIcon(String access) {
+    IconData accessIcon = Icons.preview_rounded;
+    if (access == 'Read/Write') {
+      accessIcon = Icons.edit_rounded;
+    }
+
+    return accessIcon;
   }
 }
