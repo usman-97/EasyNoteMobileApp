@@ -92,35 +92,6 @@ class NoteListViewModel with ChangeNotifier {
                     color: Colors.redAccent,
                   ),
                 );
-                //   AlertDialog(
-                //   shape: RoundedRectangleBorder(
-                //     borderRadius: BorderRadius.circular(20.0),
-                //   ),
-                //   title: Text('Delete $noteTitle'),
-                //   content: const Text('Are you sure?'),
-                //   actions: <Widget>[
-                //     TextButton(
-                //       onPressed: () async {
-                //         await _userNote.deleteUserNote(noteID);
-                //         await _noteStorage.deleteUserNoteFiles(noteID);
-                //         bool isNoteShared =
-                //             await _sharedUserNotes.isNotAlreadyShared(noteID);
-                //         if (isNoteShared) {
-                //           await _sharedUserNotes
-                //               .deleteSharedNoteReference(noteID);
-                //         }
-                //         Navigator.of(context).pop();
-                //       },
-                //       child: const Icon(Icons.check_rounded),
-                //     ),
-                //     TextButton(
-                //       onPressed: () {
-                //         Navigator.of(context).pop();
-                //       },
-                //       child: const Icon(Icons.close_rounded),
-                //     ),
-                //   ],
-                // );
               });
         },
       ));
