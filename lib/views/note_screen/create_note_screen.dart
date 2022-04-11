@@ -15,7 +15,7 @@ import 'package:file_saver/file_saver.dart';
 class CreateNoteScreen extends StatefulWidget {
   static const String id = 'create_note_screen';
   final bool isEditable;
-  final String documentID, title, user, author, access;
+  final String documentID, title, user, author, access, jsonDocument;
 
   const CreateNoteScreen({
     Key? key,
@@ -25,6 +25,7 @@ class CreateNoteScreen extends StatefulWidget {
     this.access = '',
     this.user = '',
     this.author = '',
+    this.jsonDocument = '',
   }) : super(key: key);
 
   @override
@@ -40,7 +41,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen>
   final TextEditingController _titleTextFieldController =
       TextEditingController();
   late bool _isNoteEditable, _isToolBarExpanded = false;
-  late String _documentID, _title, _access, _author;
+  late String _documentID, _title, _access, _author, _jsonDocumentData;
 
   bool _isScreenLoading = false;
 
@@ -51,6 +52,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen>
     _documentID = widget.documentID;
     _access = widget.access;
     _author = widget.author;
+    _jsonDocumentData = widget.jsonDocument;
 
     if (_author.isNotEmpty) {
       _createNoteViewModel.setAuthor(_author);
@@ -67,18 +69,22 @@ class _CreateNoteScreenState extends State<CreateNoteScreen>
     if (filename.isNotEmpty) {
       _isScreenLoading = true;
       await _createNoteViewModel.downloadAttachmentFiles(filename);
-      final doc =
-          await _createNoteViewModel.downloadNoteFromCloud(filename, 'notes');
-      // _createNoteViewModel.listAllFiles();
-      setState(() {
-        _quillController = text_editor.QuillController(
-          document: doc,
-          selection: const TextSelection(baseOffset: 0, extentOffset: 0),
-          keepStyleOnNewLine: true,
-        );
-        _isScreenLoading = false;
-      });
     }
+    final text_editor.Document doc;
+    if (_jsonDocumentData.isEmpty) {
+      doc = await _createNoteViewModel.downloadNoteFromCloud(filename, 'notes');
+    } else {
+      doc = text_editor.Document.fromJson(jsonDecode(_jsonDocumentData));
+    }
+    // _createNoteViewModel.listAllFiles();
+    setState(() {
+      _quillController = text_editor.QuillController(
+        document: doc,
+        selection: const TextSelection(baseOffset: 0, extentOffset: 0),
+        keepStyleOnNewLine: true,
+      );
+      _isScreenLoading = false;
+    });
   }
 
   @override
@@ -161,8 +167,8 @@ class _CreateNoteScreenState extends State<CreateNoteScreen>
                 itemBuilder: (BuildContext context) => [
                       PopupMenuItem(
                         onTap: () async {
-                          final file =
-                              _quillController.document.toDelta().toJson();
+                          final file = jsonEncode(
+                              _quillController.document.toDelta().toJson());
                           _createNoteViewModel.saveNoteAsJson(
                               file.toString(), _title);
                         },
