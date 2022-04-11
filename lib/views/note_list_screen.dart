@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:note_taking_app/components/circle_button.dart';
@@ -10,6 +12,7 @@ import 'package:note_taking_app/viewModels/create_note_view_model.dart';
 import 'package:note_taking_app/viewModels/note_list_view_model.dart';
 import 'package:note_taking_app/views/note_screen/create_note_screen.dart';
 import 'package:note_taking_app/views/home_screen.dart';
+import 'package:file_picker/file_picker.dart';
 
 import '../components/no_data_message_widget.dart';
 
@@ -39,8 +42,19 @@ class _NoteListScreenState extends State<NoteListScreen> {
     // _noteListViewModel.fetchAllUserNotes();
     return Scaffold(
       appBar: AppBar(
-        actions: const <Widget>[
-          CustomAppBar(),
+        actions: <Widget>[
+          const CustomAppBar(),
+          PopupMenuButton(
+            itemBuilder: (BuildContext context) => [
+              PopupMenuItem(
+                onTap: () async {
+                  await _noteListViewModel.importNote(context);
+                },
+                child: const Text('Import'),
+                value: 1,
+              ),
+            ],
+          ),
         ],
       ),
       drawer: const AppMenu(),
