@@ -47,6 +47,8 @@ dependencies:
   modal_progress_hud_nsn: ^0.1.0-nullsafety-1
   flutter_slidable: ^1.2.0
   font_awesome_flutter: ^10.1.0
+  share_plus: ^4.0.3
+  file_saver: ^0.1.0
 
 dev_dependencies:
   flutter_test:
@@ -80,3 +82,15 @@ flutter:
     - family: Pushster
       fonts:
         - asset: fonts/Pushster-Regular.ttf
+
+    - family: Alice Regular
+      fonts:
+        - asset: fonts/Alice-Regular.ttf
+
+    - family: Merienda Regular
+      fonts:
+        - asset: fonts/Merienda-Regular.ttf
+
+    - family: Righteous Regular
+      fonts:
+        - asset: fonts/Righteous-Regular.ttf
