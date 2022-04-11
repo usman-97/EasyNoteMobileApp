@@ -7,8 +7,10 @@ import 'package:note_taking_app/models/note_storage.dart';
 import 'package:note_taking_app/models/note/user_note.dart';
 import 'package:note_taking_app/models/note.dart';
 import 'package:note_taking_app/utilities/custom_date.dart';
+import 'package:note_taking_app/utilities/file_handler.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
+import 'package:share_plus/share_plus.dart';
 
 class CreateNoteViewModel {
   final ImagePicker _imagePicker = ImagePicker();
@@ -16,6 +18,7 @@ class CreateNoteViewModel {
   final UserNote _userNote = UserNote();
   final Note _note = Note();
   final CustomDate _date = CustomDate();
+  final FileHandler _fileHandler = FileHandler();
   String _error = '';
   String attachmentName = '';
   String currentDocumentID = '';
@@ -168,5 +171,13 @@ class CreateNoteViewModel {
 
   void setAuthor(String author) {
     _noteStorage.userEmail = author;
+  }
+
+  void shareNoteAsJson(String noteID) async {
+    _fileHandler.shareNoteAsJson(noteID);
+  }
+
+  Future<void> saveNoteAsJson(String file, String filename) async {
+    await _fileHandler.saveFileAsJson(file, filename);
   }
 }
