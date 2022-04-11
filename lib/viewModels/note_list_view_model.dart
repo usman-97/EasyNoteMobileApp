@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:note_taking_app/components/custom_alert_dialog.dart';
 import 'package:note_taking_app/components/note_card.dart';
@@ -7,9 +9,9 @@ import 'package:note_taking_app/models/data/user_note_data.dart';
 import 'package:note_taking_app/models/user_authentication.dart';
 import 'package:note_taking_app/models/note/user_note.dart';
 import 'package:note_taking_app/utilities/custom_date.dart';
-import 'package:note_taking_app/utilities/navigation.dart';
+import 'package:note_taking_app/utilities/file_handler.dart';
+import 'package:note_taking_app/viewModels/create_note_view_model.dart';
 import 'package:note_taking_app/views/note_screen/create_note_screen.dart';
-import 'package:note_taking_app/views/note_list_screen.dart';
 import 'package:note_taking_app/views/share_note_screen.dart';
 import '../models/note_storage.dart';
 import '../models/user_shared_notes.dart';
@@ -19,16 +21,19 @@ class NoteListViewModel with ChangeNotifier {
   final UserAuthentication _userAuthentication = UserAuthentication();
   final UserSharedNotes _sharedUserNotes = UserSharedNotes();
   final NoteStorage _noteStorage = NoteStorage();
+  final CreateNoteViewModel _createNoteViewModel = CreateNoteViewModel();
   final CustomDate _date = CustomDate();
+  final FileHandler _fileHandler = FileHandler();
 
   Stream<List<UserNoteData>> fetchAllUserNotes() {
     return _userNote.fetchAllUserNoteData();
   }
 
+  /// Build user note cards using [context] and data [snapshot]
   List<NoteCard> buildUserNoteCards(
       AsyncSnapshot<dynamic> snapshot, BuildContext context) {
-    List<NoteCard> _userNoteCards = [];
-    final notesData = snapshot.data;
+    List<NoteCard> _userNoteCards = []; // List to store all use note cards
+    final notesData = snapshot.data; // Note data
     final String userAndAuthor = _userAuthentication.getCurrentUserEmail();
 
     for (var noteData in notesData) {
@@ -39,9 +44,6 @@ class NoteListViewModel with ChangeNotifier {
       String lastModified = _date.getLastModifiedDateTime(
           noteData.lastModified, noteData.lastModifiedTime);
       IconData status = getStatusIcon(noteData.status);
-      // if (noteData.status == 'shared') {
-      //   status = Icons.visibility_off_rounded;
-      // }
 
       _userNoteCards.add(NoteCard(
         noteID: noteID,
@@ -83,6 +85,11 @@ class NoteListViewModel with ChangeNotifier {
                       await _sharedUserNotes.deleteSharedNoteReference(noteID);
                     }
                     Navigator.of(context).pop();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('$noteTitle has been deleted.'),
+                      ),
+                    );
                   },
                   onRefuse: () {
                     Navigator.of(context).pop();
@@ -101,6 +108,7 @@ class NoteListViewModel with ChangeNotifier {
     return _userNoteCards;
   }
 
+  /// Get note status icon using its [status]
   IconData getStatusIcon(String status) {
     IconData statusIcon = Icons.lock_rounded;
     if (status == 'shared') {
@@ -110,7 +118,23 @@ class NoteListViewModel with ChangeNotifier {
     return statusIcon;
   }
 
-  // void _deleteNote(String documentID) async {
-  //   await _userNote.deleteUserNote(documentID);
-  // }
+  /// Import note with json format using [context]
+  Future<void> importNote(BuildContext context) async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+        // allowedExtensions: ['json'],
+        );
+    if (result != null) {
+      File file = File(result.files.single.path ?? '');
+      final fileAsString = await file.readAsString();
+      final String deviceCompatibleFile = await _createNoteViewModel
+          .checkImagePlatformCompatibility(fileAsString);
+      final filename = _fileHandler.getFilename(file.path);
+      Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return CreateNoteScreen(
+          title: filename,
+          jsonDocument: deviceCompatibleFile,
+        );
+      }));
+    } else {}
+  }
 }
