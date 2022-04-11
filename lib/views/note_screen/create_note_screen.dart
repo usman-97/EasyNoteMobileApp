@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:note_taking_app/components/circle_button.dart';
@@ -6,6 +9,8 @@ import 'package:note_taking_app/utilities/navigation.dart';
 import 'package:note_taking_app/viewModels/create_note_view_model.dart';
 import 'package:flutter_quill/flutter_quill.dart' as text_editor;
 import 'package:note_taking_app/views/note_screen/note_screen_interface.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:file_saver/file_saver.dart';
 
 class CreateNoteScreen extends StatefulWidget {
   static const String id = 'create_note_screen';
@@ -150,6 +155,40 @@ class _CreateNoteScreenState extends State<CreateNoteScreen>
               ),
             ),
           ),
+          Visibility(
+            visible: !_isNoteEditable,
+            child: PopupMenuButton(
+                itemBuilder: (BuildContext context) => [
+                      PopupMenuItem(
+                        onTap: () async {
+                          final file =
+                              _quillController.document.toDelta().toJson();
+                          _createNoteViewModel.saveNoteAsJson(
+                              file.toString(), _title);
+                        },
+                        child: const Text("Export"),
+                        value: 1,
+                      ),
+                      PopupMenuItem(
+                        onTap: () {
+                          // Share.shareFiles();
+                          _createNoteViewModel.shareNoteAsJson(_documentID);
+                        },
+                        child: const Text("Share"),
+                        value: 2,
+                      ),
+                      PopupMenuItem(
+                        child: const Text("Print"),
+                        value: 3,
+                      ),
+                    ]),
+          ),
+          // TextButton(
+          //     onPressed: () {},
+          //     child: const Icon(
+          //       Icons.more_horiz,
+          //       color: kTextIconColour,
+          //     ))
         ],
       ),
       // drawer: AppMenu(),
