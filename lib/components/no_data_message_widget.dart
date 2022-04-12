@@ -20,18 +20,22 @@ class NoDataMessageWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        Icon(
-          icon,
-          size: 200.0,
-          color: colour,
+        Expanded(
+          child: Icon(
+            icon,
+            size: 200.0,
+            color: colour,
+          ),
         ),
-        Center(
-          child: Text(
-            message,
-            style: const TextStyle(
-              color: kPrimaryTextColour,
-              fontSize: 20.0,
-              fontWeight: FontWeight.bold,
+        Expanded(
+          child: Center(
+            child: Text(
+              message,
+              style: const TextStyle(
+                color: kPrimaryTextColour,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
