@@ -150,6 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Stack(
                         children: <Widget>[
                           GestureDetector(
+                            key: const Key('notification_button'),
                             onTap: () async {
                               await _homeViewModel.readAllNotification();
                               Navigation.navigateToNotificationsScreen(context);
@@ -274,11 +275,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 20.0),
                             child: CircleButton(
-                              onPressed: () {
-                                showModalBottomSheet(
+                              onPressed: () async {
+                                await showModalBottomSheet(
                                     context: context,
                                     builder: (BuildContext context) {
-                                      return const BottomNoteTypeMenu();
+                                      return const BottomNoteTypeMenu(
+                                        key: Key('choose_note_type'),
+                                      );
                                     });
                               },
                             ),
