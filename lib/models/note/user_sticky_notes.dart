@@ -137,19 +137,21 @@ class UserStickyNotes {
         StreamController.broadcast();
 
     try {
-      _firestore
-          .collection('notes')
-          .doc(_userEmail)
-          .collection('sticky_notes')
-          .snapshots()
-          .listen((event) {
-        if (event.docs.isNotEmpty) {
-          List<UserStickyNoteData> userStickyNoteList = event.docs
-              .map((snapshot) => UserStickyNoteData.fromJson(snapshot.data()))
-              .toList();
-          streamController.add(userStickyNoteList);
-        }
-      });
+      if (_userEmail.isNotEmpty) {
+        _firestore
+            .collection('notes')
+            .doc(_userEmail)
+            .collection('sticky_notes')
+            .snapshots()
+            .listen((event) {
+          if (event.docs.isNotEmpty) {
+            List<UserStickyNoteData> userStickyNoteList = event.docs
+                .map((snapshot) => UserStickyNoteData.fromJson(snapshot.data()))
+                .toList();
+            streamController.add(userStickyNoteList);
+          }
+        });
+      }
     } on FirebaseException catch (e) {}
 
     return streamController.stream;
