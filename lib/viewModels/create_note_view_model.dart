@@ -164,9 +164,11 @@ class CreateNoteViewModel {
 
   /// Clear temp directory
   void clearCache() async {
-    Directory dir = await getTemporaryDirectory();
-    dir.deleteSync(recursive: true);
-    await dir.create();
+    try {
+      Directory dir = await getTemporaryDirectory();
+      dir.deleteSync(recursive: true);
+      await dir.create();
+    } catch (e) {}
   }
 
   void setAuthor(String author) {
