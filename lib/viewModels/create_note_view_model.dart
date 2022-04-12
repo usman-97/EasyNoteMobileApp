@@ -51,10 +51,11 @@ class CreateNoteViewModel {
 
   /// Open gallery to allow user to pick video
   Future<String> onVideoPickCallBack(File file) async {
-    Directory cacheDir = await getTemporaryDirectory();
-    File copiedFile =
-        await file.copy('${cacheDir.path}/${basename(file.path)}');
-    return copiedFile.path.toString();
+    // Directory cacheDir = await getTemporaryDirectory();
+    // File copiedFile =
+    //     await file.copy('${cacheDir.path}/${basename(file.path)}');
+    // return copiedFile.path.toString();
+    return file.path;
   }
 
   /// Add new or existing note, if user note with [currentDocumentID] does not
