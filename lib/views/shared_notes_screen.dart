@@ -186,13 +186,14 @@ class _SharedNoteScreenState extends State<SharedNoteScreen> {
                   builder:
                       (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                     // _sharedNotesViewModel.getOtherUserSharedNoteData();
+                    // print(snapshot.hasData);
                     if (!snapshot.hasData) {
                       return const NoDataMessageWidget(
                           message: 'No shared note by other user found.',
                           icon: Icons.share_rounded);
                     }
-                    // print(_sharedNotesViewModel
-                    //     .otherUsersSharedNotesDataList.length);
+
+                    // print(snapshot.data);
                     List<NoteCard> otherSharedUserNoteCards =
                         _sharedNotesViewModel.buildOtherUserSharedNotes(
                             snapshot, context);
