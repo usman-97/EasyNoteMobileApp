@@ -231,7 +231,11 @@ class UserSharedNotes {
   StreamController<List<SharedNoteUsersData>> fetchOtherSharedNotes() {
     try {
       // Get all documents in shared notes collection
-      _firestore.collection('shared_notes').snapshots().listen((event) async {
+      _firestore
+          .collection('shared_notes')
+          .where('author', isNotEqualTo: _userEmail)
+          .snapshots()
+          .listen((event) async {
         if (event.docs.isNotEmpty) {
           List<SharedNoteUsersData> sharedNoteUserData = [];
           for (final doc in event.docs) {
