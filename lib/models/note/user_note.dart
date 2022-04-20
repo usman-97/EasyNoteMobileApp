@@ -26,13 +26,17 @@ class UserNote {
   String get currentNoteID => _currentNoteID;
 
   /// Add note data to Firebase FireStore
+  /// [noteTile] as note title, [date] as last modified and
+  /// [time] as last modified time
   Future<void> addNote(String noteTitle, String date, String time) async {
-    // int totalNotes =
-    //     await getTotalUserNotes(); // Fetch total number of created notes
-    // String documentID = 'Note0${totalNotes + 1}';
-    _currentNoteID = await generateNewNoteID();
+    _currentNoteID = await generateNewNoteID(); // New note id
     try {
-      _firestore.collection('notes').doc(_userEmail).collection('notes').add({
+      // Add it to firebase Firestore
+      await _firestore
+          .collection('notes')
+          .doc(_userEmail)
+          .collection('notes')
+          .add({
         'id': _currentNoteID,
         'title': noteTitle,
         'date_created': date,
@@ -89,6 +93,7 @@ class UserNote {
           .collection('notes')
           .doc(_userEmail.isNotEmpty ? _userEmail : ' ')
           .collection('notes')
+          .orderBy('last_modified', descending: true)
           .snapshots()
           .listen((event) async {
         if (event.docs.isNotEmpty) {
