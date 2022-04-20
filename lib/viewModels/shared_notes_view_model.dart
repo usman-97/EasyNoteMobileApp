@@ -10,17 +10,19 @@ import 'package:note_taking_app/models/data/shared_note_users_data.dart';
 import 'package:note_taking_app/models/data/user_note_data.dart';
 import 'package:note_taking_app/models/user_authentication.dart';
 import 'package:note_taking_app/models/user_shared_notes.dart';
+import 'package:note_taking_app/utilities/custom_date.dart';
 
 import '../views/note_screen/create_note_screen.dart';
 
 class SharedNotesViewModel {
   final UserSharedNotes _userSharedNotes = UserSharedNotes();
   final UserAuthentication _userAuthentication = UserAuthentication();
+  final CustomDate _customDate = CustomDate();
   StreamController<List<UserNoteData>> _sharedNotesController =
       StreamController.broadcast();
   StreamController<List<SharedNoteUsersData>> _otherSharedNoteData =
       StreamController.broadcast();
-  StreamController<List<UserNoteData>> _otherUserSharedNotes =
+  final StreamController<List<UserNoteData>> _otherUserSharedNotes =
       StreamController.broadcast();
   List<SharedNoteUsersData> _otherUsersSharedNotesDataList = [];
   String _authorFullname = '';
@@ -95,19 +97,20 @@ class SharedNotesViewModel {
       for (int i = 0; i < noteData.length; i++) {
         String? author =
             _otherUsersSharedNotesDataList[i].noteRef.parent.parent?.id;
-        // String authorFullName =
-        //     _userSharedNotes.fetchSharedNoteAuthorFullName(author);
         _sharedNoteAuthorFullName(author);
-        // print(authorFullName);
 
+        String dateCreated = _customDate.getMediumFormatDate(
+            customDate: noteData[i].dateCreated);
+        String lastModified = _customDate.getLastModifiedDateTime(
+            noteData[i].lastModified, noteData[i].lastModifiedTime);
         IconData access =
             getAccessIcon(_otherUsersSharedNotesDataList[i].access);
 
         otherUserSharedNotes.add(NoteCard(
           noteID: noteData[i].documentID,
           title: noteData[i].noteTitle,
-          dateCreated: noteData[i].dateCreated,
-          lastModified: noteData[i].lastModified,
+          dateCreated: dateCreated,
+          lastModified: lastModified,
           status: access,
           author: _authorFullname,
           onTap: () {
