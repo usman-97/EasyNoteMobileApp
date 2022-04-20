@@ -26,7 +26,7 @@ class NoteCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: status != 'Read-only' && status != 'Read/Write'
+      child: status != Icons.preview_rounded && status != Icons.edit_rounded
           ? Slidable(
               key: const ValueKey(0),
               // startActionPane: ActionPane(
@@ -161,7 +161,10 @@ class NoteCard extends StatelessWidget {
                         children: <Widget>[
                           Text(
                             title,
-                            style: const TextStyle(fontSize: 40.0),
+                            style: const TextStyle(
+                              fontSize: 40.0,
+                              fontFamily: 'Righteous Regular',
+                            ),
                           ),
                         ],
                       ),
@@ -177,10 +180,29 @@ class NoteCard extends StatelessWidget {
                             children: <Widget>[
                               Visibility(
                                 visible: author.isNotEmpty,
-                                child: Text('Author: $author'),
+                                child: Text(
+                                  'Created by $author',
+                                  style: const TextStyle(
+                                    fontSize: 16.0,
+                                    fontFamily: 'Merienda Regular',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
-                              Text('Created: $dateCreated'),
-                              Text('Last Modified: $lastModified'),
+                              Text(
+                                dateCreated,
+                                style: const TextStyle(
+                                  fontSize: 16.0,
+                                  fontFamily: 'Merienda Regular',
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                lastModified,
+                                style: const TextStyle(
+                                  fontFamily: 'Merienda Regular',
+                                ),
+                              ),
                             ],
                           ),
                           // Column(
