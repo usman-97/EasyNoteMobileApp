@@ -13,7 +13,6 @@ import 'package:note_taking_app/viewModels/note_list_view_model.dart';
 import 'package:note_taking_app/views/note_screen/create_note_screen.dart';
 import 'package:note_taking_app/views/home_screen.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:note_taking_app/views/note_screen/create_notebook_screen.dart';
 
 import '../components/no_data_message_widget.dart';
 
@@ -26,16 +25,10 @@ class NoteListScreen extends StatefulWidget {
   _NoteListScreenState createState() => _NoteListScreenState();
 }
 
-enum NoteType {
-  notes,
-  notebooks,
-}
-
 class _NoteListScreenState extends State<NoteListScreen> {
   final NoteListViewModel _noteListViewModel = NoteListViewModel();
   final CreateNoteViewModel _createNoteViewModel = CreateNoteViewModel();
   bool _isScreenLoading = false;
-  int _option = 0;
 
   @override
   void initState() {
@@ -65,32 +58,6 @@ class _NoteListScreenState extends State<NoteListScreen> {
         ],
       ),
       drawer: const AppMenu(),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.note_rounded,
-              size: 30,
-            ),
-            label: 'Notes',
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.note_alt,
-                size: 30,
-              ),
-              label: 'Notebooks'),
-        ],
-        currentIndex: _option,
-        backgroundColor: kDarkPrimaryColour,
-        unselectedItemColor: kTextIconColour,
-        selectedItemColor: kLightPrimaryColour,
-        onTap: (index) {
-          setState(() {
-            _option = index;
-          });
-        },
-      ),
       backgroundColor: kTextIconColour,
       body: SafeArea(
         child: ModalProgressHUD(
@@ -139,53 +106,44 @@ class _NoteListScreenState extends State<NoteListScreen> {
               Expanded(
                 child: Stack(
                   children: [
-                    _option == NoteType.notes.index
-                        ? StreamBuilder(
-                            stream: _noteListViewModel.fetchAllUserNotes(),
-                            builder: (BuildContext context,
-                                AsyncSnapshot<dynamic> snapshot) {
-                              _isScreenLoading = true;
-                              if (!snapshot.hasData) {
-                                // print('No data found.');
-                                _isScreenLoading = false;
-                                return const NoDataMessageWidget(
-                                  message: 'Tap + button to create a new note.',
-                                  icon: Icons.note_rounded,
-                                );
-                              }
-                              _isScreenLoading = false;
+                    StreamBuilder(
+                      stream: _noteListViewModel.fetchAllUserNotes(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<dynamic> snapshot) {
+                        _isScreenLoading = true;
+                        if (!snapshot.hasData) {
+                          // print('No data found.');
+                          _isScreenLoading = false;
+                          return const NoDataMessageWidget(
+                            message: 'Tap + button to create a new note.',
+                            icon: Icons.note_rounded,
+                          );
+                        }
+                        _isScreenLoading = false;
 
-                              // if (snapshot.connectionState ==
-                              //     ConnectionState.waiting) {
-                              //   _isScreenLoading = true;
-                              // } else {
-                              //   _isScreenLoading = false;
-                              // }
+                        // if (snapshot.connectionState ==
+                        //     ConnectionState.waiting) {
+                        //   _isScreenLoading = true;
+                        // } else {
+                        //   _isScreenLoading = false;
+                        // }
 
-                              List<NoteCard> userNotes = _noteListViewModel
-                                  .buildUserNoteCards(snapshot, context);
-                              // print(userNotes.length);
-                              // print(_noteListViewModel.noteMenuValue);
-                              return ListView(
-                                children: userNotes,
-                              );
-                            },
-                          )
-                        : Container(),
+                        List<NoteCard> userNotes = _noteListViewModel
+                            .buildUserNoteCards(snapshot, context);
+                        // print(userNotes.length);
+                        // print(_noteListViewModel.noteMenuValue);
+                        return ListView(
+                          children: userNotes,
+                        );
+                      },
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 20.0),
                       child: Align(
                         alignment: FractionalOffset.bottomCenter,
                         child: CircleButton(
                           onPressed: () {
-                            if (_option == NoteType.notes.index) {
-                              Navigator.pushNamed(context, CreateNoteScreen.id);
-                            }
-
-                            if (_option == NoteType.notebooks.index) {
-                              Navigator.pushNamed(
-                                  context, CreateNotebookScreen.id);
-                            }
+                            Navigator.pushNamed(context, CreateNoteScreen.id);
                           },
                         ),
                       ),

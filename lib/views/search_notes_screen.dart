@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_taking_app/components/no_data_message_widget.dart';
 import 'package:note_taking_app/utilities/constants.dart';
 import 'package:note_taking_app/viewModels/note_list_view_model.dart';
 import 'package:note_taking_app/viewModels/search_notes_view_model.dart';
@@ -109,7 +110,10 @@ class _SearchNoteScreenState extends State<SearchNoteScreen> {
                 builder:
                     (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
                   if (!snapshot.hasData) {
-                    return Container();
+                    return NoDataMessageWidget(
+                        message:
+                            'Your Search ${_searchTextFieldController.text} did not match any note.',
+                        icon: Icons.search_rounded);
                   }
 
                   List<NoteCard> searchedNoteCards =

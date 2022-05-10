@@ -21,8 +21,7 @@ class HomeViewModel {
   final NoteStorage _noteStorage = NoteStorage();
   final CreateNoteViewModel _createNoteViewModel = CreateNoteViewModel();
   final CustomDate _customDate = CustomDate();
-  String _userFirstname = '', _currentStickyNoteText = '';
-  // StreamController<String> _controller = StreamController.broadcast();
+  String _userFirstname = '';
 
   get userFirstname => _userFirstname;
 

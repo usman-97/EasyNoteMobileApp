@@ -8,10 +8,8 @@ import 'package:note_taking_app/utilities/constants.dart';
 import 'package:note_taking_app/utilities/navigation.dart';
 import 'package:note_taking_app/viewModels/create_note_view_model.dart';
 import 'package:note_taking_app/viewModels/home_view_model.dart';
-import 'package:note_taking_app/views/note_screen/create_note_screen.dart';
 
 import '../components/bottom_note_type_menu.dart';
-import '../components/sticky_note_cards.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String id = 'home_screen';

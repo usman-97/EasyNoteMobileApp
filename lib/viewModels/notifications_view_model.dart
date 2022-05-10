@@ -1,47 +1,20 @@
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:note_taking_app/components/notification_card.dart';
 import 'package:note_taking_app/models/data/sharing_request_data.dart';
 import 'package:note_taking_app/models/note_notification.dart';
 import 'package:note_taking_app/models/user_authentication.dart';
-import 'package:note_taking_app/models/user_management.dart';
-import 'package:note_taking_app/models/note/user_note.dart';
 import 'package:note_taking_app/models/user_shared_notes.dart';
 
 class NotificationsViewModel {
   final NoteNotification _noteNotification = NoteNotification();
-  // final UserManagement _userManagement = UserManagement();
-  // final UserNote _userNote = UserNote();
   final UserSharedNotes _userSharedNotes = UserSharedNotes();
   final UserAuthentication _userAuthentication = UserAuthentication();
 
   Stream<List<SharingRequestData>> getAllSharingRequests() {
     return _noteNotification.fetchReceivedSharingRequests();
   }
-
-  // String getUserFullName(String email) {
-  //   String userFullName = '';
-  //   StreamController<String> controller =
-  //       _userManagement.fetchUserFullName(email: email);
-  //   controller.stream.listen((event) {
-  //     print(event);
-  //     userFullName = event;
-  //   });
-  //   print(userFullName);
-  //
-  //   return userFullName;
-  // }
-  //
-  // String getNoteTitle(String documentID, String email) {
-  //   String noteTitle = '';
-  //   _userNote.fetchNoteTitle(documentID, email: email).listen((event) {
-  //     noteTitle = event;
-  //   });
-  //
-  //   return noteTitle;
-  // }
 
   Future<void> deleteRequestCard(
       String sender, String recipient, String noteID, String access) async {

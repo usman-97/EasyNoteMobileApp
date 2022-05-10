@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:note_taking_app/services/initialise_firebase_mock.dart';
-import 'package:note_taking_app/viewModels/home_view_model.dart';
-import 'package:intl/intl.dart';
+import 'package:note_taking_app/viewModels/note_list_view_model.dart';
 
 Future<void> main() async {
   setupFirebaseAuthMocks();
@@ -13,15 +13,15 @@ Future<void> main() async {
   // });
 
   test('Get today date', () {
-    HomeViewModel homeViewModel = HomeViewModel();
+    NoteListViewModel noteListViewModel = NoteListViewModel();
 
-    DateTime date = DateTime.now().toLocal();
-    String weekDay = DateFormat.EEEE().format(date);
-    String day = date.day.toString();
-    String month = DateFormat.MMMM().format(date);
-    String year = date.year.toString();
-    String todayDate = '$weekDay, $day $month $year';
+    IconData privateStatusIcon = noteListViewModel.getStatusIcon('private');
+    IconData privateIcon = Icons.lock_rounded;
 
-    expect(homeViewModel.getTodayDate(), todayDate);
+    IconData sharedStatusIcon = noteListViewModel.getStatusIcon('shared');
+    IconData sharedIcon = Icons.share_rounded;
+
+    expect(privateStatusIcon, privateIcon);
+    expect(sharedStatusIcon, sharedIcon);
   });
 }

@@ -46,17 +46,8 @@ class SharedNotesViewModel {
     return _sharedNotesController.stream;
   }
 
-  // Stream<List<SharedNoteUsersData>> getSharedNoteData() {
-  //   _otherSharedNoteData = _userSharedNotes.fetchOtherSharedNotes();
-  //   return _otherSharedNoteData.stream;
-  // }
-
   Stream<List<UserNoteData>> getOtherSharedNotes() {
     _otherSharedNoteData = _userSharedNotes.fetchOtherSharedNotes();
-    // return _otherSharedNoteData.stream;
-    // if (_otherUsersSharedNotesDataList.isNotEmpty) {
-    //   _otherUsersSharedNotesDataList.clear();
-    // }
     _otherSharedNoteData.stream.listen((event) async {
       _otherUsersSharedNotesDataList = event;
 
@@ -76,17 +67,6 @@ class SharedNotesViewModel {
     return _otherUserSharedNotes.stream;
   }
 
-  // Future<void> getOtherUserSharedNoteData() async {
-  //   await _userSharedNotes.fetchOtherUserSharedNote();
-  //   _otherUserSharedNotes = _userSharedNotes.otherUserSharedNotesController;
-  //   // return _otherUserSharedNotes.stream;
-  // }
-
-  void _sharedNoteAuthorFullName(String? email) async {
-    _authorFullname =
-        await _userSharedNotes.fetchSharedNoteAuthorFullName(email);
-  }
-
   List<NoteCard> buildOtherUserSharedNotes(
       AsyncSnapshot<dynamic> snapshot, BuildContext context) {
     List<NoteCard> otherUserSharedNotes = [];
@@ -97,9 +77,6 @@ class SharedNotesViewModel {
       for (int i = 0; i < noteData.length; i++) {
         String? author =
             _otherUsersSharedNotesDataList[i].noteRef.parent.parent?.id;
-        // _sharedNoteAuthorFullName(author);
-        // String authorFullname =
-        //     await _userSharedNotes.fetchSharedNoteAuthorFullName(email);
 
         String dateCreated = _customDate.getMediumFormatDate(
             customDate: noteData[i].dateCreated);

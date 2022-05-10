@@ -30,13 +30,13 @@ class _VerificationScreenState extends State<VerificationScreen> {
       _verificationScreenViewModel.checkUserEmailVerification(context);
     });
     return Scaffold(
-      backgroundColor: kLightPrimaryColour,
+      backgroundColor: kTextIconColour,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Container(
-              color: kPrimaryColour,
+              color: kDarkPrimaryColour,
               height: kTopContainerHeight,
               child: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -45,7 +45,24 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text('Hello User'),
+                    Expanded(
+                      child: StreamBuilder(
+                        stream: _verificationScreenViewModel.getUserFirstname(),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<dynamic> snapshot) {
+                          if (!snapshot.hasData) {
+                            return const Text('');
+                          }
+
+                          final userFirstname = snapshot.data;
+
+                          return Text(
+                            'Hello, $userFirstname',
+                            style: kHomeGreetingTextStyle,
+                          );
+                        },
+                      ),
+                    ),
                     TextButton(
                       onPressed: () {
                         _userViewModel.signOutUser();
@@ -70,7 +87,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 child: Container(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 20.0, vertical: 10.0),
-                  color: kPrimaryColour,
+                  color: kDarkPrimaryColour,
                   height: 230.0,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.stretch,

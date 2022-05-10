@@ -3,12 +3,10 @@ import 'dart:convert';
 import 'package:note_taking_app/models/note/user_sticky_notes.dart';
 import 'package:note_taking_app/models/note_storage.dart';
 import 'package:note_taking_app/utilities/custom_date.dart';
-import 'package:note_taking_app/viewModels/create_note_view_model.dart';
 
 class CreateStickyNoteViewModel {
   final UserStickyNotes _userStickyNotes = UserStickyNotes();
   final NoteStorage _noteStorage = NoteStorage();
-  final CreateNoteViewModel _createNoteViewModel = CreateNoteViewModel();
   final CustomDate _date = CustomDate();
   String _currentDocumentID = '', _error = '';
 
@@ -50,17 +48,4 @@ class CreateStickyNoteViewModel {
       _error = 'File is not uploaded';
     }
   }
-
-  // Future<Document> downloadStickyNoteFromCloud(
-  //     String filename, String type) async {
-  //   Document doc;
-  //   try {
-  //     final file = await _noteStorage.downloadFileFromCloud(filename, type);
-  //     final String fileAsString = await file.readAsString();
-  //
-  //     final String fileAsStringPlatformCompatible =
-  //     await checkImagePlatformCompatibility(fileAsString);
-  //     doc = Document.fromJson(jsonDecode(fileAsStringPlatformCompatible));
-  //   }
-  // }
 }

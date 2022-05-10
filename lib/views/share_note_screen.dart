@@ -136,7 +136,7 @@ class _ShareNoteScreenState extends State<ShareNoteScreen> {
                     colour: kTextIconColour,
                     onPressed: () async {
                       await _shareNoteViewModel.sendNoteSharingRequest(
-                          _shareController.text, _noteID, _userAccess);
+                          _shareController.text, _noteID, _userAccess, context);
                       setState(() {
                         // print(_shareNoteViewModel.error);
                       });
