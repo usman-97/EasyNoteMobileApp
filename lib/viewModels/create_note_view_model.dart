@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:note_taking_app/models/note_storage.dart';
 import 'package:note_taking_app/models/note/user_note.dart';
 import 'package:note_taking_app/models/note.dart';
@@ -10,10 +9,8 @@ import 'package:note_taking_app/utilities/custom_date.dart';
 import 'package:note_taking_app/utilities/file_handler.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
-import 'package:share_plus/share_plus.dart';
 
 class CreateNoteViewModel {
-  final ImagePicker _imagePicker = ImagePicker();
   final NoteStorage _noteStorage = NoteStorage();
   final UserNote _userNote = UserNote();
   final Note _note = Note();
@@ -24,18 +21,6 @@ class CreateNoteViewModel {
   String currentDocumentID = '';
 
   String get getError => _error;
-
-  void listAllFiles() async {
-    Directory dir = await getTemporaryDirectory();
-    print('Directory path: ${dir.path}');
-    List<FileSystemEntity> list = await dir.list().toList();
-    for (var element in list) {
-      print(element);
-      // if (element is File) {
-      // await element.delete(recursive: false);
-      // }
-    }
-  }
 
   /// Open phone gallery for user and get image path to add into
   /// the document
