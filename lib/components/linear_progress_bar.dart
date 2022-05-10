@@ -47,26 +47,6 @@ class _LinearProgressBarState extends State<LinearProgressBar>
 
   @override
   Widget build(BuildContext context) {
-    // print(_controller.value);
-    // return Stack(
-    //   children: <Widget>[
-    //     // bar which will be filled
-    //     Container(
-    //       key: const Key('fillBar'),
-    //       width: 300.0,
-    //       height: 10.0,
-    //       margin: const EdgeInsets.symmetric(horizontal: 50.0),
-    //       color: const Color(0xFF4CAF50),
-    //     ),
-    //     // Filled bar container
-    //     Container(
-    //       width: _controller.value,
-    //       height: 10.0,
-    //       margin: const EdgeInsets.symmetric(horizontal: 50.0),
-    //       color: const Color(0xFFC8E6C9),
-    //     ),
-    //   ],
-    // );
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20.0),
       child: LinearProgressIndicator(
