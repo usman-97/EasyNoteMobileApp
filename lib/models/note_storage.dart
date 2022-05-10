@@ -12,11 +12,13 @@ class NoteStorage {
   final FirebaseStorage _firebaseStorage =
       CloudStorage.firebaseStorageInstance();
   final UserAuthentication _userAuthentication = UserAuthentication();
-  String userEmail = ''; // Current signed in user email
+  String userEmail = '', _error = ''; // Current signed in user email
 
   NoteStorage() {
     userEmail = _userAuthentication.getCurrentUserEmail();
   }
+
+  get error => _error;
 
   /// Upload note file to the Firebase Storage
   /// [filename] is the name of the file to upload
@@ -39,7 +41,7 @@ class NoteStorage {
       await fileRef.putData(data);
       isUploaded = true;
     } on FirebaseException catch (e) {
-      // print(e);
+      _error = e.code;
     }
     return isUploaded;
   }
@@ -65,7 +67,9 @@ class NoteStorage {
       await _firebaseStorage
           .ref('$userEmail/$type/$filename/$filename')
           .writeToFile(fileToDownload);
-    } on FirebaseException catch (e) {}
+    } on FirebaseException catch (e) {
+      _error = e.code;
+    }
 
     return fileToDownload;
   }
@@ -107,7 +111,9 @@ class NoteStorage {
             try {
               // If file not in the cloud storage then upload it
               attachmentRef.putFile(attachmentFile);
-            } on FirebaseException catch (e) {}
+            } on FirebaseException catch (e) {
+              _error = e.code;
+            }
           }
         }
       }
@@ -131,7 +137,9 @@ class NoteStorage {
             .ref('$userEmail/notes/$documentID/attachments/${element.name}')
             .writeToFile(attachmentFile);
       }
-    } on FirebaseException catch (e) {}
+    } on FirebaseException catch (e) {
+      _error = e.code;
+    }
   }
 
   /// Delete all user note files from the cloud storage using [documentID]
@@ -157,7 +165,9 @@ class NoteStorage {
             _firebaseStorage.ref('$userEmail/notes/$documentID/${file.name}');
         await fileRef.delete();
       }
-    } on FirebaseException catch (e) {}
+    } on FirebaseException catch (e) {
+      _error = e.code;
+    }
   }
 
   Future<void> deleteUserStickyNote(String documentID) async {
@@ -170,6 +180,8 @@ class NoteStorage {
             .ref('$userEmail/sticky_notes/$documentID/${file.name}');
         await fileRef.delete();
       }
-    } on FirebaseException catch (e) {}
+    } on FirebaseException catch (e) {
+      _error = e.code;
+    }
   }
 }
