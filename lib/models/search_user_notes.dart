@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:note_taking_app/models/data/user_note_data.dart';
 import 'package:note_taking_app/models/user_authentication.dart';
-import 'package:note_taking_app/models/note/user_note.dart';
 import 'package:note_taking_app/services/firestore_cloud.dart';
 
 class SearchUserNotes {
@@ -11,11 +10,13 @@ class SearchUserNotes {
   final UserAuthentication _userAuthentication = UserAuthentication();
   final StreamController<List<UserNoteData>> _searchedNotesStreamController =
       StreamController.broadcast();
-  String _userEmail = '';
+  String _userEmail = '', _error = '';
 
   SearchUserNotes() {
     _userEmail = _userAuthentication.getCurrentUserEmail();
   }
+
+  get error => _error;
 
   // Store stream of searched notes
   StreamController<List<UserNoteData>> get searchedNotesStreamController =>
@@ -40,6 +41,8 @@ class SearchUserNotes {
           _searchedNotesStreamController.add(_searchNotes);
         }
       });
-    } on FirebaseException catch (e) {}
+    } on FirebaseException catch (e) {
+      _error = e.code;
+    }
   }
 }
