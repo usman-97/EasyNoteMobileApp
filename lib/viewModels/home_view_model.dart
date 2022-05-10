@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:note_taking_app/components/custom_alert_dialog.dart';
-import 'package:note_taking_app/components/sticky_note_cards.dart';
+import 'package:note_taking_app/components/sticky_note_card.dart';
 import 'package:note_taking_app/models/data/user_sticky_note_data.dart';
 import 'package:note_taking_app/models/note/user_sticky_notes.dart';
 import 'package:note_taking_app/models/note_notification.dart';
