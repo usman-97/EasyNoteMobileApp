@@ -97,11 +97,13 @@ class NoteCard extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Text(
-                              title,
-                              style: const TextStyle(
-                                fontSize: 40.0,
-                                fontFamily: 'Righteous Regular',
+                            Expanded(
+                              child: Text(
+                                title,
+                                style: const TextStyle(
+                                  fontSize: 40.0,
+                                  fontFamily: 'Righteous Regular',
+                                ),
                               ),
                             ),
                           ],
@@ -159,11 +161,13 @@ class NoteCard extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Text(
-                            title,
-                            style: const TextStyle(
-                              fontSize: 40.0,
-                              fontFamily: 'Righteous Regular',
+                          Expanded(
+                            child: Text(
+                              title,
+                              style: const TextStyle(
+                                fontSize: 40.0,
+                                fontFamily: 'Righteous Regular',
+                              ),
                             ),
                           ),
                         ],
@@ -183,7 +187,7 @@ class NoteCard extends StatelessWidget {
                                 child: Text(
                                   'Created by $author',
                                   style: const TextStyle(
-                                    fontSize: 16.0,
+                                    fontSize: 12.0,
                                     fontFamily: 'Merienda Regular',
                                     fontWeight: FontWeight.bold,
                                   ),
