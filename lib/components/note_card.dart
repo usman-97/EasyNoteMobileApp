@@ -29,46 +29,9 @@ class NoteCard extends StatelessWidget {
       child: status != Icons.preview_rounded && status != Icons.edit_rounded
           ? Slidable(
               key: const ValueKey(0),
-              // startActionPane: ActionPane(
-              //   motion: const DrawerMotion(),
-              //   dismissible: DismissiblePane(
-              //     onDismissed: () {},
-              //   ),
-              //   children: <Widget>[
-              //     SlidableAction(
-              //       onPressed: (value) {},
-              //       backgroundColor: const Color(0xFFFE4A49),
-              //       foregroundColor: Colors.white,
-              //       icon: Icons.delete_rounded,
-              //       label: 'Delete',
-              //     ),
-              //     SlidableAction(
-              //       onPressed: (value) {},
-              //       backgroundColor: const Color(0xFF21B7CA),
-              //       foregroundColor: Colors.white,
-              //       icon: Icons.share_rounded,
-              //       label: 'Share',
-              //     ),
-              //   ],
-              // ),
               endActionPane: ActionPane(
                 motion: const DrawerMotion(),
                 children: <Widget>[
-                  // SlidableAction(
-                  //   onPressed: (value) {},
-                  //   backgroundColor: const Color(0xFF7BC043),
-                  //   foregroundColor: Colors.white,
-                  //   icon: Icons.archive_rounded,
-                  //   label: 'Archive',
-                  // ),
-                  // SlidableAction(
-                  //   onPressed: (value) {},
-                  //   backgroundColor: const Color(0xFF0392CF),
-                  //   foregroundColor: Colors.white,
-                  //   icon: Icons.save_rounded,
-                  //   label: 'Save',
-                  // ),
-
                   SlidableAction(
                     onPressed: onShare ?? (context) {},
                     backgroundColor: const Color(0xFF21B7CA),
@@ -209,16 +172,6 @@ class NoteCard extends StatelessWidget {
                               ),
                             ],
                           ),
-                          // Column(
-                          //   crossAxisAlignment: CrossAxisAlignment.end,
-                          //   children: <Widget>[
-                          //     Visibility(
-                          //       visible: author.isNotEmpty,
-                          //       child: Text('Author: $author'),
-                          //     ),
-                          //     Text(status),
-                          //   ],
-                          // ),
                           Padding(
                             padding: const EdgeInsets.all(5.0),
                             child: Icon(status),
