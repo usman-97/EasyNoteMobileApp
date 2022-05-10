@@ -4,7 +4,9 @@ import 'package:note_taking_app/services/firebase_auth.dart';
 class UserAuthentication {
   final FirebaseAuth _firebaseAuthentication =
       FirebaseAuthentication.firebaseAuthInstance();
-  String _userErrorCode = '';
+  String _userErrorCode = '', _error = '';
+
+  get error => _error;
 
   /// Register new user using FirebaseAuth using
   /// user [email] and [password]
@@ -79,7 +81,9 @@ class UserAuthentication {
       if (currentUser != null) {
         return currentUser;
       }
-    } catch (e) {}
+    } catch (e) {
+      _error = e.toString();
+    }
     return null;
   }
 
@@ -97,7 +101,9 @@ class UserAuthentication {
   void signOutUser() {
     try {
       _firebaseAuthentication.signOut();
-    } on FirebaseException catch (e) {}
+    } on FirebaseException catch (e) {
+      _error = e.code;
+    }
   }
 
   /// Get user authentication error code
