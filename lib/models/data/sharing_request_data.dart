@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class SharingRequestData {
   SharingRequestData({
     required this.sender,
