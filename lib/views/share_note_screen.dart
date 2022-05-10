@@ -18,7 +18,7 @@ class _ShareNoteScreenState extends State<ShareNoteScreen> {
   final TextEditingController _shareController = TextEditingController();
 
   bool _isReadOnly = true;
-  String _userAccess = 'Read-only', _error = '';
+  String _userAccess = 'Read-only';
   late String _noteID;
 
   @override

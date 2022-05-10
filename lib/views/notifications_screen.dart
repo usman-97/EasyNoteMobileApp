@@ -60,51 +60,6 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                       _notificationsViewModel.buildNotificationCards(snapshot);
                   return ListView(
                     children: notifications,
-                    // children: <Widget>[
-                    //   Padding(
-                    //     padding: const EdgeInsets.symmetric(vertical: 5.0),
-                    //     child: Card(
-                    //       color: kLightPrimaryColour,
-                    //       child: Padding(
-                    //         padding: const EdgeInsets.all(5.0),
-                    //         child: Column(
-                    //           crossAxisAlignment: CrossAxisAlignment.stretch,
-                    //           children: <Widget>[
-                    //             const Center(
-                    //               child: Text(
-                    //                   'User wants to share Title note with Access.'),
-                    //             ),
-                    //             Row(
-                    //               mainAxisAlignment: MainAxisAlignment.center,
-                    //               children: [
-                    //                 TextButton(
-                    //                   onPressed: () {},
-                    //                   child: Container(
-                    //                     color: Colors.green,
-                    //                     child: const Icon(
-                    //                       Icons.check_rounded,
-                    //                       color: kTextIconColour,
-                    //                     ),
-                    //                   ),
-                    //                 ),
-                    //                 TextButton(
-                    //                   onPressed: () {},
-                    //                   child: Container(
-                    //                     color: Colors.red,
-                    //                     child: const Icon(
-                    //                       Icons.close_rounded,
-                    //                       color: kTextIconColour,
-                    //                     ),
-                    //                   ),
-                    //                 ),
-                    //               ],
-                    //             ),
-                    //           ],
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ],
                   );
                 }),
           ),

@@ -35,17 +35,6 @@ class _SearchNoteScreenState extends State<SearchNoteScreen> {
           ),
           child: Row(
             children: <Widget>[
-              // TextButton(
-              //   onPressed: () {},
-              //   child: Container(
-              //     padding: const EdgeInsets.all(10.0),
-              //     color: kPrimaryColour,
-              //     child: const Icon(
-              //       Icons.search_rounded,
-              //       color: kTextIconColour,
-              //     ),
-              //   ),
-              // ),
               Expanded(
                 flex: 2,
                 child: Padding(

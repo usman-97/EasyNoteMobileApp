@@ -18,12 +18,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
       VerificationScreenViewModel();
   final UserViewModel _userViewModel = UserViewModel();
 
-  // @override
-  // void initState() async {
-  //   super.initState();
-  //   await _verificationScreenViewModel.sendUserEmailVerification();
-  // }
-
   @override
   Widget build(BuildContext context) {
     setState(() {

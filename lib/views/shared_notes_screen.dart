@@ -29,13 +29,6 @@ class _SharedNoteScreenState extends State<SharedNoteScreen> {
   int _option = 0;
 
   @override
-  void initState() {
-    super.initState();
-    // _sharedNotesViewModel.getUserSharedNotes();
-    // _sharedNotesViewModel.getOtherSharedNotes();
-  }
-
-  @override
   void dispose() {
     _sharedNotesViewModel.otherSharedNoteData.close();
     super.dispose();
@@ -121,40 +114,6 @@ class _SharedNoteScreenState extends State<SharedNoteScreen> {
                 ],
               ),
             ),
-            // Container(
-            //   color: kDarkPrimaryColour,
-            //   child: Row(
-            //     children: <Widget>[
-            //       const Text('Note shared by '),
-            //       TextButton(
-            //         onPressed: () {
-            //           setState(() {
-            //             _option = 0;
-            //           });
-            //         },
-            //         child: const Text(
-            //           'You',
-            //           style: TextStyle(
-            //             color: kLightPrimaryColour,
-            //           ),
-            //         ),
-            //       ),
-            //       TextButton(
-            //         onPressed: () {
-            //           setState(() {
-            //             _option = 1;
-            //           });
-            //         },
-            //         child: const Text(
-            //           'Others',
-            //           style: TextStyle(
-            //             color: kLightPrimaryColour,
-            //           ),
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
             Visibility(
               visible: _option == SharingOptions.userSharedNotes.index,
               child: Expanded(

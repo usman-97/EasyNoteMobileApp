@@ -93,12 +93,6 @@ class _CreateStickyNoteScreenState extends State<CreateStickyNoteScreen>
               await _createStickyNoteViewModel.uploadStickyNoteToCloud(
                   document, _documentID, 'sticky_notes');
 
-              // if (_documentID.isEmpty) {
-              //   _documentID = _createStickyNoteViewModel.currentDocumentID;
-              // }
-              // await _createNoteViewModel.uploadNoteToCloud(
-              //     document, _documentID, 'sticky_notes');
-
               setState(() {
                 _isScreenLoading = false;
                 _isNoteEditable = false;

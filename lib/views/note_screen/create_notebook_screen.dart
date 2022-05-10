@@ -157,7 +157,7 @@ class _CreateNotebookScreenState extends State<CreateNotebookScreen>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     GestureDetector(
-                      child: Icon(
+                      child: const Icon(
                         Icons.navigate_next_rounded,
                       ),
                     ),

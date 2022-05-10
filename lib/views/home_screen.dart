@@ -236,11 +236,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             );
                           }
-
-                          // print(snapshot.data[0].noteID);
-                          // List<Row> userStickyNotesList = _homeViewModel
-                          //     .buildStickyNoteCards(context, snapshot);
-                          // print(userStickyNotesList[0].children);
                           final stickyNoteContext = context;
                           final data = snapshot;
 

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -9,8 +8,6 @@ import 'package:note_taking_app/utilities/navigation.dart';
 import 'package:note_taking_app/viewModels/create_note_view_model.dart';
 import 'package:flutter_quill/flutter_quill.dart' as text_editor;
 import 'package:note_taking_app/views/note_screen/note_screen_interface.dart';
-import 'package:share_plus/share_plus.dart';
-import 'package:file_saver/file_saver.dart';
 
 class CreateNoteScreen extends StatefulWidget {
   static const String id = 'create_note_screen';
@@ -60,7 +57,6 @@ class _CreateNoteScreenState extends State<CreateNoteScreen>
 
     loadDoc(_documentID);
 
-    // _createNoteViewModel.listAllFiles();
     super.initState();
   }
 
@@ -76,7 +72,6 @@ class _CreateNoteScreenState extends State<CreateNoteScreen>
     } else {
       doc = text_editor.Document.fromJson(jsonDecode(_jsonDocumentData));
     }
-    // _createNoteViewModel.listAllFiles();
     setState(() {
       _quillController = text_editor.QuillController(
         document: doc,
@@ -183,18 +178,12 @@ class _CreateNoteScreenState extends State<CreateNoteScreen>
                         child: const Text("Share"),
                         value: 2,
                       ),
-                      PopupMenuItem(
-                        child: const Text("Print"),
+                      const PopupMenuItem(
+                        child: Text("Print"),
                         value: 3,
                       ),
                     ]),
           ),
-          // TextButton(
-          //     onPressed: () {},
-          //     child: const Icon(
-          //       Icons.more_horiz,
-          //       color: kTextIconColour,
-          //     ))
         ],
       ),
       // drawer: AppMenu(),
@@ -254,18 +243,6 @@ class _CreateNoteScreenState extends State<CreateNoteScreen>
                   ),
                 ),
               ),
-              // Visibility(
-              //   visible: _type == 'Sticky Note' && _isNoteEditable,
-              //   child: Align(
-              //     alignment: FractionalOffset.bottomRight,
-              //     child: Padding(
-              //         padding: const EdgeInsets.only(right: 20.0, bottom: 20.0),
-              //         child: Text(
-              //           '${_quillController.document.toPlainText().length.toString()}/50',
-              //           style: TextStyle(fontSize: 20.0),
-              //         )),
-              //   ),
-              // ),
               Visibility(
                 visible: !_isNoteEditable && _access != 'Read-only',
                 child: Align(

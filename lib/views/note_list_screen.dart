@@ -31,13 +31,6 @@ class _NoteListScreenState extends State<NoteListScreen> {
   bool _isScreenLoading = false;
 
   @override
-  void initState() {
-    super.initState();
-    // _createNoteViewModel.clearCache();
-    // _createNoteViewModel.listAllFiles();
-  }
-
-  @override
   Widget build(BuildContext context) {
     // _noteListViewModel.fetchAllUserNotes();
     return Scaffold(
@@ -120,13 +113,6 @@ class _NoteListScreenState extends State<NoteListScreen> {
                           );
                         }
                         _isScreenLoading = false;
-
-                        // if (snapshot.connectionState ==
-                        //     ConnectionState.waiting) {
-                        //   _isScreenLoading = true;
-                        // } else {
-                        //   _isScreenLoading = false;
-                        // }
 
                         List<NoteCard> userNotes = _noteListViewModel
                             .buildUserNoteCards(snapshot, context);

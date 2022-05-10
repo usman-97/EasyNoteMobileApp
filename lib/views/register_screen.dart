@@ -196,8 +196,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       label: 'Next',
                       onPressed: () {
                         setState(() {
-                          // print(
-                          //     '${_registerScreenViewModel.isFirstNameValid()} ${_registerScreenViewModel.isLastNameValid()}');
                           if (_registerScreenViewModel.isFirstNameValid() &&
                               _registerScreenViewModel.isLastNameValid()) {
                             _registrationError = '';
@@ -227,11 +225,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               _registerScreenViewModel.getRegistrationError();
                           if (_registerScreenViewModel.isUserRegistered()) {
                             _registerScreenViewModel.addUserData();
-                            // _registerScreenViewModel.navigateToVerificationScreen(context);
                             Navigation.navigateToVerification(context);
                           }
                           _isScreenLoading = false;
-                          // print(_registerScreenViewModel.getCurrentUser());
                         });
                       },
                     ),
