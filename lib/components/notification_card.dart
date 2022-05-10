@@ -27,8 +27,24 @@ class NotificationCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Center(
-                child: Text(
-                    '$user wants to share $noteTile note with $access access.'),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 5.0,
+                    vertical: 5.0,
+                  ),
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(50.0),
+                    ),
+                  ),
+                  child: Text(
+                    '$user wants to share $noteTile note with $access access.',
+                    style: const TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -36,20 +52,24 @@ class NotificationCard extends StatelessWidget {
                   TextButton(
                     onPressed: onAccept,
                     child: Container(
+                      padding: const EdgeInsets.all(5.0),
                       color: Colors.green,
                       child: const Icon(
                         Icons.check_rounded,
                         color: kTextIconColour,
+                        size: 30.0,
                       ),
                     ),
                   ),
                   TextButton(
                     onPressed: onDecline,
                     child: Container(
+                      padding: const EdgeInsets.all(5.0),
                       color: Colors.red,
                       child: const Icon(
                         Icons.close_rounded,
                         color: kTextIconColour,
+                        size: 30.0,
                       ),
                     ),
                   ),
