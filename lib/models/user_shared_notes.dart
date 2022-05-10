@@ -3,14 +3,12 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:note_taking_app/models/data/user_note_data.dart';
 import 'package:note_taking_app/models/user_authentication.dart';
-import 'package:note_taking_app/models/user_management.dart';
 import 'package:note_taking_app/services/firestore_cloud.dart';
 
 import 'data/shared_note_users_data.dart';
 
 class UserSharedNotes {
   final FirebaseFirestore _firestore = FirestoreCloud.firebaseCloudInstance();
-  final UserManagement _userManagement = UserManagement();
   final UserAuthentication _userAuthentication = UserAuthentication();
   String _userEmail = '', _error = '';
 
