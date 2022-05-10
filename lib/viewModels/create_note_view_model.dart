@@ -41,21 +41,34 @@ class CreateNoteViewModel {
   /// the document
   /// [file] is image picked by user from photo gallery
   Future<String> onImagePickCallback(File file) async {
-    // Directory cacheDir = await getTemporaryDirectory();
-    // File copiedFile =
-    //     await file.copy('${cacheDir.path}/${basename(file.path)}');
-    // print(file.path);
-    // print(copiedFile.path.toString());
-    return file.path;
+    Directory cacheDir = await getTemporaryDirectory();
+    String filePath = file.path;
+
+    // If platform is iOS
+    if (Platform.isIOS) {
+      // Copy the file the app cache folder
+      File copiedFile =
+          await file.copy('${cacheDir.path}/${basename(file.path)}');
+      filePath = copiedFile.path;
+    }
+
+    return filePath;
   }
 
   /// Open gallery to allow user to pick video
   Future<String> onVideoPickCallBack(File file) async {
-    // Directory cacheDir = await getTemporaryDirectory();
-    // File copiedFile =
-    //     await file.copy('${cacheDir.path}/${basename(file.path)}');
-    // return copiedFile.path.toString();
-    return file.path;
+    Directory cacheDir = await getTemporaryDirectory();
+    String filePath = file.path;
+
+    // If platform is iOS
+    if (Platform.isIOS) {
+      // Copy the file the app cache folder
+      File copiedFile =
+          await file.copy('${cacheDir.path}/${basename(file.path)}');
+      filePath = copiedFile.path;
+    }
+
+    return filePath;
   }
 
   /// Add new or existing note, if user note with [currentDocumentID] does not
