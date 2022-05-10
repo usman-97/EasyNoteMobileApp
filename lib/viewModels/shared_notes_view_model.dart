@@ -97,7 +97,9 @@ class SharedNotesViewModel {
       for (int i = 0; i < noteData.length; i++) {
         String? author =
             _otherUsersSharedNotesDataList[i].noteRef.parent.parent?.id;
-        _sharedNoteAuthorFullName(author);
+        // _sharedNoteAuthorFullName(author);
+        // String authorFullname =
+        //     await _userSharedNotes.fetchSharedNoteAuthorFullName(email);
 
         String dateCreated = _customDate.getMediumFormatDate(
             customDate: noteData[i].dateCreated);
@@ -112,7 +114,7 @@ class SharedNotesViewModel {
           dateCreated: dateCreated,
           lastModified: lastModified,
           status: access,
-          author: _authorFullname,
+          author: author ?? '',
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
               return CreateNoteScreen(
