@@ -2,10 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:note_taking_app/models/user_authentication.dart';
+import 'package:note_taking_app/models/user_management.dart';
 import 'package:note_taking_app/utilities/navigation.dart';
 
 class VerificationScreenViewModel {
   final UserAuthentication _userAuthentication = UserAuthentication();
+  final UserManagement _userManagement = UserManagement();
 
   String getCurrentUserEmail() {
     return _userAuthentication.getCurrentUserEmail();
@@ -25,5 +27,9 @@ class VerificationScreenViewModel {
         timer.cancel();
       }
     });
+  }
+
+  Stream<String> getUserFirstname() {
+    return _userManagement.fetchCurrentUserFirstname();
   }
 }
