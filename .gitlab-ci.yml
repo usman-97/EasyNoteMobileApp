@@ -19,7 +19,7 @@ update_flutter:
 unit_test:
   stage: test
   script:
-    - flutter test test/unit_test
+    - flutter test test
   interruptible: true
   only:
     - main
@@ -27,7 +27,7 @@ unit_test:
 widget_test:
   stage: test
   script:
-    - flutter test test/widget_test
+    - flutter test test
   interruptible: true
   only:
     - main
